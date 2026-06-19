@@ -1,10 +1,12 @@
 <section class="hero-band">
   <div class="container narrow" appReveal>
     <span class="eyebrow">Kontakt</span>
-    <h1>Kostenloses Erstgespräch</h1>
+    <h1>{{ settings.get('contact.hero.title') || 'Kostenloses Erstgespräch' }}</h1>
     <p class="lead">
-      Erzählen Sie uns kurz, worum es geht — wir melden uns zeitnah mit einem passenden
-      Vorschlag für Nachhilfe oder Coaching.
+      {{
+        settings.get('contact.hero.subtitle') ||
+          'Erzählen Sie uns kurz, worum es geht — wir melden uns zeitnah mit einem passenden Vorschlag für Nachhilfe oder Coaching.'
+      }}
     </p>
   </div>
 </section>
@@ -16,32 +18,94 @@
         <div class="success-icon">
           <app-icon name="check" [size]="32" />
         </div>
-        <h2>Vielen Dank!</h2>
-        <p>Ihre Anfrage ist bei uns eingegangen. Wir melden uns so schnell wie möglich.</p>
+        <h2>{{ settings.get('contact.successHeading') || 'Vielen Dank!' }}</h2>
+        <p>
+          {{
+            settings.get('contact.successMessage') ||
+              'Ihre Anfrage ist bei uns eingegangen. Wir melden uns so schnell wie möglich.'
+          }}
+        </p>
       </div>
     } @else {
       <div class="contact-layout">
-        <!-- Trust sidebar -->
-        <aside class="trust-aside">
-          <div class="trust-item">
-            <span class="trust-icon"><app-icon name="badge-check" [size]="20" /></span>
-            <div>
-              <strong>Kostenlos & unverbindlich</strong>
-              <p>Kein Vertrag, kein Risiko</p>
+        <aside class="contact-aside">
+          <!-- Contact info card -->
+          <div class="info-card">
+            <h2 class="info-card__title">Kontaktdaten</h2>
+
+            <a
+              [href]="'tel:' + (settings.contactPhone() || '+49 (0) 000 000 000')"
+              class="info-item info-item--link"
+            >
+              <span class="info-icon"><app-icon name="phone" [size]="18" /></span>
+              <div>
+                <strong>Telefon</strong>
+                <span>{{ settings.contactPhone() || '+49 (0) 000 000 000' }}</span>
+              </div>
+            </a>
+
+            <a
+              [href]="'mailto:' + (settings.contactEmail() || 'info@nachhilfezentrum.de')"
+              class="info-item info-item--link"
+            >
+              <span class="info-icon"><app-icon name="mail" [size]="18" /></span>
+              <div>
+                <strong>E-Mail</strong>
+                <span>{{ settings.contactEmail() || 'info@nachhilfezentrum.de' }}</span>
+              </div>
+            </a>
+
+            <div class="info-item">
+              <span class="info-icon"><app-icon name="map-pin" [size]="18" /></span>
+              <div>
+                <strong>Adresse</strong>
+                <span class="info-multiline">{{
+                  settings.contactAddress() || 'Musterstraße 1, 00000 Stadt'
+                }}</span>
+              </div>
             </div>
+
+            @if (settings.openingHours()) {
+              <div class="info-item">
+                <span class="info-icon"><app-icon name="clock" [size]="18" /></span>
+                <div>
+                  <strong>Öffnungszeiten</strong>
+                  <span class="info-multiline">{{ settings.openingHours() }}</span>
+                </div>
+              </div>
+            }
           </div>
-          <div class="trust-item">
-            <span class="trust-icon"><app-icon name="clock" [size]="20" /></span>
-            <div>
-              <strong>Antwort innerhalb 24h</strong>
-              <p>Schnelle & persönliche Rückmeldung</p>
+
+          <!-- Trust items -->
+          <div class="trust-aside">
+            <div class="trust-item">
+              <span class="trust-icon"><app-icon name="badge-check" [size]="20" /></span>
+              <div>
+                <strong>{{
+                  settings.get('contact.trust1.title') || 'Kostenlos & unverbindlich'
+                }}</strong>
+                <p>{{ settings.get('contact.trust1.text') || 'Kein Vertrag, kein Risiko' }}</p>
+              </div>
             </div>
-          </div>
-          <div class="trust-item">
-            <span class="trust-icon"><app-icon name="shield-check" [size]="20" /></span>
-            <div>
-              <strong>Datenschutz garantiert</strong>
-              <p>Ihre Daten sind bei uns sicher</p>
+            <div class="trust-item">
+              <span class="trust-icon"><app-icon name="clock" [size]="20" /></span>
+              <div>
+                <strong>{{
+                  settings.get('contact.trust2.title') || 'Antwort innerhalb 24h'
+                }}</strong>
+                <p>
+                  {{ settings.get('contact.trust2.text') || 'Schnelle & persönliche Rückmeldung' }}
+                </p>
+              </div>
+            </div>
+            <div class="trust-item">
+              <span class="trust-icon"><app-icon name="shield-check" [size]="20" /></span>
+              <div>
+                <strong>{{
+                  settings.get('contact.trust3.title') || 'Datenschutz garantiert'
+                }}</strong>
+                <p>{{ settings.get('contact.trust3.text') || 'Ihre Daten sind bei uns sicher' }}</p>
+              </div>
             </div>
           </div>
         </aside>

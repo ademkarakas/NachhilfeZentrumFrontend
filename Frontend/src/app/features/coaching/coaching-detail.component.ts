@@ -3,7 +3,8 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { PublicApiService } from '../../core/api/public-api.service';
-import { CoachingProgram, Testimonial } from '../../core/models/api.models';
+import { CoachingProgram, FaqItem, Testimonial } from '../../core/models/api.models';
+import { cardsFromBlocks } from '../../shared/content-blocks.util';
 import { SeoService } from '../../core/seo/seo.service';
 import { ButtonComponent } from '../../shared/ui/button.component';
 import { CtaSectionComponent } from '../../shared/ui/cta-section.component';
@@ -21,10 +22,6 @@ interface Benefit {
   icon: IconName;
   title: string;
   text: string;
-}
-interface FaqEntry {
-  question: string;
-  answer: string;
 }
 
 /**
@@ -57,9 +54,11 @@ export class CoachingDetailComponent {
 
   readonly slug = input.required<string>();
   readonly program = signal<CoachingProgram | null>(null);
+  readonly testimonial = signal<Testimonial | null>(null);
+  readonly faqs = signal<FaqItem[]>([]);
   readonly loading = signal(true);
 
-  readonly steps: Step[] = [
+  readonly steps = signal<Step[]>([
     {
       icon: 'phone',
       title: 'Kennenlernen',
@@ -80,9 +79,9 @@ export class CoachingDetailComponent {
       title: 'Begleitung',
       text: 'Regelmäßige Sessions, in denen wir umsetzen, reflektieren und anpassen.',
     },
-  ];
+  ]);
 
-  readonly benefits: Benefit[] = [
+  readonly benefits = signal<Benefit[]>([
     {
       icon: 'user',
       title: 'Individuell abgestimmt',
@@ -113,35 +112,7 @@ export class CoachingDetailComponent {
       title: 'Persönliche Begleitung',
       text: 'Eine feste Ansprechperson, die wirklich an deiner Seite steht.',
     },
-  ];
-
-  readonly testimonial: Testimonial = {
-    id: 'cd1',
-    quote:
-      'Mein Sohn geht wieder gerne zur Schule. Das Coaching hat ihm geholfen, sich selbst zu organisieren – und das merkt man in allen Fächern.',
-    authorName: 'Sandra K.',
-    authorRole: 'Mutter, 8. Klasse',
-    displayOrder: 0,
-    isPublished: true,
-  };
-
-  readonly faq: FaqEntry[] = [
-    {
-      question: 'Was ist der Unterschied zwischen Coaching und Nachhilfe?',
-      answer:
-        'Nachhilfe schließt fachliche Lücken in einem Schulfach. Coaching arbeitet eine Ebene davor – an Motivation, Lernstrategien, Organisation und dem Umgang mit Druck. Beides ergänzt sich, ist aber bewusst getrennt.',
-    },
-    {
-      question: 'Wie läuft ein Coaching ab?',
-      answer:
-        'Nach einem kostenlosen Erstgespräch folgen eine Standortbestimmung, ein gemeinsamer Coaching-Plan und regelmäßige Sessions, in denen umgesetzt und reflektiert wird.',
-    },
-    {
-      question: 'Wie schnell sieht man Ergebnisse?',
-      answer:
-        'Erste Veränderungen – etwa mehr Ruhe oder ein klarer Lernplan – zeigen sich oft schon nach wenigen Sitzungen. Nachhaltige Effekte entstehen über einige Wochen kontinuierlicher Begleitung.',
-    },
-  ];
+  ]);
 
   constructor() {
     toObservable(this.slug)
@@ -160,6 +131,27 @@ export class CoachingDetailComponent {
             path: `/coaching/${p.slug}`,
           });
         }
+      });
+
+    // Highlighted testimonial: first general (subject-less) published voice.
+    this.api
+      .getTestimonials()
+      .pipe(takeUntilDestroyed())
+      .subscribe((t) => this.testimonial.set(t.find((x) => !x.subjectId) ?? null));
+    this.api
+      .getFaq()
+      .pipe(takeUntilDestroyed())
+      .subscribe((f) =>
+        this.faqs.set(f.filter((faq) => faq.category?.toLowerCase() === 'coaching')),
+      );
+    this.api
+      .getContentBlocks('coaching')
+      .pipe(takeUntilDestroyed())
+      .subscribe((blocks) => {
+        const st = cardsFromBlocks(blocks, 'process-steps');
+        if (st.length) this.steps.set(st);
+        const bn = cardsFromBlocks(blocks, 'benefits');
+        if (bn.length) this.benefits.set(bn);
       });
   }
 }

@@ -1,6 +1,7 @@
+<!-- ───────────────── Hero ───────────────── -->
 <section class="hero-band">
   <div class="container narrow" appReveal>
-    <span class="eyebrow">Über uns</span>
+    <span class="eyebrow"><app-icon name="sparkles" [size]="16" /> Über uns</span>
     <h1>Lernen, das wirkt</h1>
     <p class="lead">
       {{
@@ -8,11 +9,24 @@
           'Das Nachhilfezentrum verbindet zwei Dinge, die selten zusammenkommen: solide fachliche Nachhilfe und echtes Lerncoaching. Wir glauben, dass gute Noten nicht nur eine Frage des Stoffs sind, sondern auch von Motivation, Selbstvertrauen und der richtigen Lernstrategie.'
       }}
     </p>
+    <div class="hero__actions">
+      <app-button link="/kontakt" size="lg">
+        Erstgespräch vereinbaren
+        <app-icon name="arrow-right" [size]="20" />
+      </app-button>
+      <app-button link="/team" size="lg" variant="outline">Unser Team kennenlernen</app-button>
+    </div>
   </div>
 </section>
 
+<!-- ───────────────── Unsere Werte ───────────────── -->
 <section class="section">
   <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">Unsere Werte</span>
+      <h2>Wofür wir stehen</h2>
+      <p>Sechs Grundsätze, die unsere tägliche Arbeit leiten.</p>
+    </div>
     <div class="grid grid--3">
       <div class="value" appReveal [revealIndex]="0">
         <span class="value__icon"><app-icon name="target" [size]="22" /></span>
@@ -44,14 +58,164 @@
           }}
         </p>
       </div>
+      <div class="value" appReveal [revealIndex]="3">
+        <span class="value__icon"><app-icon name="shield-check" [size]="22" /></span>
+        <h3>{{ settings.get('about.value4.title') || 'Transparenz' }}</h3>
+        <p>
+          {{
+            settings.get('about.value4.description') ||
+              'Regelmäßige Berichte und offene Kommunikation — Sie wissen immer, wo Ihr Kind steht.'
+          }}
+        </p>
+      </div>
+      <div class="value" appReveal [revealIndex]="4">
+        <span class="value__icon"><app-icon name="clock" [size]="22" /></span>
+        <h3>{{ settings.get('about.value5.title') || 'Flexibel' }}</h3>
+        <p>
+          {{
+            settings.get('about.value5.description') ||
+              'Unterricht online oder vor Ort, morgens oder abends — passend zu Ihrem Alltag.'
+          }}
+        </p>
+      </div>
+      <div class="value" appReveal [revealIndex]="5">
+        <span class="value__icon"><app-icon name="star" [size]="22" /></span>
+        <h3>{{ settings.get('about.value6.title') || 'Vertrauen' }}</h3>
+        <p>
+          {{
+            settings.get('about.value6.description') ||
+              'Über 95 % unserer Familien empfehlen uns weiter — das ist unser schönstes Zeugnis.'
+          }}
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- ───────────────── Zahlen & Fakten ───────────────── -->
+<section class="stats">
+  <div class="container stats__grid">
+    @for (stat of stats; track stat.label) {
+      <div class="stat" appReveal [revealIndex]="$index">
+        <span class="stat__num">
+          <span
+            [appCountUp]="stat.value"
+            [countPrefix]="stat.prefix || ''"
+            [countSuffix]="stat.suffix || ''"
+            >{{ stat.prefix }}{{ stat.value }}{{ stat.suffix }}</span
+          >
+        </span>
+        <span class="stat__label">{{ stat.label }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ───────────────── Was uns unterscheidet ───────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">Warum wir?</span>
+      <h2>Was uns unterscheidet</h2>
+    </div>
+    <div class="compare" appReveal>
+      <div class="compare__col compare__col--ours">
+        <span class="compare__tag">Bei uns</span>
+        <ul>
+          <li>
+            <app-icon name="check" [size]="18" /> Individueller Förderplan für jede:n Schüler:in
+          </li>
+          <li><app-icon name="check" [size]="18" /> Nachhilfe und Coaching unter einem Dach</li>
+          <li>
+            <app-icon name="check" [size]="18" /> Qualifizierte, sorgfältig ausgewählte Lehrkräfte
+          </li>
+          <li><app-icon name="check" [size]="18" /> Regelmäßige Tests und Fortschrittsberichte</li>
+          <li><app-icon name="check" [size]="18" /> Kostenlose und unverbindliche Probestunde</li>
+        </ul>
+      </div>
+      <div class="compare__col compare__col--muted">
+        <span class="compare__tag">Anderswo oft</span>
+        <ul>
+          <li><app-icon name="x" [size]="18" /> Einheitslösungen ohne echte Diagnose</li>
+          <li><app-icon name="x" [size]="18" /> Nur Fachunterricht, kein Coaching</li>
+          <li><app-icon name="x" [size]="18" /> Wechselnde, nicht geprüfte Tutoren</li>
+          <li><app-icon name="x" [size]="18" /> Keine messbaren Fortschrittsberichte</li>
+          <li><app-icon name="x" [size]="18" /> Lange Vertragsbindung ohne Probestunde</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── So arbeiten wir ───────────────── -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">In 4 Schritten</span>
+      <h2>So arbeiten wir</h2>
+      <p>Von der ersten Analyse bis zum sichtbaren Erfolg — unser bewährter Weg.</p>
+    </div>
+    <div class="steps">
+      @for (s of steps; track s.title) {
+        <div class="step" appReveal [revealIndex]="$index">
+          <span class="step__num">{{ $index + 1 }}</span>
+          <span class="step__icon"><app-icon [name]="s.icon" [size]="24" /></span>
+          <h3>{{ s.title }}</h3>
+          <p>{{ s.text }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── Unser Team (Vorschau) ───────────────── -->
+@if (featuredTeam().length) {
+  <section class="section">
+    <div class="container">
+      <div class="section__head" appReveal>
+        <span class="eyebrow"><app-icon name="users" [size]="16" /> Team</span>
+        <h2>Die Menschen hinter dem Lernerfolg</h2>
+        <p>Engagierte Lehrkräfte und Coaches, die den Unterschied machen.</p>
+      </div>
+      <div class="grid grid--3">
+        @for (m of featuredTeam(); track m.id) {
+          <app-card appReveal [revealIndex]="$index">
+            <div class="team-preview">
+              @if (m.photoUrl) {
+                <img
+                  class="team-preview__photo"
+                  [src]="m.photoUrl"
+                  [alt]="m.fullName"
+                  width="96"
+                  height="96"
+                  loading="lazy"
+                />
+              } @else {
+                <span class="team-preview__avatar" aria-hidden="true">{{ memberInitials(m) }}</span>
+              }
+              <h3>{{ m.fullName }}</h3>
+              <p class="team-preview__role">{{ memberRole(m) }}</p>
+            </div>
+          </app-card>
+        }
+      </div>
+      <div class="team-preview__link" appReveal>
+        <a routerLink="/team" class="more-link">
+          Das gesamte Team kennenlernen <app-icon name="arrow-right" [size]="18" />
+        </a>
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ───────────────── Stimmen ───────────────── -->
 @if (testimonials().length) {
   <section class="section section--alt">
     <div class="container">
-      <div class="section__head" appReveal><h2>Stimmen aus der Praxis</h2></div>
+      <div class="section__head" appReveal>
+        <span class="eyebrow">Stimmen</span>
+        <h2>Stimmen aus der Praxis</h2>
+      </div>
       <div class="grid grid--3">
         @for (t of testimonials(); track t.id) {
           <app-testimonial-card [testimonial]="t" appReveal [revealIndex]="$index" />
@@ -63,5 +227,6 @@
 
 <app-cta-section
   heading="Lernen Sie uns persönlich kennen"
+  subheading="Vereinbaren Sie ein kostenloses Erstgespräch — wir nehmen uns Zeit für Ihre Fragen."
   ctaText="Erstgespräch vereinbaren"
 />

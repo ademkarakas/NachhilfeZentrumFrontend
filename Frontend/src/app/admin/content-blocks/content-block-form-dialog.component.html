@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>{{ data.block ? 'Block bearbeiten' : 'Neuer Block' }}</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Seite</mat-label>
+      <mat-select formControlName="pageKey">
+        @for (p of pages; track p.key) {
+          <mat-option [value]="p.key">{{ p.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Bereich</mat-label>
+      <mat-select formControlName="sectionKey">
+        @for (s of sections; track s.key) {
+          <mat-option [value]="s.key">{{ s.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Symbol (Icon-Schlüssel, optional)</mat-label>
+      <input matInput formControlName="iconKey" placeholder="z. B. phone, users, target, sparkles" />
+      <mat-hint>Muss einem Icon der Website entsprechen.</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Titel</mat-label>
+      <input matInput formControlName="title" />
+      <mat-hint>{{ form.controls.title.value.length }} / 300</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Text (optional)</mat-label>
+      <textarea matInput rows="3" formControlName="body"></textarea>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="isPublished">Veröffentlicht</mat-checkbox>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="undefined">Abbrechen</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+      Speichern
+    </button>
+  </mat-dialog-actions>
+</form>

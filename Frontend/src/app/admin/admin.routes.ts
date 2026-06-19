@@ -62,6 +62,13 @@ export const ADMIN_ROUTES: Routes = [
           import('./pricing/pricing-admin.component').then((m) => m.PricingAdminComponent),
       },
       {
+        path: 'inhalte',
+        loadComponent: () =>
+          import('./content-blocks/content-blocks-admin.component').then(
+            (m) => m.ContentBlocksAdminComponent,
+          ),
+      },
+      {
         path: 'einstellungen',
         loadComponent: () =>
           import('./settings/settings-admin.component').then((m) => m.SettingsAdminComponent),

@@ -1,5 +1,10 @@
 @if (link()) {
-  <a [routerLink]="link()" class="btn" [class]="'btn--' + variant() + ' btn--' + size()">
+  <a
+    [routerLink]="link()"
+    [fragment]="fragment()"
+    class="btn"
+    [class]="'btn--' + variant() + ' btn--' + size()"
+  >
     <ng-container [ngTemplateOutlet]="label" />
   </a>
 } @else {

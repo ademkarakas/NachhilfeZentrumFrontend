@@ -14,7 +14,6 @@ import { AuthService } from '../../core/auth/auth.service';
 import { SubjectSummary } from '../../core/models/api.models';
 import { SiteSettingsService } from '../../core/services/site-settings.service';
 import { ThemeService } from '../../core/theme/theme.service';
-import { ButtonComponent } from '../../shared/ui/button.component';
 import { IconComponent } from '../../shared/ui/icon.component';
 
 /**
@@ -24,7 +23,7 @@ import { IconComponent } from '../../shared/ui/icon.component';
  */
 @Component({
   selector: 'app-public-header',
-  imports: [RouterLink, RouterLinkActive, ButtonComponent, IconComponent],
+  imports: [RouterLink, RouterLinkActive, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './public-header.component.html',
   styleUrl: './public-header.component.scss',

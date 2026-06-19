@@ -118,6 +118,163 @@ export class SettingsAdminComponent implements OnInit {
       group: 'legal',
     },
     { key: 'legal.agb', label: 'AGB', value: '', rich: true, group: 'legal' },
+
+    // ── Page texts (leave empty to use the built-in default copy) ──────────────
+    // Startseite
+    { key: 'home.socialProof', label: 'Social-Proof-Text', value: '', group: 'page-home' },
+    { key: 'home.rating', label: 'Bewertung (z. B. 4,9 / 5)', value: '', group: 'page-home' },
+    {
+      key: 'home.googleReviews',
+      label: 'Bewertungs-Hinweis (z. B. 120+ Google-Bewertungen)',
+      value: '',
+      group: 'page-home',
+    },
+    {
+      key: 'home.featuredSubjectsCount',
+      label: 'Anzahl angezeigter Fächer (Standard: 6)',
+      value: '',
+      group: 'page-home',
+    },
+    {
+      key: 'home.featuredTestimonialsCount',
+      label: 'Anzahl angezeigter Stimmen (Standard: 3)',
+      value: '',
+      group: 'page-home',
+    },
+    // Nachhilfe-Seite
+    { key: 'nachhilfe.hero.title', label: 'Hero-Überschrift', value: '', group: 'page-nachhilfe' },
+    {
+      key: 'nachhilfe.hero.subtitle',
+      label: 'Hero-Text',
+      value: '',
+      multiline: true,
+      group: 'page-nachhilfe',
+    },
+    { key: 'nachhilfe.cta.heading', label: 'CTA-Überschrift', value: '', group: 'page-nachhilfe' },
+    {
+      key: 'nachhilfe.cta.subheading',
+      label: 'CTA-Text',
+      value: '',
+      multiline: true,
+      group: 'page-nachhilfe',
+    },
+    { key: 'nachhilfe.cta.text', label: 'CTA-Button', value: '', group: 'page-nachhilfe' },
+    // Coaching-Seite
+    { key: 'coaching.hero.title', label: 'Hero-Überschrift', value: '', group: 'page-coaching' },
+    {
+      key: 'coaching.hero.subtitle',
+      label: 'Hero-Text',
+      value: '',
+      multiline: true,
+      group: 'page-coaching',
+    },
+    { key: 'coaching.cta.heading', label: 'CTA-Überschrift', value: '', group: 'page-coaching' },
+    {
+      key: 'coaching.cta.subheading',
+      label: 'CTA-Text',
+      value: '',
+      multiline: true,
+      group: 'page-coaching',
+    },
+    { key: 'coaching.cta.text', label: 'CTA-Button', value: '', group: 'page-coaching' },
+    // Preise-Seite
+    { key: 'pricing.hero.title', label: 'Hero-Überschrift', value: '', group: 'page-pricing' },
+    {
+      key: 'pricing.hero.subtitle',
+      label: 'Hero-Text',
+      value: '',
+      multiline: true,
+      group: 'page-pricing',
+    },
+    { key: 'pricing.cta.heading', label: 'CTA-Überschrift', value: '', group: 'page-pricing' },
+    {
+      key: 'pricing.cta.subheading',
+      label: 'CTA-Text',
+      value: '',
+      multiline: true,
+      group: 'page-pricing',
+    },
+    { key: 'pricing.cta.text', label: 'CTA-Button', value: '', group: 'page-pricing' },
+    // Tests-Seite
+    { key: 'tests.hero.title', label: 'Hero-Überschrift', value: '', group: 'page-tests' },
+    {
+      key: 'tests.hero.subtitle',
+      label: 'Hero-Text',
+      value: '',
+      multiline: true,
+      group: 'page-tests',
+    },
+    { key: 'tests.stats.tests', label: 'Statistik — Tests verfügbar', value: '', group: 'page-tests' },
+    { key: 'tests.stats.questions', label: 'Statistik — Fragen', value: '', group: 'page-tests' },
+    { key: 'tests.stats.subjects', label: 'Statistik — Fächer', value: '', group: 'page-tests' },
+    {
+      key: 'tests.stats.completed',
+      label: 'Statistik — Tests absolviert',
+      value: '',
+      group: 'page-tests',
+    },
+    { key: 'tests.cta.heading', label: 'CTA-Überschrift', value: '', group: 'page-tests' },
+    {
+      key: 'tests.cta.subheading',
+      label: 'CTA-Text',
+      value: '',
+      multiline: true,
+      group: 'page-tests',
+    },
+    { key: 'tests.cta.text', label: 'CTA-Button', value: '', group: 'page-tests' },
+    // Team-Seite
+    { key: 'team.hero.title', label: 'Hero-Überschrift', value: '', group: 'page-team' },
+    {
+      key: 'team.hero.subtitle',
+      label: 'Hero-Text',
+      value: '',
+      multiline: true,
+      group: 'page-team',
+    },
+    // FAQ-Seite
+    { key: 'faq.hero.title', label: 'Hero-Überschrift', value: '', group: 'page-faq' },
+    {
+      key: 'faq.hero.subtitle',
+      label: 'Hero-Text',
+      value: '',
+      multiline: true,
+      group: 'page-faq',
+    },
+    // Kontakt-Seite
+    { key: 'contact.hero.title', label: 'Hero-Überschrift', value: '', group: 'page-kontakt' },
+    {
+      key: 'contact.hero.subtitle',
+      label: 'Hero-Text',
+      value: '',
+      multiline: true,
+      group: 'page-kontakt',
+    },
+    { key: 'contact.trust1.title', label: 'Vertrauen 1 — Titel', value: '', group: 'page-kontakt' },
+    { key: 'contact.trust1.text', label: 'Vertrauen 1 — Text', value: '', group: 'page-kontakt' },
+    { key: 'contact.trust2.title', label: 'Vertrauen 2 — Titel', value: '', group: 'page-kontakt' },
+    { key: 'contact.trust2.text', label: 'Vertrauen 2 — Text', value: '', group: 'page-kontakt' },
+    { key: 'contact.trust3.title', label: 'Vertrauen 3 — Titel', value: '', group: 'page-kontakt' },
+    { key: 'contact.trust3.text', label: 'Vertrauen 3 — Text', value: '', group: 'page-kontakt' },
+    { key: 'contact.successHeading', label: 'Danke-Überschrift', value: '', group: 'page-kontakt' },
+    {
+      key: 'contact.successMessage',
+      label: 'Danke-Nachricht',
+      value: '',
+      multiline: true,
+      group: 'page-kontakt',
+    },
+  ];
+
+  /** Page-copy groups rendered together under the "Seiten-Texte" tab. */
+  readonly pageSections: { group: string; title: string }[] = [
+    { group: 'page-home', title: 'Startseite' },
+    { group: 'page-nachhilfe', title: 'Nachhilfe-Seite' },
+    { group: 'page-coaching', title: 'Coaching-Seite' },
+    { group: 'page-pricing', title: 'Preise-Seite' },
+    { group: 'page-tests', title: 'Tests-Seite' },
+    { group: 'page-team', title: 'Team-Seite' },
+    { group: 'page-faq', title: 'FAQ-Seite' },
+    { group: 'page-kontakt', title: 'Kontakt-Seite' },
   ];
 
   readonly rows = signal<SettingRow[]>([]);

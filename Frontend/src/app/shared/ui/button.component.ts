@@ -24,4 +24,6 @@ export class ButtonComponent {
   readonly disabled = input(false);
   /** When set, renders an <a routerLink> instead of a <button>. */
   readonly link = input<string | unknown[] | null>(null);
+  /** Optional URL fragment for anchor scrolling (e.g. 'pakete' → #pakete). */
+  readonly fragment = input<string | undefined>(undefined);
 }

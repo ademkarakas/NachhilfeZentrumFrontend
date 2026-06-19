@@ -2,9 +2,12 @@
 <section class="hero-band">
   <div class="container narrow" appReveal>
     <span class="eyebrow"><app-icon name="message-square" [size]="16" /> Häufige Fragen</span>
-    <h1>FAQ — Ihre Fragen, unsere Antworten</h1>
+    <h1>{{ settings.get('faq.hero.title') || 'FAQ — Ihre Fragen, unsere Antworten' }}</h1>
     <p class="lead">
-      Alles Wichtige rund um Nachhilfe, Coaching, Ablauf und Preise auf einen Blick.
+      {{
+        settings.get('faq.hero.subtitle') ||
+          'Alles Wichtige rund um Nachhilfe, Coaching, Ablauf und Preise auf einen Blick.'
+      }}
     </p>
   </div>
 </section>

@@ -4,10 +4,16 @@
   <div class="container">
     <div appReveal>
       <span class="eyebrow"><app-icon name="star" [size]="16" /> Preise</span>
-      <h1>Transparente Preise, <em>faire Konditionen</em></h1>
+      <h1
+        [innerHTML]="
+          settings.get('pricing.hero.title') || 'Transparente Preise, <em>faire Konditionen</em>'
+        "
+      ></h1>
       <p class="lead">
-        Keine versteckten Kosten, keine langen Verträge — investieren Sie in den Lernerfolg
-        Ihres Kindes.
+        {{
+          settings.get('pricing.hero.subtitle') ||
+            'Keine versteckten Kosten, keine langen Verträge — investieren Sie in den Lernerfolg Ihres Kindes.'
+        }}
       </p>
       <div class="hero__actions">
         <app-button link="/kontakt" size="lg">
@@ -81,7 +87,7 @@
       <p>Jedes Paket enthält diese Leistungen — ohne Aufpreis.</p>
     </div>
     <div class="benefits-grid">
-      @for (benefit of benefits; track benefit.title; let i = $index) {
+      @for (benefit of benefits(); track benefit.title; let i = $index) {
         <div class="benefit" appReveal [revealIndex]="i">
           <span class="benefit__icon">
             <app-icon [name]="benefit.icon" [size]="24" />
@@ -103,7 +109,7 @@
       <p>Vom ersten Gespräch bis zum regelmäßigen Unterricht — einfach und transparent.</p>
     </div>
     <div class="steps">
-      @for (step of steps; track step.title; let i = $index) {
+      @for (step of steps(); track step.title; let i = $index) {
         <div class="step" appReveal [revealIndex]="i">
           <span class="step__num">{{ i + 1 }}</span>
           <span class="step__icon"><app-icon [name]="step.icon" [size]="24" /></span>
@@ -116,29 +122,34 @@
 </section>
 
 <!-- ───────────────── FAQ ───────────────── -->
-<section class="section section--alt">
-  <div class="container">
-    <div class="section__head" appReveal>
-      <span class="eyebrow">Häufige Fragen</span>
-      <h2>Fragen zu unseren Preisen</h2>
+@if (faqs().length) {
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__head" appReveal>
+        <span class="eyebrow">Häufige Fragen</span>
+        <h2>Fragen zu unseren Preisen</h2>
+      </div>
+      <div class="faq-list">
+        @for (faq of faqs(); track faq.id; let i = $index) {
+          <details class="faq" appReveal [revealIndex]="i">
+            <summary class="faq__q">
+              {{ faq.question }}
+              <app-icon name="chevron-down" [size]="20" class="faq__chevron" />
+            </summary>
+            <div class="faq__a" [innerHTML]="faq.answer"></div>
+          </details>
+        }
+      </div>
     </div>
-    <div class="faq-list">
-      @for (faq of faqs; track faq.question; let i = $index) {
-        <details class="faq" appReveal [revealIndex]="i">
-          <summary class="faq__q">
-            {{ faq.question }}
-            <app-icon name="chevron-down" [size]="20" class="faq__chevron" />
-          </summary>
-          <div class="faq__a">{{ faq.answer }}</div>
-        </details>
-      }
-    </div>
-  </div>
-</section>
+  </section>
+}
 
 <!-- ───────────────── CTA ───────────────── -->
 <app-cta-section
-  heading="Bereit für bessere Noten?"
-  subheading="Starten Sie mit einer kostenlosen Probestunde — wir beraten Sie unverbindlich."
-  ctaText="Jetzt Probestunde sichern"
+  [heading]="settings.get('pricing.cta.heading') || 'Bereit für bessere Noten?'"
+  [subheading]="
+    settings.get('pricing.cta.subheading') ||
+    'Starten Sie mit einer kostenlosen Probestunde — wir beraten Sie unverbindlich.'
+  "
+  [ctaText]="settings.get('pricing.cta.text') || 'Jetzt Probestunde sichern'"
 />

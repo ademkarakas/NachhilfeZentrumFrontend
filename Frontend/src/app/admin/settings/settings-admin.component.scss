@@ -11,3 +11,20 @@
 .tab-card {
   margin-top: 1rem;
 }
+.hint-note {
+  margin: 0 0 1.25rem;
+  font-size: 0.875rem;
+  opacity: 0.7;
+}
+.page-section {
+  padding: 0.5rem 0 1rem;
+  & + & {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    margin-top: 0.5rem;
+  }
+}
+.page-section__title {
+  margin: 0.75rem 0 1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}

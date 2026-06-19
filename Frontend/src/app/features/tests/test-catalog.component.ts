@@ -8,9 +8,11 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PublicApiService } from '../../core/api/public-api.service';
-import { AssessmentListItem, SubjectSummary } from '../../core/models/api.models';
+import { AssessmentListItem, FaqItem, SubjectSummary } from '../../core/models/api.models';
 import { AssessmentDifficulty, DIFFICULTY_LABELS, VisibilityLevel } from '../../core/models/enums';
 import { SeoService } from '../../core/seo/seo.service';
+import { SiteSettingsService } from '../../core/services/site-settings.service';
+import { cardsFromBlocks } from '../../shared/content-blocks.util';
 import { CountUpDirective } from '../../shared/count-up.directive';
 import { RevealDirective } from '../../shared/reveal.directive';
 import { BadgeComponent } from '../../shared/ui/badge.component';
@@ -42,6 +44,7 @@ import { SpinnerComponent } from '../../shared/ui/spinner.component';
 export class TestCatalogComponent implements OnInit {
   private readonly api = inject(PublicApiService);
   private readonly seo = inject(SeoService);
+  readonly settings = inject(SiteSettingsService);
 
   readonly tests = signal<AssessmentListItem[]>([]);
   readonly subjects = signal<SubjectSummary[]>([]);
@@ -54,7 +57,7 @@ export class TestCatalogComponent implements OnInit {
     return id ? this.tests().filter((t) => t.subjectId === id) : this.tests();
   });
 
-  readonly usps: { icon: IconName; title: string; text: string }[] = [
+  readonly usps = signal<{ icon: IconName; title: string; text: string }[]>([
     {
       icon: 'badge-check',
       title: 'Wissen prüfen',
@@ -70,9 +73,9 @@ export class TestCatalogComponent implements OnInit {
       title: 'Fortschritt messen',
       text: 'Wiederhole Tests und sieh, wie sich dein Wissen entwickelt.',
     },
-  ];
+  ]);
 
-  readonly steps: { icon: IconName; title: string; text: string }[] = [
+  readonly steps = signal<{ icon: IconName; title: string; text: string }[]>([
     {
       icon: 'book-open',
       title: 'Fach wählen',
@@ -88,42 +91,18 @@ export class TestCatalogComponent implements OnInit {
       title: 'Ergebnis erhalten',
       text: 'Sofortige Auswertung mit Punktzahl und Feedback.',
     },
-  ];
+  ]);
 
-  readonly stats = [
-    { value: 120, suffix: '+', label: 'Tests verfügbar' },
-    { value: 1500, suffix: '+', label: 'Fragen' },
-    { value: 8, suffix: '', label: 'Fächer' },
-    { value: 3200, suffix: '+', label: 'Tests absolviert' },
-  ];
+  // Marketing counters — the numeric value is admin-editable via site settings; the
+  // suffix and label are part of the design and stay in code.
+  readonly stats = computed(() => [
+    { value: Number(this.settings.get('tests.stats.tests')) || 120, suffix: '+', label: 'Tests verfügbar' },
+    { value: Number(this.settings.get('tests.stats.questions')) || 1500, suffix: '+', label: 'Fragen' },
+    { value: Number(this.settings.get('tests.stats.subjects')) || 8, suffix: '', label: 'Fächer' },
+    { value: Number(this.settings.get('tests.stats.completed')) || 3200, suffix: '+', label: 'Tests absolviert' },
+  ]);
 
-  readonly faq = [
-    {
-      question: 'Muss ich mich anmelden?',
-      answer:
-        'Nein, alle Tests sind kostenlos und ohne Registrierung zugänglich. Für gespeicherte Ergebnisse und Fortschrittsverfolgung kannst du optional ein Konto erstellen.',
-    },
-    {
-      question: 'Wie lange dauert ein Test?',
-      answer:
-        'Je nach Fach und Umfang zwischen 5 und 20 Minuten. Die geschätzte Dauer wird bei jedem Test angezeigt.',
-    },
-    {
-      question: 'Kann ich Tests wiederholen?',
-      answer:
-        'Ja, beliebig oft. So kannst du deinen Fortschritt über die Zeit verfolgen und gezielt üben.',
-    },
-    {
-      question: 'Was passiert mit meinen Ergebnissen?',
-      answer:
-        'Ohne Anmeldung werden keine Daten gespeichert. Mit Konto siehst du deinen Verlauf und kannst Schwächen gezielt angehen.',
-    },
-    {
-      question: 'Sind die Tests wirklich kostenlos?',
-      answer:
-        'Ja — unsere öffentlichen Tests sind dauerhaft kostenlos. Sie zeigen unsere Unterrichtsqualität und helfen dir, deinen Stand einzuschätzen.',
-    },
-  ];
+  readonly faq = signal<FaqItem[]>([]);
 
   ngOnInit(): void {
     this.seo.update({
@@ -139,6 +118,15 @@ export class TestCatalogComponent implements OnInit {
       error: () => this.loading.set(false),
     });
     this.api.getSubjects().subscribe((s) => this.subjects.set(s));
+    this.api
+      .getFaq()
+      .subscribe((f) => this.faq.set(f.filter((faq) => faq.category?.toLowerCase() === 'tests')));
+    this.api.getContentBlocks('tests').subscribe((blocks) => {
+      const up = cardsFromBlocks(blocks, 'usps');
+      if (up.length) this.usps.set(up);
+      const st = cardsFromBlocks(blocks, 'process-steps');
+      if (st.length) this.steps.set(st);
+    });
   }
 
   onSubject(event: Event): void {

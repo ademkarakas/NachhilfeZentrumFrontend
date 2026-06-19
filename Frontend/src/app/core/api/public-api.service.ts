@@ -7,6 +7,7 @@ import {
   AttemptResult,
   CoachingProgram,
   CoachingProgramSummary,
+  ContentBlock,
   CreateLeadRequest,
   FaqItem,
   PricingTier,
@@ -75,6 +76,11 @@ export class PublicApiService {
 
   getFaq(): Observable<FaqItem[]> {
     return this.http.get<FaqItem[]>(`${this.base}/faq`);
+  }
+
+  /** Repeating page sections (process steps, USP/benefit cards, …) for a given page. */
+  getContentBlocks(pageKey: string): Observable<ContentBlock[]> {
+    return this.http.get<ContentBlock[]>(`${this.base}/content-blocks/${pageKey}`);
   }
 
   getPricing(): Observable<PricingTier[]> {

@@ -35,7 +35,7 @@
             <app-icon name="star" [size]="15" />
             <app-icon name="star" [size]="15" />
           </span>
-          Von über 500 Familien empfohlen
+          {{ socialProof }}
         </span>
       </div>
     </div>
@@ -279,8 +279,8 @@
           <app-icon name="star" [size]="18" />
           <app-icon name="star" [size]="18" />
         </div>
-        <span class="trust__score">4,9 / 5</span>
-        <span class="trust__count">basierend auf 120+ Google-Bewertungen</span>
+        <span class="trust__score">{{ rating }}</span>
+        <span class="trust__count">basierend auf {{ googleReviews }}</span>
       </div>
       <div class="trust__badges">
         <div class="trust__badge" appReveal [revealIndex]="0">

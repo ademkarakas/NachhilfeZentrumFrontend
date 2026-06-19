@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { PublicApiService } from '../../core/api/public-api.service';
 import { FaqItem } from '../../core/models/api.models';
 import { SeoService } from '../../core/seo/seo.service';
+import { SiteSettingsService } from '../../core/services/site-settings.service';
 import { RevealDirective } from '../../shared/reveal.directive';
 import { CtaSectionComponent } from '../../shared/ui/cta-section.component';
 import { IconComponent } from '../../shared/ui/icon.component';
@@ -17,6 +18,7 @@ import { IconComponent } from '../../shared/ui/icon.component';
 export class FaqComponent implements OnInit {
   private readonly seo = inject(SeoService);
   private readonly api = inject(PublicApiService);
+  readonly settings = inject(SiteSettingsService);
 
   readonly faqItems = signal<FaqItem[]>([]);
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PublicApiService } from '../../core/api/public-api.service';
 import { SubjectSummary, Testimonial } from '../../core/models/api.models';
@@ -42,8 +42,31 @@ export class HomeComponent implements OnInit {
   private readonly seo = inject(SeoService);
   private readonly settingsService = inject(SiteSettingsService);
 
-  readonly subjects = signal<SubjectSummary[]>([]);
-  readonly testimonials = signal<Testimonial[]>([]);
+  private readonly allSubjects = signal<SubjectSummary[]>([]);
+  private readonly allTestimonials = signal<Testimonial[]>([]);
+
+  // How many featured items the homepage shows — admin-configurable, ordered by displayOrder.
+  private readonly featuredSubjectsCount = computed(
+    () => +(this.settingsService.get('home.featuredSubjectsCount') || '6') || 6,
+  );
+  private readonly featuredTestimonialsCount = computed(
+    () => +(this.settingsService.get('home.featuredTestimonialsCount') || '3') || 3,
+  );
+
+  readonly subjects = computed(() => this.allSubjects().slice(0, this.featuredSubjectsCount()));
+  readonly testimonials = computed(() =>
+    this.allTestimonials().slice(0, this.featuredTestimonialsCount()),
+  );
+
+  get socialProof(): string {
+    return this.settingsService.get('home.socialProof') || 'Von über 500 Familien empfohlen';
+  }
+  get rating(): string {
+    return this.settingsService.get('home.rating') || '4,9 / 5';
+  }
+  get googleReviews(): string {
+    return this.settingsService.get('home.googleReviews') || '120+ Google-Bewertungen';
+  }
 
   get stats(): Stat[] {
     return [
@@ -71,8 +94,8 @@ export class HomeComponent implements OnInit {
     });
     this.seo.setStructuredData('org', this.seo.organizationSchema());
 
-    this.api.getSubjects().subscribe((s) => this.subjects.set(s.slice(0, 6)));
-    this.api.getTestimonials().subscribe((t) => this.testimonials.set(t.slice(0, 3)));
+    this.api.getSubjects().subscribe((s) => this.allSubjects.set(s));
+    this.api.getTestimonials().subscribe((t) => this.allTestimonials.set(t));
   }
 
   monogram(name: string): string {

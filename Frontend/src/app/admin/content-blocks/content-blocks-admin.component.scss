@@ -1,0 +1,87 @@
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.page-filter {
+  width: min(320px, 100%);
+  margin-bottom: 1rem;
+}
+
+.admin-empty {
+  opacity: 0.7;
+}
+
+.section-group {
+  margin-bottom: 1.75rem;
+
+  &__title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+  }
+}
+
+.block-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.block-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  background: #fff;
+
+  &__icon {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    min-width: 4.5rem;
+  }
+
+  &__main {
+    flex: 1;
+    min-width: 0;
+
+    strong {
+      display: block;
+    }
+  }
+
+  &__body {
+    margin: 0.15rem 0 0;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__hidden {
+    font-size: 0.75rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.07);
+  }
+
+  &__actions {
+    white-space: nowrap;
+  }
+}
+
+.drag-handle {
+  cursor: grab;
+  user-select: none;
+  opacity: 0.5;
+}
+
+.cdk-drag-preview {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  border-radius: 0.5rem;
+}

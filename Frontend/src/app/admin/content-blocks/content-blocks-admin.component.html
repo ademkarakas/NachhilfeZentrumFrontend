@@ -1,0 +1,44 @@
+<header class="page-head">
+  <h1>Seiteninhalte</h1>
+  <button mat-flat-button color="primary" (click)="create()">Neuer Block</button>
+</header>
+
+<mat-form-field appearance="outline" class="page-filter">
+  <mat-label>Seite</mat-label>
+  <mat-select [value]="page()" (valueChange)="setPage($event)">
+    @for (p of pages; track p.key) {
+      <mat-option [value]="p.key">{{ p.label }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+@if (groups().length === 0) {
+  <p class="admin-empty">Für diese Seite sind noch keine Blöcke angelegt.</p>
+} @else {
+  @for (group of groups(); track group.key) {
+    <section class="section-group">
+      <h2 class="section-group__title">{{ group.label }}</h2>
+      <div class="block-list" cdkDropList (cdkDropListDropped)="drop($event, group)">
+        @for (block of group.items; track block.id) {
+          <div class="block-row" cdkDrag>
+            <span class="drag-handle" cdkDragHandle>☰</span>
+            <span class="block-row__icon">{{ block.iconKey || '—' }}</span>
+            <div class="block-row__main">
+              <strong>{{ block.title }}</strong>
+              @if (block.body) {
+                <p class="block-row__body">{{ block.body }}</p>
+              }
+            </div>
+            @if (!block.isPublished) {
+              <span class="block-row__hidden">Versteckt</span>
+            }
+            <span class="block-row__actions">
+              <button mat-button (click)="edit(block)">Bearbeiten</button>
+              <button mat-button color="warn" (click)="remove(block)">Löschen</button>
+            </span>
+          </div>
+        }
+      </div>
+    </section>
+  }
+}

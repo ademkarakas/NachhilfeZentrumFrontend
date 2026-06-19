@@ -76,7 +76,7 @@
         <p>Transparent und ohne Verpflichtung — vom ersten Gespräch bis zur Begleitung.</p>
       </div>
       <div class="steps">
-        @for (s of steps; track s.title) {
+        @for (s of steps(); track s.title) {
           <div class="step" appReveal [revealIndex]="$index">
             <span class="step__num">{{ $index + 1 }}</span>
             <span class="step__icon"><app-icon [name]="s.icon" [size]="24" /></span>
@@ -98,7 +98,7 @@
         <h2>Was dieses Coaching bewirkt</h2>
       </div>
       <div class="grid grid--3">
-        @for (b of benefits; track b.title) {
+        @for (b of benefits(); track b.title) {
           <div class="benefit" appReveal [revealIndex]="$index">
             <span class="benefit__icon"><app-icon [name]="b.icon" [size]="22" /></span>
             <h3>{{ b.title }}</h3>
@@ -110,40 +110,44 @@
   </section>
 
   <!-- ───────────────── Testimonial ───────────────── -->
-  <section class="section">
-    <div class="container narrow">
-      <div class="section__head" appReveal>
-        <span class="eyebrow eyebrow--coaching">
-          <app-icon name="message-square" [size]="16" /> Erfahrungsbericht
-        </span>
-        <h2>Das sagen unsere Familien</h2>
+  @if (testimonial(); as t) {
+    <section class="section">
+      <div class="container narrow">
+        <div class="section__head" appReveal>
+          <span class="eyebrow eyebrow--coaching">
+            <app-icon name="message-square" [size]="16" /> Erfahrungsbericht
+          </span>
+          <h2>Das sagen unsere Familien</h2>
+        </div>
+        <div class="testimonial-highlight" appReveal>
+          <app-testimonial-card [testimonial]="t" />
+        </div>
       </div>
-      <div class="testimonial-highlight" appReveal>
-        <app-testimonial-card [testimonial]="testimonial" />
-      </div>
-    </div>
-  </section>
+    </section>
+  }
 
   <!-- ───────────────── FAQ ───────────────── -->
-  <section class="section section--alt">
-    <div class="container narrow">
-      <div class="section__head" appReveal>
-        <span class="eyebrow eyebrow--coaching">
-          <app-icon name="message-square" [size]="16" /> Häufige Fragen
-        </span>
-        <h2>Fragen zum Coaching</h2>
+  @if (faqs().length) {
+    <section class="section section--alt">
+      <div class="container narrow">
+        <div class="section__head" appReveal>
+          <span class="eyebrow eyebrow--coaching">
+            <app-icon name="message-square" [size]="16" /> Häufige Fragen
+          </span>
+          <h2>Fragen zum Coaching</h2>
+        </div>
+        @for (item of faqs(); track item.id; let i = $index) {
+          <details class="faq" appReveal [revealIndex]="i">
+            <summary class="faq__q">
+              <span>{{ item.question }}</span>
+              <app-icon name="chevron-down" [size]="20" />
+            </summary>
+            <div class="faq__a" [innerHTML]="item.answer"></div>
+          </details>
+        }
       </div>
-      @for (item of faq; track item.question; let i = $index) {
-        <details class="faq" appReveal [revealIndex]="i">
-          <summary class="faq__q">
-            <span>{{ item.question }}</span>
-            <app-icon name="chevron-down" [size]="20" />
-          </summary>
-          <div class="faq__a">{{ item.answer }}</div>
-        </details>
-      }
-    </div>
-  </section>
+    </section>
+  }
 
   <!-- ───────────────── CTA ───────────────── -->
   <app-cta-section

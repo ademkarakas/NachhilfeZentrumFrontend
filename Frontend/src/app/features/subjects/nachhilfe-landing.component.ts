@@ -3,6 +3,8 @@ import { RouterLink } from '@angular/router';
 import { PublicApiService } from '../../core/api/public-api.service';
 import { FaqItem, SubjectSummary } from '../../core/models/api.models';
 import { SeoService } from '../../core/seo/seo.service';
+import { SiteSettingsService } from '../../core/services/site-settings.service';
+import { cardsFromBlocks } from '../../shared/content-blocks.util';
 import { RevealDirective } from '../../shared/reveal.directive';
 import { ButtonComponent } from '../../shared/ui/button.component';
 import { CardComponent } from '../../shared/ui/card.component';
@@ -30,12 +32,13 @@ import { StripHtmlPipe } from '../../shared/pipes/strip-html.pipe';
 export class NachhilfeLandingComponent implements OnInit {
   private readonly api = inject(PublicApiService);
   private readonly seo = inject(SeoService);
+  readonly settings = inject(SiteSettingsService);
 
   readonly subjects = signal<SubjectSummary[]>([]);
   readonly faqs = signal<FaqItem[]>([]);
   readonly loading = signal(true);
 
-  readonly steps: { icon: IconName; title: string; text: string }[] = [
+  readonly steps = signal<{ icon: IconName; title: string; text: string }[]>([
     {
       icon: 'phone',
       title: 'Kontakt aufnehmen',
@@ -56,7 +59,7 @@ export class NachhilfeLandingComponent implements OnInit {
       title: 'Regelmäßiges Feedback',
       text: 'Fortschrittsberichte und Elterngespräche — damit alle Beteiligten informiert bleiben.',
     },
-  ];
+  ]);
 
   ngOnInit(): void {
     this.seo.update({
@@ -78,6 +81,10 @@ export class NachhilfeLandingComponent implements OnInit {
         (faq) => !faq.category || faq.category.toLowerCase() === 'nachhilfe',
       );
       this.faqs.set(nachhilfeFaqs.slice(0, 6));
+    });
+    this.api.getContentBlocks('nachhilfe').subscribe((blocks) => {
+      const st = cardsFromBlocks(blocks, 'process-steps');
+      if (st.length) this.steps.set(st);
     });
   }
 

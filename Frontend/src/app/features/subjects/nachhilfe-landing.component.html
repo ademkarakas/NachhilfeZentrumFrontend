@@ -4,10 +4,17 @@
   <div class="container">
     <div appReveal>
       <span class="eyebrow"><app-icon name="book-open" [size]="16" /> Nachhilfe</span>
-      <h1>Professionelle Nachhilfe — <em>individuell & effektiv</em></h1>
+      <h1
+        [innerHTML]="
+          settings.get('nachhilfe.hero.title') ||
+          'Professionelle Nachhilfe — <em>individuell &amp; effektiv</em>'
+        "
+      ></h1>
       <p class="lead">
-        Gezielte Förderung in Mathematik, Deutsch, Englisch und weiteren Fächern — für alle
-        Klassenstufen, von der Grundschule bis zum Abitur.
+        {{
+          settings.get('nachhilfe.hero.subtitle') ||
+            'Gezielte Förderung in Mathematik, Deutsch, Englisch und weiteren Fächern — für alle Klassenstufen, von der Grundschule bis zum Abitur.'
+        }}
       </p>
       <div class="hero__actions">
         <app-button link="/kontakt" size="lg">
@@ -29,7 +36,7 @@
       <p>Vom ersten Kontakt bis zum nachhaltigen Lernerfolg — einfach und transparent.</p>
     </div>
     <div class="steps">
-      @for (step of steps; track step.title) {
+      @for (step of steps(); track step.title) {
         <div class="step" appReveal [revealIndex]="$index">
           <span class="step__num">{{ $index + 1 }}</span>
           <span class="step__icon"><app-icon [name]="step.icon" [size]="24" /></span>
@@ -109,7 +116,10 @@
 
 <!-- ───────────────── CTA ───────────────── -->
 <app-cta-section
-  heading="Welches Fach bereitet Schwierigkeiten?"
-  subheading="Erzählen Sie uns davon — wir stellen die passende Nachhilfe zusammen."
-  ctaText="Beratung anfragen"
+  [heading]="settings.get('nachhilfe.cta.heading') || 'Welches Fach bereitet Schwierigkeiten?'"
+  [subheading]="
+    settings.get('nachhilfe.cta.subheading') ||
+    'Erzählen Sie uns davon — wir stellen die passende Nachhilfe zusammen.'
+  "
+  [ctaText]="settings.get('nachhilfe.cta.text') || 'Beratung anfragen'"
 />

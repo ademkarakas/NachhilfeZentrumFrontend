@@ -49,6 +49,7 @@ export class AdminLayoutComponent {
     { label: 'Team', path: '/admin/team' },
     { label: 'FAQ', path: '/admin/faq' },
     { label: 'Preise', path: '/admin/preise' },
+    { label: 'Seiteninhalte', path: '/admin/inhalte' },
     { label: 'Einstellungen', path: '/admin/einstellungen' },
     { label: 'Benutzer', path: '/admin/benutzer' },
   ];

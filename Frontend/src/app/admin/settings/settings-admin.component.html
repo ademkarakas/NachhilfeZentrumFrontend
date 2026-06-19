@@ -78,6 +78,33 @@
       </mat-card-content>
     </mat-card>
   </mat-tab>
+
+  <mat-tab label="Seiten-Texte">
+    <mat-card appearance="outlined" class="tab-card">
+      <mat-card-content>
+        <p class="hint-note">
+          Diese Felder überschreiben die Standardtexte der jeweiligen Seite. Leer lassen, um den
+          eingebauten Standardtext zu verwenden.
+        </p>
+        @for (section of pageSections; track section.group) {
+          <section class="page-section">
+            <h3 class="page-section__title">{{ section.title }}</h3>
+            @for (row of getGroup(section.group); track row.key) {
+              <mat-form-field appearance="outline" class="full">
+                <mat-label>{{ row.label }}</mat-label>
+                @if (row.multiline) {
+                  <textarea matInput rows="3" [(ngModel)]="row.value"></textarea>
+                } @else {
+                  <input matInput [(ngModel)]="row.value" />
+                }
+                <mat-hint>{{ row.key }}</mat-hint>
+              </mat-form-field>
+            }
+          </section>
+        }
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
 </mat-tab-group>
 
 <div class="actions">

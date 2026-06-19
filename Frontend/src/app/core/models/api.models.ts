@@ -395,6 +395,37 @@ export interface UpdateFaqItemRequest {
   isPublished: boolean;
 }
 
+// ── Content blocks (repeating page sections: steps, USP/benefit cards, …) ─────────
+export interface ContentBlock {
+  id: string;
+  pageKey: string;
+  sectionKey: string;
+  iconKey?: string | null;
+  title: string;
+  body?: string | null;
+  displayOrder: number;
+  isPublished: boolean;
+}
+
+export interface CreateContentBlockRequest {
+  pageKey: string;
+  sectionKey: string;
+  iconKey?: string | null;
+  title: string;
+  body?: string | null;
+  displayOrder: number;
+  isPublished: boolean;
+}
+
+export interface UpdateContentBlockRequest {
+  pageKey: string;
+  sectionKey: string;
+  iconKey?: string | null;
+  title: string;
+  body?: string | null;
+  isPublished: boolean;
+}
+
 // ── Pricing ─────────────────────────────────────────────────────────────────────
 export interface PricingTier {
   id: string;

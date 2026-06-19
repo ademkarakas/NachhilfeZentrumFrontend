@@ -1,24 +1,22 @@
 <!-- ───────────────── Hero ───────────────── -->
-<section class="hero-band">
+<section class="hero-band hero-band--coaching">
   <div class="container">
     <div class="hero-copy" appReveal>
       <span class="eyebrow eyebrow--coaching">
         <app-icon name="compass" [size]="16" /> Coaching &amp; Mentoring
       </span>
-      <h1>Lerncoaching für nachhaltigen Erfolg</h1>
+      <h1>{{ settings.get('coaching.hero.title') || 'Lerncoaching für nachhaltigen Erfolg' }}</h1>
       <p class="lead">
-        Unser Coaching ist kein Fachunterricht. Wir arbeiten an dem, was Lernen erst möglich
-        macht: <strong>Motivation, Lernstrategien, Selbstorganisation</strong> und dem
-        souveränen Umgang mit Prüfungsdruck.
+        Unser Coaching ist kein Fachunterricht. Wir arbeiten an dem, was Lernen erst möglich macht:
+        <strong>Motivation, Lernstrategien, Selbstorganisation</strong> und dem souveränen Umgang
+        mit Prüfungsdruck.
       </p>
       <div class="hero-actions">
         <app-button link="/kontakt" variant="coaching" size="lg">
           Kostenloses Erstgespräch
           <app-icon name="arrow-right" [size]="20" />
         </app-button>
-        <app-button link="/nachhilfe" variant="outline" size="lg">
-          Lieber Nachhilfe?
-        </app-button>
+        <app-button link="/nachhilfe" variant="outline" size="lg"> Lieber Nachhilfe? </app-button>
       </div>
     </div>
   </div>
@@ -32,12 +30,12 @@
       <h2>Nicht <em>was</em> gelernt wird — sondern <em>wie</em>.</h2>
       <p>
         Während die Nachhilfe fachliche Lücken in Mathe, Deutsch oder Englisch schließt, setzt
-        Coaching eine Ebene davor an: bei der Art, wie gelernt wird. Wir helfen dabei, Blockaden
-        zu lösen, realistische Ziele zu setzen und Lernen wieder selbstbestimmt zu gestalten.
+        Coaching eine Ebene davor an: bei der Art, wie gelernt wird. Wir helfen dabei, Blockaden zu
+        lösen, realistische Ziele zu setzen und Lernen wieder selbstbestimmt zu gestalten.
       </p>
       <p>
-        So entsteht ein Fundament, das weit über einzelne Noten hinaus trägt — bis ins Studium
-        und den Beruf.
+        So entsteht ein Fundament, das weit über einzelne Noten hinaus trägt — bis ins Studium und
+        den Beruf.
       </p>
     </div>
     <div class="compare" appReveal="right">
@@ -68,12 +66,11 @@
       <span class="eyebrow eyebrow--coaching">Für wen?</span>
       <h2>Coaching hilft besonders bei…</h2>
       <p>
-        Du erkennst dich oder dein Kind in einem dieser Punkte wieder? Dann sind wir für dich
-        da.
+        Du erkennst dich oder dein Kind in einem dieser Punkte wieder? Dann sind wir für dich da.
       </p>
     </div>
     <div class="grid grid--4">
-      @for (g of targetGroups; track g.title) {
+      @for (g of targetGroups(); track g.title) {
         <div class="tcard" appReveal [revealIndex]="$index">
           <span class="tcard__icon"><app-icon [name]="g.icon" [size]="24" /></span>
           <h3>{{ g.title }}</h3>
@@ -93,7 +90,7 @@
       <p>Transparent und ohne Verpflichtung — vom ersten Gespräch bis zur Begleitung.</p>
     </div>
     <div class="steps">
-      @for (s of steps; track s.title) {
+      @for (s of steps(); track s.title) {
         <div class="step" appReveal [revealIndex]="$index">
           <span class="step__num">{{ $index + 1 }}</span>
           <span class="step__icon"><app-icon [name]="s.icon" [size]="24" /></span>
@@ -113,7 +110,7 @@
       <h2>Was Coaching bewirkt</h2>
     </div>
     <div class="grid grid--3">
-      @for (b of benefits; track b.title) {
+      @for (b of benefits(); track b.title) {
         <div class="usp" appReveal [revealIndex]="$index">
           <span class="usp__icon"><app-icon [name]="b.icon" [size]="22" /></span>
           <h3>{{ b.title }}</h3>
@@ -148,9 +145,7 @@
               <span class="audience">{{ program.targetAudience }}</span>
               <h3>{{ program.title }}</h3>
               <p>{{ program.description | stripHtml }}</p>
-              <span class="more"
-                >Programm ansehen <app-icon name="arrow-right" [size]="18"
-              /></span>
+              <span class="more">Programm ansehen <app-icon name="arrow-right" [size]="18" /></span>
             </app-card>
           </a>
         }
@@ -160,46 +155,53 @@
 </section>
 
 <!-- ───────────────── Stimmen ───────────────── -->
-<section class="section section--alt">
-  <div class="container">
-    <div class="section__head" appReveal>
-      <span class="eyebrow eyebrow--coaching">Stimmen</span>
-      <h2>Was unsere Familien erleben</h2>
+@if (testimonials().length) {
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__head" appReveal>
+        <span class="eyebrow eyebrow--coaching">Stimmen</span>
+        <h2>Was unsere Familien erleben</h2>
+      </div>
+      <div class="grid grid--3">
+        @for (t of testimonials(); track t.id) {
+          <div appReveal [revealIndex]="$index">
+            <app-testimonial-card [testimonial]="t" />
+          </div>
+        }
+      </div>
     </div>
-    <div class="grid grid--3">
-      @for (t of testimonials; track t.id) {
-        <div appReveal [revealIndex]="$index">
-          <app-testimonial-card [testimonial]="t" />
-        </div>
-      }
-    </div>
-  </div>
-</section>
+  </section>
+}
 
 <!-- ───────────────── FAQ ───────────────── -->
-<section class="section">
-  <div class="container narrow">
-    <div class="section__head" appReveal>
-      <span class="eyebrow eyebrow--coaching">
-        <app-icon name="message-square" [size]="16" /> Häufige Fragen
-      </span>
-      <h2>Fragen zum Coaching</h2>
+@if (faqs().length) {
+  <section class="section">
+    <div class="container narrow">
+      <div class="section__head" appReveal>
+        <span class="eyebrow eyebrow--coaching">
+          <app-icon name="message-square" [size]="16" /> Häufige Fragen
+        </span>
+        <h2>Fragen zum Coaching</h2>
+      </div>
+      @for (item of faqs(); track item.id; let i = $index) {
+        <details class="faq" appReveal [revealIndex]="i">
+          <summary class="faq__q">
+            <span>{{ item.question }}</span>
+            <app-icon name="chevron-down" [size]="20" />
+          </summary>
+          <div class="faq__a" [innerHTML]="item.answer"></div>
+        </details>
+      }
     </div>
-    @for (item of faq; track item.question; let i = $index) {
-      <details class="faq" appReveal [revealIndex]="i">
-        <summary class="faq__q">
-          <span>{{ item.question }}</span>
-          <app-icon name="chevron-down" [size]="20" />
-        </summary>
-        <div class="faq__a">{{ item.answer }}</div>
-      </details>
-    }
-  </div>
-</section>
+  </section>
+}
 
 <app-cta-section
-  heading="Lernen blockiert? Wir helfen weiter."
-  subheading="Im Erstgespräch finden wir heraus, welches Coaching am besten passt."
-  ctaText="Coaching-Erstgespräch"
+  [heading]="settings.get('coaching.cta.heading') || 'Lernen blockiert? Wir helfen weiter.'"
+  [subheading]="
+    settings.get('coaching.cta.subheading') ||
+    'Im Erstgespräch finden wir heraus, welches Coaching am besten passt.'
+  "
+  [ctaText]="settings.get('coaching.cta.text') || 'Coaching-Erstgespräch'"
   [coaching]="true"
 />

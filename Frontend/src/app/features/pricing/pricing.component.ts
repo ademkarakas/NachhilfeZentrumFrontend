@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { PublicApiService } from '../../core/api/public-api.service';
-import { PricingTier } from '../../core/models/api.models';
+import { FaqItem, PricingTier } from '../../core/models/api.models';
+import { cardsFromBlocks } from '../../shared/content-blocks.util';
 import { SeoService } from '../../core/seo/seo.service';
+import { SiteSettingsService } from '../../core/services/site-settings.service';
 import { RevealDirective } from '../../shared/reveal.directive';
 import { ButtonComponent } from '../../shared/ui/button.component';
 import { CtaSectionComponent } from '../../shared/ui/cta-section.component';
@@ -17,10 +19,12 @@ import { IconComponent, IconName } from '../../shared/ui/icon.component';
 export class PricingComponent implements OnInit {
   private readonly seo = inject(SeoService);
   private readonly api = inject(PublicApiService);
+  readonly settings = inject(SiteSettingsService);
 
   readonly tiers = signal<PricingTier[]>([]);
+  readonly faqs = signal<FaqItem[]>([]);
 
-  readonly benefits: { icon: IconName; title: string; text: string }[] = [
+  readonly benefits = signal<{ icon: IconName; title: string; text: string }[]>([
     {
       icon: 'check',
       title: 'Kostenlose Probestunde',
@@ -51,9 +55,9 @@ export class PricingComponent implements OnInit {
       title: 'Eigenes Lernmaterial',
       text: 'Hochwertige Unterlagen und Übungen inklusive.',
     },
-  ];
+  ]);
 
-  readonly steps: { icon: IconName; title: string; text: string }[] = [
+  readonly steps = signal<{ icon: IconName; title: string; text: string }[]>([
     {
       icon: 'phone',
       title: 'Beratungsgespräch',
@@ -74,44 +78,26 @@ export class PricingComponent implements OnInit {
       title: 'Unterricht starten',
       text: 'Der regelmäßige Unterricht beginnt — mit messbaren Fortschritten.',
     },
-  ];
-
-  readonly faqs: { question: string; answer: string }[] = [
-    {
-      question: 'Gibt es eine kostenlose Probestunde?',
-      answer:
-        'Ja! Die erste Stunde ist immer kostenlos und unverbindlich. So können Sie und Ihr Kind uns kennenlernen.',
-    },
-    {
-      question: 'Kann ich monatlich kündigen?',
-      answer:
-        'Ja, bei uns gibt es keine Mindestvertragslaufzeit. Sie können jederzeit zum Monatsende kündigen.',
-    },
-    {
-      question: 'Was passiert, wenn mein Kind einen Termin absagen muss?',
-      answer: 'Termine können bis zu 24 Stunden vorher kostenlos abgesagt oder verschoben werden.',
-    },
-    {
-      question: 'Variieren die Preise je nach Fach?',
-      answer:
-        'Die Grundpreise sind fachübergreifend gleich. Bei speziellem Bedarf (z. B. Abiturvorbereitung) beraten wir Sie individuell.',
-    },
-    {
-      question: 'Sind Materialien im Preis enthalten?',
-      answer:
-        'Ja, alle Übungsmaterialien, Arbeitsblätter und digitale Ressourcen sind im Preis inklusive.',
-    },
-  ];
+  ]);
 
   ngOnInit(): void {
     this.seo.update({
       title: 'Preise — Nachhilfe & Coaching',
       description:
-        'Transparente Preise für Einzelnachhilfe, Gruppenunterricht und Lerncoaching. Ab 19 € pro Stunde. Gratis Probestunde inklusive.',
+        'Transparente Preise für Einzelnachhilfe, Gruppenunterricht und Lerncoaching. Ab 39 € pro Stunde. Gratis Probestunde inklusive.',
       path: '/preise',
     });
 
     this.api.getPricing().subscribe((tiers) => this.tiers.set(tiers));
+    this.api
+      .getFaq()
+      .subscribe((f) => this.faqs.set(f.filter((faq) => faq.category?.toLowerCase() === 'preise')));
+    this.api.getContentBlocks('pricing').subscribe((blocks) => {
+      const bn = cardsFromBlocks(blocks, 'benefits');
+      if (bn.length) this.benefits.set(bn);
+      const st = cardsFromBlocks(blocks, 'process-steps');
+      if (st.length) this.steps.set(st);
+    });
   }
 
   getFeatures(tier: PricingTier): string[] {

@@ -7,7 +7,9 @@ import {
   AssessmentAdminDetail,
   AssessmentListItem,
   CoachingProgram,
+  ContentBlock,
   CreateCoachingProgramRequest,
+  CreateContentBlockRequest,
   CreateFaqItemRequest,
   CreatePricingTierRequest,
   CreateSubjectRequest,
@@ -26,6 +28,7 @@ import {
   TeamMember,
   Testimonial,
   UpdateCoachingProgramRequest,
+  UpdateContentBlockRequest,
   UpdateFaqItemRequest,
   UpdatePricingTierRequest,
   UpdateSubjectRequest,
@@ -225,6 +228,27 @@ export class AdminApiService {
 
   reorderFaqItems(orderedIds: string[]): Observable<void> {
     return this.http.post<void>(`${this.base}/faq/reorder`, { orderedIds });
+  }
+
+  // ── Content blocks ───────────────────────────────────────────────────────────
+  listContentBlocks(): Observable<ContentBlock[]> {
+    return this.http.get<ContentBlock[]>(`${this.base}/content-blocks`);
+  }
+
+  createContentBlock(body: CreateContentBlockRequest): Observable<ContentBlock> {
+    return this.http.post<ContentBlock>(`${this.base}/content-blocks`, body);
+  }
+
+  updateContentBlock(id: string, body: UpdateContentBlockRequest): Observable<void> {
+    return this.http.put<void>(`${this.base}/content-blocks/${id}`, body);
+  }
+
+  deleteContentBlock(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/content-blocks/${id}`);
+  }
+
+  reorderContentBlocks(orderedIds: string[]): Observable<void> {
+    return this.http.post<void>(`${this.base}/content-blocks/reorder`, { orderedIds });
   }
 
   // ── Pricing ────────────────────────────────────────────────────────────────

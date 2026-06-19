@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PublicApiService } from '../../core/api/public-api.service';
 import { SubjectSummary } from '../../core/models/api.models';
 import { SeoService } from '../../core/seo/seo.service';
+import { SiteSettingsService } from '../../core/services/site-settings.service';
 import { ToastService } from '../../core/services/toast.service';
 import { RevealDirective } from '../../shared/reveal.directive';
 import { ButtonComponent } from '../../shared/ui/button.component';
@@ -20,6 +21,7 @@ export class ContactComponent implements OnInit {
   private readonly api = inject(PublicApiService);
   private readonly seo = inject(SeoService);
   private readonly toast = inject(ToastService);
+  readonly settings = inject(SiteSettingsService);
 
   readonly subjects = signal<SubjectSummary[]>([]);
   readonly submitting = signal(false);
