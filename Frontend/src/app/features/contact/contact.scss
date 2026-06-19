@@ -1,0 +1,326 @@
+// ── Contact page — modern professional form design ──
+
+.hero-band {
+  position: relative;
+  overflow: hidden;
+  background: var(--grad-hero);
+  padding: clamp(var(--space-10), 8vw, var(--space-12)) 0;
+  border-bottom: 1px solid var(--color-line);
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    top: -200px;
+    right: -150px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-primary-100), transparent 70%);
+    filter: blur(80px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.narrow {
+  max-width: 760px;
+}
+
+.lead {
+  font-size: var(--fs-lg);
+  color: var(--color-body);
+}
+
+// ── 2-column layout: trust aside + form card ──
+.contact-layout {
+  display: grid;
+  gap: var(--space-8);
+  align-items: start;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 260px 1fr;
+  }
+}
+
+// ── Trust sidebar ──
+.trust-aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+
+  @media (max-width: 767px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+  }
+}
+
+.trust-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+
+  strong {
+    display: block;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+    line-height: var(--lh-snug);
+  }
+
+  p {
+    margin: var(--space-1) 0 0;
+    font-size: var(--fs-xs);
+    color: var(--color-muted);
+    line-height: var(--lh-base);
+  }
+
+  @media (max-width: 767px) {
+    flex: 1 1 200px;
+  }
+}
+
+.trust-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-50);
+  color: var(--color-primary);
+}
+
+// ── Form card ──
+.contact-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-8);
+
+  @media (max-width: 480px) {
+    padding: var(--space-5);
+    border-radius: var(--radius-sm);
+  }
+}
+
+// ── Section label (eyebrow dividers within form) ──
+.form-section-label {
+  display: block;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+  color: var(--color-muted);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-line);
+
+  &:not(:first-child) {
+    margin-top: var(--space-6);
+  }
+}
+
+// ── Form fields ──
+.field {
+  margin-bottom: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.row {
+  display: grid;
+  gap: var(--space-4);
+
+  @media (min-width: 560px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+label {
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  color: var(--color-ink);
+}
+
+// ── Input groups (icon-prefixed) ──
+.input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+
+  &:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px var(--color-primary-100);
+    transform: translateY(-1px);
+  }
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 0.85rem;
+  color: var(--color-muted);
+  flex: none;
+
+  .input-group:focus-within & {
+    color: var(--color-primary);
+  }
+}
+
+.input-group input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font: inherit;
+  padding: 0.7rem 0.85rem;
+  color: var(--color-ink);
+  min-width: 0;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: var(--color-muted);
+    opacity: 0.6;
+  }
+}
+
+// ── Select wrapper ──
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  select {
+    appearance: none;
+    width: 100%;
+    font: inherit;
+    padding: 0.7rem 2.5rem 0.7rem 0.85rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-ink);
+    cursor: pointer;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px var(--color-primary-100);
+    }
+  }
+}
+
+.select-chevron {
+  position: absolute;
+  right: 0.75rem;
+  pointer-events: none;
+  color: var(--color-muted);
+  display: flex;
+}
+
+// ── Textarea ──
+textarea {
+  font: inherit;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  resize: vertical;
+  min-height: 120px;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px var(--color-primary-100);
+  }
+
+  &::placeholder {
+    color: var(--color-muted);
+    opacity: 0.6;
+  }
+}
+
+// ── Error messages ──
+.err {
+  color: var(--color-danger);
+  font-size: var(--fs-xs);
+}
+
+// ── Full-width button ──
+.full-width {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+// ── Success card ──
+.success-card {
+  text-align: center;
+  padding: var(--space-10) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-success-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  animation: scale-in var(--dur-base) var(--ease-spring) both;
+
+  h2 {
+    margin: var(--space-4) 0 var(--space-2);
+    color: var(--color-success);
+  }
+
+  p {
+    color: var(--color-body);
+    font-size: var(--fs-lg);
+  }
+}
+
+.success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

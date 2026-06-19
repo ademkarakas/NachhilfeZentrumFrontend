@@ -1,0 +1,307 @@
+<!-- ───────────────── Hero ───────────────── -->
+<section class="hero">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="container hero__inner">
+    <div class="hero__copy" appReveal>
+      <span class="eyebrow">
+        <app-icon name="sparkles" [size]="16" />
+        Nachhilfe &amp; Coaching
+      </span>
+      <h1>Bessere Noten. Echtes <em>Selbstvertrauen.</em></h1>
+      <p class="hero__lead">
+        Wir verbinden fachliche Nachhilfe mit persönlichem Lerncoaching — damit Schüler:innen den
+        Stoff verstehen <strong>und</strong> die Motivation finden, dranzubleiben.
+      </p>
+      <div class="hero__actions">
+        <app-button link="/kontakt" size="lg">
+          Kostenloses Erstgespräch
+          <app-icon name="arrow-right" [size]="20" />
+        </app-button>
+        <app-button link="/tests" size="lg" variant="outline">Tests ausprobieren</app-button>
+      </div>
+
+      <!-- Social proof — placeholder copy, adjust to real numbers. -->
+      <div class="hero__trust">
+        <span class="hero__avatars" aria-hidden="true">
+          <span class="hero__avatar" style="--i: 0">L</span>
+          <span class="hero__avatar" style="--i: 1">M</span>
+          <span class="hero__avatar" style="--i: 2">S</span>
+        </span>
+        <span class="hero__trust-text">
+          <span class="hero__stars" aria-hidden="true">
+            <app-icon name="star" [size]="15" />
+            <app-icon name="star" [size]="15" />
+            <app-icon name="star" [size]="15" />
+            <app-icon name="star" [size]="15" />
+            <app-icon name="star" [size]="15" />
+          </span>
+          Von über 500 Familien empfohlen
+        </span>
+      </div>
+    </div>
+
+    <div class="hero__media" appReveal="right">
+      <div
+        class="hero__photo"
+        role="img"
+        aria-label="Schülerin lernt mit ihrer Nachhilfelehrerin"
+      ></div>
+      <div class="hero__floating hero__floating--top">
+        <span class="hero__fi hero__fi--success"><app-icon name="badge-check" [size]="22" /></span>
+        <span class="hero__fi-text">
+          <strong>+1,8 Noten</strong>
+          <small>im Schnitt nach 3 Monaten</small>
+        </span>
+      </div>
+      <div class="hero__floating hero__floating--bottom">
+        <span class="hero__fi hero__fi--coaching"><app-icon name="compass" [size]="22" /></span>
+        <span class="hero__fi-text">
+          <strong>Lerncoaching</strong>
+          <small>Motivation &amp; Strategie</small>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── Stats ───────────────── -->
+<section class="stats">
+  <div class="container stats__grid">
+    @for (stat of stats; track stat.label) {
+      <div class="stat" appReveal [revealIndex]="$index">
+        <span class="stat__num">
+          <span
+            [appCountUp]="stat.value"
+            [countPrefix]="stat.prefix || ''"
+            [countSuffix]="stat.suffix || ''"
+            >{{ stat.prefix }}{{ stat.value }}{{ stat.suffix }}</span
+          >
+        </span>
+        <span class="stat__label">{{ stat.label }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ───────── Two distinct service lines — equal weight, never nested ───────── -->
+<section class="section">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">Unser Angebot</span>
+      <h2>Zwei Wege zu besseren Noten</h2>
+      <p>Zwei eigenständige Angebote, die sich ergänzen — und gleichwertig nebeneinander stehen.</p>
+    </div>
+
+    <div class="services">
+      <article class="svc svc--tutoring" appReveal="left">
+        <span class="svc__icon"><app-icon name="book-open" [size]="26" /></span>
+        <span class="eyebrow">Nachhilfe</span>
+        <h3>Fachliche Nachhilfe</h3>
+        <p>
+          Gezielte Unterstützung in Mathe, Deutsch, Englisch und weiteren Fächern — einzeln oder in
+          kleinen Gruppen, abgestimmt auf den Lehrplan.
+        </p>
+        <ul class="svc__list">
+          <li><app-icon name="check" [size]="18" /> Einzel- &amp; Kleingruppenunterricht</li>
+          <li><app-icon name="check" [size]="18" /> Qualifizierte Fachlehrkräfte</li>
+          <li><app-icon name="check" [size]="18" /> Gezielte Prüfungsvorbereitung</li>
+        </ul>
+        <a routerLink="/faecher" class="svc__link">
+          Alle Fächer ansehen <app-icon name="arrow-right" [size]="18" />
+        </a>
+      </article>
+
+      <article class="svc svc--coaching" appReveal="right">
+        <span class="svc__icon"><app-icon name="compass" [size]="26" /></span>
+        <span class="eyebrow eyebrow--coaching">Coaching</span>
+        <h3>Lerncoaching &amp; Mentoring</h3>
+        <p>
+          Kein Fachunterricht, sondern Arbeit an Lernstrategien, Motivation, Zeitmanagement und
+          Prüfungsangst — für nachhaltigen Lernerfolg.
+        </p>
+        <ul class="svc__list">
+          <li><app-icon name="check" [size]="18" /> Lernstrategien &amp; Zeitmanagement</li>
+          <li><app-icon name="check" [size]="18" /> Motivation &amp; Selbstvertrauen</li>
+          <li><app-icon name="check" [size]="18" /> Umgang mit Prüfungsangst</li>
+        </ul>
+        <a routerLink="/coaching" class="svc__link svc__link--coaching">
+          Coaching entdecken <app-icon name="arrow-right" [size]="18" />
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── So funktioniert's ───────────────── -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">In 4 Schritten</span>
+      <h2>So funktioniert's</h2>
+      <p>
+        Von der ersten Kontaktaufnahme bis zum regelmäßigen Unterricht — einfach und transparent.
+      </p>
+    </div>
+    <div class="steps">
+      <div class="step" appReveal [revealIndex]="0">
+        <span class="step__num">1</span>
+        <span class="step__icon"><app-icon name="phone" [size]="24" /></span>
+        <h3>Kontakt aufnehmen</h3>
+        <p>Rufen Sie an oder nutzen Sie unser Formular — wir melden uns innerhalb von 24h.</p>
+      </div>
+      <div class="step" appReveal [revealIndex]="1">
+        <span class="step__num">2</span>
+        <span class="step__icon"><app-icon name="users" [size]="24" /></span>
+        <h3>Beratungsgespräch</h3>
+        <p>Gemeinsam ermitteln wir den Bedarf und finden die passende Förderung.</p>
+      </div>
+      <div class="step" appReveal [revealIndex]="2">
+        <span class="step__num">3</span>
+        <span class="step__icon"><app-icon name="sparkles" [size]="24" /></span>
+        <h3>Gratis Probestunde</h3>
+        <p>Ihr Kind lernt die Lehrkraft kennen — kostenlos und unverbindlich.</p>
+      </div>
+      <div class="step" appReveal [revealIndex]="3">
+        <span class="step__num">4</span>
+        <span class="step__icon"><app-icon name="badge-check" [size]="24" /></span>
+        <h3>Unterricht starten</h3>
+        <p>Es geht los — mit individuellem Lernplan und regelmäßigen Fortschrittsberichten.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── Warum wir? ───────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">Ihre Vorteile</span>
+      <h2>Warum Nachhilfezentrum?</h2>
+      <p>Was uns von anderen Nachhilfeanbietern unterscheidet.</p>
+    </div>
+    <div class="grid grid--3">
+      <div class="usp" appReveal [revealIndex]="0">
+        <span class="usp__icon"><app-icon name="user" [size]="22" /></span>
+        <h3>Individuelle Förderung</h3>
+        <p>Kein Schema F — jeder Lernplan wird persönlich auf Stärken und Schwächen abgestimmt.</p>
+      </div>
+      <div class="usp" appReveal [revealIndex]="1">
+        <span class="usp__icon"><app-icon name="shield-check" [size]="22" /></span>
+        <h3>Qualifizierte Lehrkräfte</h3>
+        <p>Erfahrene Pädagog:innen und geprüfte Fachexpert:innen — sorgfältig ausgewählt.</p>
+      </div>
+      <div class="usp" appReveal [revealIndex]="2">
+        <span class="usp__icon"><app-icon name="clock" [size]="22" /></span>
+        <h3>Flexible Zeiten</h3>
+        <p>Unterricht online oder vor Ort, morgens oder abends — passend zu Ihrem Alltag.</p>
+      </div>
+      <div class="usp" appReveal [revealIndex]="3">
+        <span class="usp__icon"><app-icon name="compass" [size]="22" /></span>
+        <h3>Coaching &amp; Nachhilfe</h3>
+        <p>Zwei eigenständige Angebote unter einem Dach — fachlich und überfachlich.</p>
+      </div>
+      <div class="usp" appReveal [revealIndex]="4">
+        <span class="usp__icon"><app-icon name="star" [size]="22" /></span>
+        <h3>Gratis Probestunde</h3>
+        <p>Erst kennenlernen, dann entscheiden — ohne Risiko und ohne Verpflichtung.</p>
+      </div>
+      <div class="usp" appReveal [revealIndex]="5">
+        <span class="usp__icon"><app-icon name="target" [size]="22" /></span>
+        <h3>Nachweisbare Erfolge</h3>
+        <p>Regelmäßige Tests und Berichte — damit Sie den Fortschritt schwarz auf weiß sehen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── Subjects preview ───────────────── -->
+@if (subjects().length) {
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__head" appReveal>
+        <span class="eyebrow">Fächer</span>
+        <h2>Unsere Fächer</h2>
+        <p>Von den Grundlagen bis zur Abiturvorbereitung.</p>
+      </div>
+      <div class="grid grid--3">
+        @for (subject of subjects(); track subject.id) {
+          <a
+            [routerLink]="['/faecher', subject.slug]"
+            class="subject-link"
+            appReveal
+            [revealIndex]="$index"
+          >
+            <app-card [interactive]="true">
+              <div class="subject">
+                <span class="subject__mono" aria-hidden="true">{{ monogram(subject.name) }}</span>
+                <h3>{{ subject.name }}</h3>
+                <p>{{ subject.description | stripHtml }}</p>
+                <span class="subject__more">
+                  Mehr erfahren <app-icon name="arrow-right" [size]="16" />
+                </span>
+              </div>
+            </app-card>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ───────────────── Testimonials ───────────────── -->
+@if (testimonials().length) {
+  <section class="section">
+    <div class="container">
+      <div class="section__head" appReveal>
+        <span class="eyebrow">Stimmen</span>
+        <h2>Was Eltern und Schüler:innen sagen</h2>
+      </div>
+      <div class="grid grid--3">
+        @for (t of testimonials(); track t.id) {
+          <div appReveal [revealIndex]="$index">
+            <app-testimonial-card [testimonial]="t" />
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ───────────────── Trust Badges ───────────────── -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="trust" appReveal>
+      <div class="trust__review">
+        <div class="trust__stars">
+          <app-icon name="star" [size]="18" />
+          <app-icon name="star" [size]="18" />
+          <app-icon name="star" [size]="18" />
+          <app-icon name="star" [size]="18" />
+          <app-icon name="star" [size]="18" />
+        </div>
+        <span class="trust__score">4,9 / 5</span>
+        <span class="trust__count">basierend auf 120+ Google-Bewertungen</span>
+      </div>
+      <div class="trust__badges">
+        <div class="trust__badge" appReveal [revealIndex]="0">
+          <app-icon name="shield-check" [size]="28" />
+          <span>Geprüfte Qualität</span>
+        </div>
+        <div class="trust__badge" appReveal [revealIndex]="1">
+          <app-icon name="badge-check" [size]="28" />
+          <span>Zertifizierte Lehrkräfte</span>
+        </div>
+        <div class="trust__badge" appReveal [revealIndex]="2">
+          <app-icon name="shield" [size]="28" />
+          <span>Datenschutz garantiert</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-cta-section
+  heading="Bereit für den nächsten Schritt?"
+  subheading="Vereinbaren Sie ein unverbindliches Erstgespräch — wir finden den passenden Weg."
+  ctaText="Jetzt Kontakt aufnehmen"
+/>

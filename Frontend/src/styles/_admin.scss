@@ -1,0 +1,91 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Admin design-system layer.
+//
+// The admin module is the only place Angular Material is used. This stylesheet pulls
+// Material's surfaces onto the project's design tokens so the back office feels like the
+// same product as the public site (warm neutrals, brand green, shared radii, dark mode) —
+// while keeping the data-dense admin UX. It is global because Material overlays (dialogs,
+// selects, menus) render in a body-level container outside any component's encapsulated
+// styles. See styles.scss where this is @use'd, and _tokens.scss for the variables.
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Rich-text form field (app-rich-text-editor replaces <textarea> in admin dialogs) ──
+.rte-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+.rte-field__label {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.rte-field__hint {
+  font-size: var(--fs-xs);
+  color: var(--color-muted);
+}
+
+// ── Pull Material surfaces onto the design tokens ──
+// Material 3 already themes color from the green palette (see styles.scss); here we align
+// the neutral *surfaces* (cards, dialogs, tables, toolbar) to the warm tokens so the back
+// office matches the public site in both light and dark mode.
+.mat-mdc-card,
+.mat-mdc-dialog-surface {
+  --mdc-elevated-card-container-color: var(--color-surface);
+  --mdc-outlined-card-container-color: var(--color-surface);
+  --mdc-dialog-container-color: var(--color-surface);
+  background-color: var(--color-surface) !important;
+  color: var(--color-body);
+  border-radius: var(--radius) !important;
+}
+.mat-mdc-card.mat-mdc-card-outlined {
+  border-color: var(--color-line);
+}
+
+// Dialog title in the display serif, like public headings.
+.mat-mdc-dialog-title {
+  font-family: var(--font-display) !important;
+  color: var(--color-ink) !important;
+  letter-spacing: var(--ls-tight);
+}
+
+// Tables: let the .admin-table wrapper own the surface; keep rows on tokens.
+.mat-mdc-table {
+  background: transparent !important;
+}
+.mat-mdc-header-row {
+  background: var(--color-surface-alt) !important;
+}
+.mat-mdc-header-cell {
+  color: var(--color-muted) !important;
+  font-weight: 700;
+}
+.mat-mdc-row,
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+  border-bottom-color: var(--color-line) !important;
+}
+.mat-mdc-cell {
+  color: var(--color-body) !important;
+}
+
+// Toolbar / sidenav chrome (admin shell).
+.mat-toolbar {
+  background: var(--color-surface) !important;
+  color: var(--color-ink) !important;
+  border-bottom: 1px solid var(--color-line);
+}
+.mat-drawer {
+  background: var(--color-surface) !important;
+  color: var(--color-body);
+}
+.mat-sidenav-content {
+  background: var(--color-bg) !important;
+}
+
+// Snackbar (toasts) on tokens.
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: var(--color-ink);
+  --mdc-snackbar-supporting-text-color: var(--color-on-primary);
+}
