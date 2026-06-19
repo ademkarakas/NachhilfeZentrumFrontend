@@ -8,24 +8,32 @@ import {
   AssessmentListItem,
   CoachingProgram,
   CreateCoachingProgramRequest,
+  CreateFaqItemRequest,
+  CreatePricingTierRequest,
   CreateSubjectRequest,
   CreateTeamMemberRequest,
   CreateTestRequest,
   CreateTestimonialRequest,
   DashboardStats,
+  FaqItem,
   Lead,
   LeadListItem,
   PagedResult,
   PaginationQuery,
+  PricingTier,
   SiteSettings,
   Subject,
   TeamMember,
   Testimonial,
   UpdateCoachingProgramRequest,
+  UpdateFaqItemRequest,
+  UpdatePricingTierRequest,
   UpdateSubjectRequest,
   UpdateTeamMemberRequest,
   UpdateTestMetadataRequest,
   UpdateTestimonialRequest,
+  UserDto,
+  CreateUserRequest,
 } from '../models/api.models';
 import { AssessmentStatus, LeadStatus } from '../models/enums';
 
@@ -198,6 +206,48 @@ export class AdminApiService {
     return this.http.delete<void>(`${this.base}/team/${id}`);
   }
 
+  // ── FAQ ──────────────────────────────────────────────────────────────────
+  listFaq(): Observable<FaqItem[]> {
+    return this.http.get<FaqItem[]>(`${this.base}/faq`);
+  }
+
+  createFaqItem(body: CreateFaqItemRequest): Observable<FaqItem> {
+    return this.http.post<FaqItem>(`${this.base}/faq`, body);
+  }
+
+  updateFaqItem(id: string, body: UpdateFaqItemRequest): Observable<void> {
+    return this.http.put<void>(`${this.base}/faq/${id}`, body);
+  }
+
+  deleteFaqItem(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/faq/${id}`);
+  }
+
+  reorderFaqItems(orderedIds: string[]): Observable<void> {
+    return this.http.post<void>(`${this.base}/faq/reorder`, { orderedIds });
+  }
+
+  // ── Pricing ────────────────────────────────────────────────────────────────
+  listPricing(): Observable<PricingTier[]> {
+    return this.http.get<PricingTier[]>(`${this.base}/pricing`);
+  }
+
+  createPricingTier(body: CreatePricingTierRequest): Observable<PricingTier> {
+    return this.http.post<PricingTier>(`${this.base}/pricing`, body);
+  }
+
+  updatePricingTier(id: string, body: UpdatePricingTierRequest): Observable<void> {
+    return this.http.put<void>(`${this.base}/pricing/${id}`, body);
+  }
+
+  deletePricingTier(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/pricing/${id}`);
+  }
+
+  reorderPricingTiers(orderedIds: string[]): Observable<void> {
+    return this.http.post<void>(`${this.base}/pricing/reorder`, { orderedIds });
+  }
+
   // ── Site settings ───────────────────────────────────────────────────────────
   getSiteSettings(): Observable<SiteSettings> {
     return this.http.get<SiteSettings>(`${this.base}/site-settings`);
@@ -205,6 +255,34 @@ export class AdminApiService {
 
   updateSiteSettings(settings: SiteSettings): Observable<void> {
     return this.http.put<void>(`${this.base}/site-settings`, { settings });
+  }
+
+  // ── Upload ────────────────────────────────────────────────────────────────
+  uploadImage(file: File): Observable<{ url: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<{ url: string }>(`${this.base}/upload/image`, formData);
+  }
+
+  // ── Users ─────────────────────────────────────────────────────────────────
+  listUsers(): Observable<UserDto[]> {
+    return this.http.get<UserDto[]>(`${this.base}/users`);
+  }
+
+  createUser(body: CreateUserRequest): Observable<UserDto> {
+    return this.http.post<UserDto>(`${this.base}/users`, body);
+  }
+
+  updateUserRole(userId: string, role: string): Observable<void> {
+    return this.http.put<void>(`${this.base}/users/${userId}/role`, { role });
+  }
+
+  deactivateUser(userId: string): Observable<void> {
+    return this.http.post<void>(`${this.base}/users/${userId}/deactivate`, {});
+  }
+
+  reactivateUser(userId: string): Observable<void> {
+    return this.http.post<void>(`${this.base}/users/${userId}/reactivate`, {});
   }
 }
 

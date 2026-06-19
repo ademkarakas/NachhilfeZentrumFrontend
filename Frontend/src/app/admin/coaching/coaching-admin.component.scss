@@ -1,0 +1,18 @@
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.table {
+  width: 100%;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+}
+.actions {
+  text-align: right;
+  white-space: nowrap;
+}
+.empty {
+  color: var(--color-muted);
+}

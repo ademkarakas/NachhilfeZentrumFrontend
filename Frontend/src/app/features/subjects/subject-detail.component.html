@@ -1,0 +1,101 @@
+@if (loading()) {
+  <app-spinner />
+} @else if (subject(); as s) {
+  <section class="hero-band">
+    <div class="container">
+      <div appReveal>
+        <a routerLink="/nachhilfe" class="back">← Alle Fächer</a>
+        <span class="eyebrow">Nachhilfe</span>
+        <h1>Nachhilfe in {{ s.name }}</h1>
+        <div class="lead rich-content" [innerHTML]="s.description"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── Vorteile ───── -->
+  <section class="section">
+    <div class="container">
+      <div class="section__head" appReveal>
+        <h2>Warum Nachhilfe in {{ s.name }}?</h2>
+        <p>Gezielte Unterstützung, die den Unterschied macht.</p>
+      </div>
+      <div class="grid grid--3">
+        <div class="benefit" appReveal [revealIndex]="0">
+          <span class="benefit__icon"><app-icon name="user" [size]="22" /></span>
+          <h3>Individuelle Betreuung</h3>
+          <p>
+            Jeder Schüler lernt anders. Unser Unterricht in {{ s.name }} wird an die
+            individuellen Bedürfnisse und den aktuellen Leistungsstand angepasst.
+          </p>
+        </div>
+        <div class="benefit" appReveal [revealIndex]="1">
+          <span class="benefit__icon"><app-icon name="target" [size]="22" /></span>
+          <h3>Lücken gezielt schließen</h3>
+          <p>
+            Wir identifizieren genau, wo die Wissenslücken liegen, und arbeiten sie systematisch
+            auf — für nachhaltiges Verständnis.
+          </p>
+        </div>
+        <div class="benefit" appReveal [revealIndex]="2">
+          <span class="benefit__icon"><app-icon name="badge-check" [size]="22" /></span>
+          <h3>Prüfungsvorbereitung</h3>
+          <p>
+            Von Klassenarbeiten bis zum Abitur — wir bereiten gezielt auf anstehende Prüfungen
+            in {{ s.name }} vor.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── Übungstests ───── -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__head" appReveal>
+        <h2>Übungstests in {{ s.name }}</h2>
+        <p>Testen Sie Ihr Wissen — kostenlos und unverbindlich.</p>
+      </div>
+      @if (tests().length === 0) {
+        <p class="empty">Für dieses Fach sind noch keine Tests veröffentlicht.</p>
+      } @else {
+        <div class="grid grid--3">
+          @for (test of tests(); track test.id) {
+            <a
+              [routerLink]="['/tests', test.slug]"
+              class="link"
+              appReveal
+              [revealIndex]="$index"
+            >
+              <app-card [interactive]="true">
+                <div class="row">
+                  <app-badge tone="primary">{{ difficultyLabel(test) }}</app-badge>
+                  <app-lock-indicator
+                    [requiresMembership]="
+                      test.visibilityLevel === Visibility.RequiresMembership
+                    "
+                  />
+                </div>
+                <h3>{{ test.title }}</h3>
+                <p class="meta">
+                  {{ test.questionCount }} Fragen · {{ test.estimatedDurationMinutes }} Min ·
+                  {{ test.totalPoints }} Punkte
+                </p>
+              </app-card>
+            </a>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <app-cta-section
+    heading="Nachhilfe in {{ s.name }} gesucht?"
+    subheading="Vereinbaren Sie ein unverbindliches Beratungsgespräch — wir finden den passenden Weg."
+    ctaText="Probestunde vereinbaren"
+  />
+} @else {
+  <div class="container section">
+    <p class="empty">Dieses Fach wurde nicht gefunden.</p>
+    <a routerLink="/nachhilfe">← Zurück zur Übersicht</a>
+  </div>
+}

@@ -1,0 +1,14 @@
+<section class="cta" [class.cta--coaching]="coaching()">
+  <div class="container cta__inner">
+    <div class="cta__copy">
+      <h2>{{ heading() }}</h2>
+      @if (subheading()) {
+        <p>{{ subheading() }}</p>
+      }
+    </div>
+    <app-button [link]="link()" size="lg" [variant]="coaching() ? 'coaching' : 'primary'">
+      {{ ctaText() }}
+      <app-icon name="arrow-right" [size]="20" />
+    </app-button>
+  </div>
+</section>

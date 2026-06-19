@@ -1,0 +1,157 @@
+<!-- HERO -->
+<section class="hero-band">
+  <div class="container" appReveal>
+    <span class="eyebrow"><app-icon name="book-open" [size]="16" /> E-Learning</span>
+    <h1>Tests & Übungen</h1>
+    <p class="lead">
+      Probiere unsere fachbezogenen Tests aus — kostenlos und ohne Anmeldung. So siehst du unsere
+      Qualität und deinen aktuellen Stand.
+    </p>
+    <div class="hero__actions">
+      <app-button link="/tests" size="lg" [attr.fragment]="'catalog'">Tests entdecken</app-button>
+      <app-button link="/nachhilfe" size="lg" variant="outline">Nachhilfe ansehen</app-button>
+    </div>
+    <p class="hero__trust">
+      <app-icon name="badge-check" [size]="16" />
+      Kostenlos · Ohne Anmeldung · Sofortige Auswertung
+    </p>
+  </div>
+</section>
+
+<!-- VALUE PROPOSITION -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">Warum unsere Tests?</span>
+      <h2>Lerne dich selbst besser kennen</h2>
+      <p>
+        Unsere Tests sind mehr als Übungsaufgaben — sie zeigen dir, wo du stehst und wo wir ansetzen
+        können.
+      </p>
+    </div>
+    <div class="grid grid--3">
+      @for (usp of usps; track usp.title) {
+        <div class="usp" appReveal [revealIndex]="$index">
+          <span class="usp__icon"><app-icon [name]="usp.icon" [size]="22" /></span>
+          <h3>{{ usp.title }}</h3>
+          <p>{{ usp.text }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="section">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">In 3 Schritten</span>
+      <h2>So funktioniert's</h2>
+    </div>
+    <div class="steps">
+      @for (step of steps; track step.title) {
+        <div class="step" appReveal [revealIndex]="$index">
+          <span class="step__num">{{ $index + 1 }}</span>
+          <span class="step__icon"><app-icon [name]="step.icon" [size]="24" /></span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- TEST CATALOG -->
+<section class="section section--alt" id="catalog">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">Alle Tests</span>
+      <h2>Finde den passenden Test</h2>
+    </div>
+
+    <div class="filters">
+      <label>
+        <span class="sr-only">Nach Fach filtern</span>
+        <select [value]="subjectFilter()" (change)="onSubject($event)">
+          <option value="">Alle Fächer</option>
+          @for (s of subjects(); track s.id) {
+            <option [value]="s.id">{{ s.name }}</option>
+          }
+        </select>
+      </label>
+    </div>
+
+    @if (loading()) {
+      <app-spinner />
+    } @else if (filtered().length === 0) {
+      <p class="empty">Keine Tests gefunden.</p>
+    } @else {
+      <div class="grid grid--3">
+        @for (test of filtered(); track test.id) {
+          <a [routerLink]="['/tests', test.slug]" class="link" appReveal [revealIndex]="$index">
+            <app-card [interactive]="true">
+              <div class="row">
+                <app-badge tone="primary">{{ difficultyLabel(test.difficulty) }}</app-badge>
+                <app-lock-indicator
+                  [requiresMembership]="test.visibilityLevel === Visibility.RequiresMembership"
+                />
+              </div>
+              <h3>{{ test.title }}</h3>
+              <p class="meta">
+                <app-icon name="clock" [size]="15" />
+                {{ test.questionCount }} Fragen · {{ test.estimatedDurationMinutes }} Min ·
+                {{ test.totalPoints }} Punkte
+              </p>
+              <span class="more">
+                Test starten
+                <app-icon name="arrow-right" [size]="16" />
+              </span>
+            </app-card>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="container stats__grid">
+    @for (stat of stats; track stat.label) {
+      <div class="stat" appReveal [revealIndex]="$index">
+        <span class="stat__num">
+          <span [appCountUp]="stat.value" [countSuffix]="stat.suffix"
+            >{{ stat.value }}{{ stat.suffix }}</span
+          >
+        </span>
+        <span class="stat__label">{{ stat.label }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="container narrow">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">Häufige Fragen</span>
+      <h2>FAQ zu unseren Tests</h2>
+    </div>
+    @for (item of faq; track item.question; let i = $index) {
+      <details class="faq" appReveal [revealIndex]="i">
+        <summary class="faq__q">
+          <span>{{ item.question }}</span>
+          <app-icon name="chevron-down" [size]="20" class="faq__chevron" />
+        </summary>
+        <div class="faq__a">{{ item.answer }}</div>
+      </details>
+    }
+  </div>
+</section>
+
+<!-- CTA -->
+<app-cta-section
+  heading="Bereit für den nächsten Schritt?"
+  subheading="Unsere Tests zeigen dir, wo du stehst. Für gezielte Förderung ist unsere Nachhilfe da."
+  ctaText="Gratis Probestunde buchen"
+/>

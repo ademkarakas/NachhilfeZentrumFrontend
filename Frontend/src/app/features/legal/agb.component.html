@@ -1,0 +1,18 @@
+
+<section class="hero-band">
+  <div class="container narrow">
+    <h1>Allgemeine Geschäftsbedingungen (AGB)</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container narrow legal-content">
+    @if (settings.legalAgb()) {
+      <div [innerHTML]="settings.legalAgb()"></div>
+    } @else {
+      <p class="placeholder">
+        AGB werden demnächst hier veröffentlicht. Bitte kontaktieren Sie uns bei Fragen.
+      </p>
+    }
+  </div>
+</section>

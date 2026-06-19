@@ -1,0 +1,33 @@
+@let q = question();
+<fieldset class="q">
+  <legend class="q__text">
+    <span class="q__num">Frage {{ index() + 1 }}</span>
+    {{ q.text }}
+    <span class="q__points">{{ q.points }} {{ q.points === 1 ? 'Punkt' : 'Punkte' }}</span>
+  </legend>
+
+  @switch (q.type) {
+    @case (QuestionType.MultipleChoice) {
+      <div class="opts">
+        @for (opt of q.options; track opt.id) {
+          <label class="opt" [class.opt--checked]="isSelected(opt.id)">
+            <input
+              [type]="q.allowMultiple ? 'checkbox' : 'radio'"
+              [name]="q.id"
+              [checked]="isSelected(opt.id)"
+              (change)="toggle(opt.id, q.allowMultiple)"
+            />
+            <span>{{ opt.text }}</span>
+          </label>
+        }
+      </div>
+      @if (q.allowMultiple) {
+        <p class="hint">Mehrfachauswahl möglich.</p>
+      }
+    }
+    @default {
+      <!-- Reserved seam: TrueFalse / OpenEnded / FileUpload renderers go here. -->
+      <p class="hint">Dieser Fragetyp wird noch nicht unterstützt.</p>
+    }
+  }
+</fieldset>

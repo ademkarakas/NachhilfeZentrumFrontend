@@ -1,0 +1,104 @@
+<header class="hdr" [class.hdr--scrolled]="scrolled()" [class.hdr--open]="open()">
+  <div class="container hdr__inner">
+    <a routerLink="/" class="hdr__brand" aria-label="Nachhilfezentrum Startseite">
+      <span class="hdr__logo" aria-hidden="true">
+        <app-icon name="graduation-cap" [size]="22" />
+      </span>
+      <span class="hdr__name">Nachhilfe<span class="hdr__name-accent">zentrum</span></span>
+    </a>
+
+    <button
+      class="hdr__toggle"
+      type="button"
+      (click)="open.set(!open())"
+      [attr.aria-expanded]="open()"
+      aria-label="Menü umschalten"
+    >
+      <app-icon [name]="open() ? 'x' : 'menu'" [size]="24" />
+    </button>
+
+    <div class="hdr__collapse" [class.hdr__collapse--open]="open()" (click)="open.set(false)">
+      <nav class="hdr__nav">
+        <div
+          class="nav-dd"
+          [class.nav-dd--open]="nachhilfeOpen()"
+          (mouseenter)="onTriggerEnter()"
+          (mouseleave)="onTriggerLeave()"
+        >
+          <a
+            routerLink="/nachhilfe"
+            routerLinkActive="active"
+            class="nav-dd__trigger"
+            (click)="closeNachhilfe()"
+            >Nachhilfe</a
+          >
+          <button
+            type="button"
+            class="nav-dd__chevron"
+            (click)="toggleNachhilfe($event)"
+            [attr.aria-expanded]="nachhilfeOpen()"
+            aria-haspopup="true"
+            aria-label="Fächer-Menü öffnen"
+          >
+            <app-icon name="chevron-down" [size]="15" />
+          </button>
+
+          @if (subjects().length) {
+            <div class="nav-dd__panel" role="menu" aria-label="Nachhilfe-Fächer">
+              <div class="nav-dd__grid">
+                @for (s of subjects(); track s.id) {
+                  <a
+                    [routerLink]="['/nachhilfe', s.slug]"
+                    role="menuitem"
+                    class="nav-dd__item"
+                    (click)="closeNachhilfe()"
+                    >{{ s.name }}</a
+                  >
+                }
+              </div>
+              <a
+                routerLink="/nachhilfe"
+                role="menuitem"
+                class="nav-dd__all"
+                (click)="closeNachhilfe()"
+              >
+                Alle Fächer ansehen <app-icon name="arrow-right" [size]="15" />
+              </a>
+            </div>
+          }
+        </div>
+
+        <a routerLink="/coaching" routerLinkActive="active" class="nav--coaching">Coaching</a>
+        <a routerLink="/tests" routerLinkActive="active">Tests</a>
+        <a routerLink="/preise" routerLinkActive="active">Preise</a>
+        <a routerLink="/team" routerLinkActive="active">Team</a>
+        <a routerLink="/ueber-uns" routerLinkActive="active">Über uns</a>
+      </nav>
+
+      <div class="hdr__actions">
+        <button
+          class="hdr__theme"
+          type="button"
+          (click)="$event.stopPropagation(); theme.cycle()"
+          [attr.aria-label]="themeLabel()"
+          [title]="themeLabel()"
+        >
+          <app-icon [name]="themeIcon()" [size]="19" />
+        </button>
+
+        <app-button link="/kontakt" size="md">Gratis Probestunde</app-button>
+
+        <span class="hdr__divider" aria-hidden="true"></span>
+
+        @if (auth.isBackOffice()) {
+          <a routerLink="/admin" class="hdr__admin-btn">
+            <app-icon name="shield" [size]="16" />
+            Admin Panel
+          </a>
+        } @else {
+          <a routerLink="/login" routerLinkActive="active" class="hdr__login">Anmelden</a>
+        }
+      </div>
+    </div>
+  </div>
+</header>

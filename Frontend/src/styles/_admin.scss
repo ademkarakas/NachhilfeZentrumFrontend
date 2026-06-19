@@ -89,3 +89,43 @@
   --mdc-snackbar-container-color: var(--color-ink);
   --mdc-snackbar-supporting-text-color: var(--color-on-primary);
 }
+
+// ── Admin list page shared styles ──
+// Used by all admin CRUD list pages (users, pricing, testimonials, faq, team, etc.)
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.admin-table {
+  width: 100%;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+
+  .actions {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .drag-handle {
+    cursor: grab;
+    width: 40px;
+    text-align: center;
+  }
+}
+
+.admin-empty {
+  color: var(--color-muted);
+}
+
+// CDK drag-drop shared styling for reorderable admin tables.
+.cdk-drag-preview {
+  box-sizing: border-box;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}

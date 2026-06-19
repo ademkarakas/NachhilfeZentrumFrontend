@@ -1,0 +1,87 @@
+<header class="page-head">
+  <h1>Website-Einstellungen</h1>
+</header>
+
+<mat-tab-group>
+  <mat-tab label="Allgemein">
+    <mat-card appearance="outlined" class="tab-card">
+      <mat-card-content>
+        @for (row of getGroup('general'); track row.key) {
+          @if (row.rich) {
+            <div class="rte-field">
+              <label class="rte-field__label">{{ row.label }}</label>
+              <app-rich-text-editor [(ngModel)]="row.value" minHeight="6rem" />
+              <span class="rte-field__hint">{{ row.key }}</span>
+            </div>
+          } @else {
+            <mat-form-field appearance="outline" class="full">
+              <mat-label>{{ row.label }}</mat-label>
+              @if (row.multiline) {
+                <textarea matInput rows="3" [(ngModel)]="row.value"></textarea>
+              } @else {
+                <input matInput [(ngModel)]="row.value" />
+              }
+              <mat-hint>{{ row.key }}</mat-hint>
+            </mat-form-field>
+          }
+        }
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+
+  <mat-tab label="Statistiken">
+    <mat-card appearance="outlined" class="tab-card">
+      <mat-card-content>
+        @for (row of getGroup('stats'); track row.key) {
+          <mat-form-field appearance="outline" class="full">
+            <mat-label>{{ row.label }}</mat-label>
+            <input matInput [(ngModel)]="row.value" />
+            <mat-hint>{{ row.key }}</mat-hint>
+          </mat-form-field>
+        }
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+
+  <mat-tab label="Über uns">
+    <mat-card appearance="outlined" class="tab-card">
+      <mat-card-content>
+        @for (row of getGroup('about'); track row.key) {
+          @if (row.rich) {
+            <div class="rte-field">
+              <label class="rte-field__label">{{ row.label }}</label>
+              <app-rich-text-editor [(ngModel)]="row.value" minHeight="6rem" />
+              <span class="rte-field__hint">{{ row.key }}</span>
+            </div>
+          } @else {
+            <mat-form-field appearance="outline" class="full">
+              <mat-label>{{ row.label }}</mat-label>
+              <input matInput [(ngModel)]="row.value" />
+              <mat-hint>{{ row.key }}</mat-hint>
+            </mat-form-field>
+          }
+        }
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+
+  <mat-tab label="Rechtliches">
+    <mat-card appearance="outlined" class="tab-card">
+      <mat-card-content>
+        @for (row of getGroup('legal'); track row.key) {
+          <div class="rte-field">
+            <label class="rte-field__label">{{ row.label }}</label>
+            <app-rich-text-editor [(ngModel)]="row.value" minHeight="12rem" />
+            <span class="rte-field__hint">{{ row.key }}</span>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>
+
+<div class="actions">
+  <button mat-flat-button color="primary" (click)="save()" [disabled]="saving()">
+    {{ saving() ? 'Speichern…' : 'Alle Einstellungen speichern' }}
+  </button>
+</div>

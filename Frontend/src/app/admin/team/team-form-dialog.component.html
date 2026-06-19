@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>{{ data ? 'Teammitglied bearbeiten' : 'Neues Teammitglied' }}</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="fullName" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Art</mat-label>
+      <mat-select formControlName="kind">
+        <mat-option [value]="Kind.Tutor">{{ kindLabel(Kind.Tutor) }}</mat-option>
+        <mat-option [value]="Kind.Coach">{{ kindLabel(Kind.Coach) }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Titel (optional)</mat-label>
+      <input matInput formControlName="title" />
+    </mat-form-field>
+    <div class="rte-field">
+      <label class="rte-field__label">Kurzbio</label>
+      <app-rich-text-editor formControlName="bio" [maxLength]="4000" />
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Foto-URL (optional)</mat-label>
+      <input matInput formControlName="photoUrl" />
+    </mat-form-field>
+    <app-image-picker
+      [value]="form.get('photoUrl')!.value"
+      (valueChange)="form.get('photoUrl')!.setValue($event)"
+    ></app-image-picker>
+    <div class="rte-field">
+      <label class="rte-field__label">Qualifikationen (optional)</label>
+      <app-rich-text-editor
+        formControlName="credentials"
+        [maxLength]="2000"
+        minHeight="5rem"
+        placeholder="z. B. Studium, Zertifikate, Erfahrung"
+      />
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Unterrichtete Fächer (optional)</mat-label>
+      <input matInput formControlName="subjectsTaught" placeholder="Mathe, Physik" />
+    </mat-form-field>
+    <mat-checkbox formControlName="isPublished">Veröffentlicht</mat-checkbox>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="undefined">Abbrechen</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+      Speichern
+    </button>
+  </mat-dialog-actions>
+</form>

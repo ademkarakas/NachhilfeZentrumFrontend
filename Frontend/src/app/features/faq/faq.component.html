@@ -1,0 +1,42 @@
+
+<section class="hero-band">
+  <div class="container narrow" appReveal>
+    <span class="eyebrow"><app-icon name="message-square" [size]="16" /> Häufige Fragen</span>
+    <h1>FAQ — Ihre Fragen, unsere Antworten</h1>
+    <p class="lead">
+      Alles Wichtige rund um Nachhilfe, Coaching, Ablauf und Preise auf einen Blick.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container narrow">
+    @for (item of faqItems(); track item.id; let i = $index) {
+      <details class="faq" appReveal [revealIndex]="i">
+        <summary class="faq__q">
+          <span>{{ item.question }}</span>
+          <app-icon name="chevron-down" [size]="20" />
+        </summary>
+        <div class="faq__a" [innerHTML]="item.answer"></div>
+      </details>
+    }
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container narrow" appReveal>
+    <div class="faq-contact">
+      <h2>Noch Fragen?</h2>
+      <p>Wir helfen Ihnen gerne persönlich weiter — rufen Sie uns an oder schreiben Sie uns.</p>
+      <a routerLink="/kontakt" class="faq-contact__link">
+        Kontakt aufnehmen <app-icon name="arrow-right" [size]="18" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<app-cta-section
+  heading="Jetzt kostenlose Probestunde sichern"
+  subheading="Lernen Sie uns unverbindlich kennen — wir beraten Sie gerne."
+  ctaText="Gratis Probestunde"
+/>

@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { PublicApiService } from '../../core/api/public-api.service';
 import { SubjectSummary, Testimonial } from '../../core/models/api.models';
 import { SeoService } from '../../core/seo/seo.service';
+import { SiteSettingsService } from '../../core/services/site-settings.service';
 import { CountUpDirective } from '../../shared/count-up.directive';
 import { RevealDirective } from '../../shared/reveal.directive';
 import { ButtonComponent } from '../../shared/ui/button.component';
@@ -39,17 +40,27 @@ interface Stat {
 export class HomeComponent implements OnInit {
   private readonly api = inject(PublicApiService);
   private readonly seo = inject(SeoService);
+  private readonly settingsService = inject(SiteSettingsService);
 
   readonly subjects = signal<SubjectSummary[]>([]);
   readonly testimonials = signal<Testimonial[]>([]);
 
-  // NOTE: placeholder marketing figures — replace with the centre's real numbers.
-  readonly stats: Stat[] = [
-    { value: 500, suffix: '+', label: 'Betreute Schüler:innen' },
-    { value: 12, label: 'Fächer im Angebot' },
-    { value: 95, suffix: '%', label: 'Weiterempfehlung' },
-    { value: 10, label: 'Jahre Erfahrung' },
-  ];
+  get stats(): Stat[] {
+    return [
+      {
+        value: +(this.settingsService.statsStudents() || '500'),
+        suffix: '+',
+        label: 'Betreute Schüler:innen',
+      },
+      { value: +(this.settingsService.statsSubjects() || '12'), label: 'Fächer im Angebot' },
+      {
+        value: +(this.settingsService.statsReferralRate() || '95'),
+        suffix: '%',
+        label: 'Weiterempfehlung',
+      },
+      { value: +(this.settingsService.statsYearsExperience() || '10'), label: 'Jahre Erfahrung' },
+    ];
+  }
 
   ngOnInit(): void {
     this.seo.update({

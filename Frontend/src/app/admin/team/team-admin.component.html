@@ -1,0 +1,32 @@
+<header class="page-head">
+  <h1>Team</h1>
+  <button mat-flat-button color="primary" (click)="create()">Neues Teammitglied</button>
+</header>
+
+@if (items().length === 0) {
+  <p class="admin-empty">Noch keine Teammitglieder angelegt.</p>
+} @else {
+  <table mat-table [dataSource]="items()" class="admin-table">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let m">{{ m.fullName }}</td>
+    </ng-container>
+    <ng-container matColumnDef="kind">
+      <th mat-header-cell *matHeaderCellDef>Art</th>
+      <td mat-cell *matCellDef="let m">{{ kindLabel(m.kind) }}</td>
+    </ng-container>
+    <ng-container matColumnDef="published">
+      <th mat-header-cell *matHeaderCellDef>Sichtbar</th>
+      <td mat-cell *matCellDef="let m">{{ m.isPublished ? 'Ja' : 'Nein' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let m" class="actions">
+        <button mat-button (click)="edit(m)">Bearbeiten</button>
+        <button mat-button color="warn" (click)="remove(m)">Löschen</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+  </table>
+}

@@ -1,0 +1,20 @@
+
+.form {
+  display: flex;
+  flex-direction: column;
+  min-width: min(540px, 85vw);
+  padding-top: 0.5rem;
+}
+.row {
+  display: flex;
+  gap: 1rem;
+}
+.half {
+  flex: 1;
+}
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}

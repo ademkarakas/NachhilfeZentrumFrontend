@@ -1,0 +1,34 @@
+<header class="page-head">
+  <h1>Dashboard</h1>
+</header>
+
+@if (stats(); as s) {
+  <div class="stats">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <span class="stat__value">{{ s.newLeads }}</span>
+        <span class="stat__label">Neue Anfragen</span>
+        <a routerLink="/admin/anfragen">Ansehen →</a>
+      </mat-card-content>
+    </mat-card>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <span class="stat__value">{{ s.publishedTests }}</span>
+        <span class="stat__label">Veröffentlichte Tests</span>
+        <a routerLink="/admin/tests">Verwalten →</a>
+      </mat-card-content>
+    </mat-card>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <span class="stat__value">{{ s.attemptsLast7Days }}</span>
+        <span class="stat__label">Testdurchläufe (7 Tage)</span>
+      </mat-card-content>
+    </mat-card>
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        <span class="stat__value">{{ s.attemptsLast30Days }}</span>
+        <span class="stat__label">Testdurchläufe (30 Tage)</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+}

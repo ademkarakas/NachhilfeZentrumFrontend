@@ -1,0 +1,11 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  min-width: min(520px, 85vw);
+  padding-top: 0.5rem;
+}
+.grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+}

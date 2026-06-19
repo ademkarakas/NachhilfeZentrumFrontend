@@ -1,0 +1,104 @@
+
+.hero-band {
+  position: relative;
+  overflow: hidden;
+  background: var(--grad-hero);
+  padding: clamp(var(--space-6), 5vw, var(--space-8)) 0;
+  border-bottom: 1px solid var(--color-line);
+}
+.hero-band::before {
+  content: '';
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  top: -170px;
+  right: -120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-primary-100), transparent 70%);
+  filter: blur(70px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.hero-band .container {
+  position: relative;
+  z-index: 1;
+}
+.narrow {
+  max-width: 760px;
+}
+.lead {
+  font-size: var(--fs-lg);
+}
+.faq {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-3);
+  background: var(--color-surface);
+  overflow: hidden;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.faq:hover {
+  border-color: var(--color-line-strong);
+}
+.faq[open] {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+.faq__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  font-weight: 700;
+  font-size: var(--fs-lg);
+  color: var(--color-ink);
+  cursor: pointer;
+  list-style: none;
+}
+.faq__q::-webkit-details-marker {
+  display: none;
+}
+.faq__q::marker {
+  content: '';
+}
+.faq__q app-icon {
+  flex-shrink: 0;
+  color: var(--color-muted);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.faq[open] .faq__q app-icon {
+  transform: rotate(180deg);
+  color: var(--color-primary);
+}
+.faq__a {
+  padding: 0 var(--space-5) var(--space-5);
+  color: var(--color-body);
+  line-height: var(--lh-base);
+}
+.faq__a p {
+  margin: 0;
+}
+.faq-contact {
+  text-align: center;
+}
+.faq-contact h2 {
+  margin-bottom: var(--space-2);
+}
+.faq-contact p {
+  color: var(--color-body);
+  margin-bottom: var(--space-4);
+}
+.faq-contact__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+.faq-contact__link:hover {
+  text-decoration: underline;
+}

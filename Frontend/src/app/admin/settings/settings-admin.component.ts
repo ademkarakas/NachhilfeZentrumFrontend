@@ -4,6 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
 import { AdminApiService } from '../../core/api/admin-api.service';
 import { ToastService } from '../../core/services/toast.service';
 import { RichTextEditorComponent } from '../../shared/ui/rich-text-editor.component';
@@ -13,11 +14,11 @@ interface SettingRow {
   label: string;
   value: string;
   multiline?: boolean;
-  /** Long-form copy edited with the rich-text editor (sanitized as HTML on the server). */
   rich?: boolean;
+  group: string;
 }
 
-/** Lightweight key→value CMS for global site content (contact details, hero copy, …). */
+/** Lightweight key→value CMS for global site content — organized in tabs. */
 @Component({
   selector: 'app-settings-admin',
   imports: [
@@ -26,57 +27,12 @@ interface SettingRow {
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    MatTabsModule,
     RichTextEditorComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <header class="page-head">
-      <h1>Website-Einstellungen</h1>
-    </header>
-
-    <mat-card appearance="outlined">
-      <mat-card-content>
-        @for (row of rows(); track row.key) {
-          @if (row.rich) {
-            <div class="rte-field">
-              <label class="rte-field__label">{{ row.label }}</label>
-              <app-rich-text-editor [(ngModel)]="row.value" minHeight="6rem" />
-              <span class="rte-field__hint">{{ row.key }}</span>
-            </div>
-          } @else {
-            <mat-form-field appearance="outline" class="full">
-              <mat-label>{{ row.label }}</mat-label>
-              @if (row.multiline) {
-                <textarea matInput rows="3" [(ngModel)]="row.value"></textarea>
-              } @else {
-                <input matInput [(ngModel)]="row.value" />
-              }
-              <mat-hint>{{ row.key }}</mat-hint>
-            </mat-form-field>
-          }
-        }
-        <div class="actions">
-          <button mat-flat-button color="primary" (click)="save()" [disabled]="saving()">
-            {{ saving() ? 'Speichern…' : 'Speichern' }}
-          </button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  `,
-  styles: [
-    `
-      .page-head {
-        margin-bottom: 1.5rem;
-      }
-      .full {
-        width: 100%;
-        display: block;
-      }
-      .actions {
-        margin-top: 0.5rem;
-      }
-    `,
-  ],
+  templateUrl: './settings-admin.component.html',
+  styleUrl: './settings-admin.component.scss',
 })
 export class SettingsAdminComponent implements OnInit {
   private readonly api = inject(AdminApiService);
@@ -84,14 +40,84 @@ export class SettingsAdminComponent implements OnInit {
 
   // Known/managed settings. Unknown keys already in the store are appended on load.
   private readonly defaults: SettingRow[] = [
-    { key: 'site.name', label: 'Name des Zentrums', value: '' },
-    { key: 'site.tagline', label: 'Slogan', value: '' },
-    { key: 'contact.email', label: 'Kontakt-E-Mail', value: '' },
-    { key: 'contact.phone', label: 'Telefon', value: '' },
-    { key: 'contact.address', label: 'Adresse', value: '', multiline: true },
-    { key: 'home.heroText', label: 'Hero-Text (Startseite)', value: '', rich: true },
-    { key: 'hero.subtitle', label: 'Hero-Untertitel', value: '', rich: true },
-    { key: 'announcement.banner', label: 'Ankündigungs-Banner', value: '', rich: true },
+    // General
+    { key: 'site.name', label: 'Name des Zentrums', value: '', group: 'general' },
+    { key: 'site.tagline', label: 'Slogan', value: '', group: 'general' },
+    { key: 'contact.email', label: 'Kontakt-E-Mail', value: '', group: 'general' },
+    { key: 'contact.phone', label: 'Telefon', value: '', group: 'general' },
+    { key: 'contact.address', label: 'Adresse', value: '', multiline: true, group: 'general' },
+    {
+      key: 'contact.openingHours',
+      label: 'Öffnungszeiten',
+      value: '',
+      multiline: true,
+      group: 'general',
+    },
+    { key: 'social.instagram', label: 'Instagram-URL', value: '', group: 'general' },
+    { key: 'social.facebook', label: 'Facebook-URL', value: '', group: 'general' },
+    { key: 'hero.title', label: 'Hero-Überschrift (Startseite)', value: '', group: 'general' },
+    {
+      key: 'home.heroText',
+      label: 'Hero-Text (Startseite)',
+      value: '',
+      rich: true,
+      group: 'general',
+    },
+    { key: 'hero.subtitle', label: 'Hero-Untertitel', value: '', rich: true, group: 'general' },
+    {
+      key: 'announcement.banner',
+      label: 'Ankündigungs-Banner',
+      value: '',
+      rich: true,
+      group: 'general',
+    },
+    // Stats
+    { key: 'stats.students', label: 'Anzahl betreuter Schüler:innen', value: '', group: 'stats' },
+    { key: 'stats.subjects', label: 'Anzahl Fächer', value: '', group: 'stats' },
+    { key: 'stats.referralRate', label: 'Weiterempfehlungsrate (%)', value: '', group: 'stats' },
+    { key: 'stats.yearsExperience', label: 'Jahre Erfahrung', value: '', group: 'stats' },
+    // About
+    {
+      key: 'about.mission',
+      label: 'Über uns — Mission (Einleitung)',
+      value: '',
+      rich: true,
+      group: 'about',
+    },
+    { key: 'about.value1.title', label: 'Wert 1 — Titel', value: '', group: 'about' },
+    {
+      key: 'about.value1.description',
+      label: 'Wert 1 — Beschreibung',
+      value: '',
+      rich: true,
+      group: 'about',
+    },
+    { key: 'about.value2.title', label: 'Wert 2 — Titel', value: '', group: 'about' },
+    {
+      key: 'about.value2.description',
+      label: 'Wert 2 — Beschreibung',
+      value: '',
+      rich: true,
+      group: 'about',
+    },
+    { key: 'about.value3.title', label: 'Wert 3 — Titel', value: '', group: 'about' },
+    {
+      key: 'about.value3.description',
+      label: 'Wert 3 — Beschreibung',
+      value: '',
+      rich: true,
+      group: 'about',
+    },
+    // Legal
+    { key: 'legal.impressum', label: 'Impressum', value: '', rich: true, group: 'legal' },
+    {
+      key: 'legal.datenschutz',
+      label: 'Datenschutzerklärung',
+      value: '',
+      rich: true,
+      group: 'legal',
+    },
+    { key: 'legal.agb', label: 'AGB', value: '', rich: true, group: 'legal' },
   ];
 
   readonly rows = signal<SettingRow[]>([]);
@@ -103,9 +129,13 @@ export class SettingsAdminComponent implements OnInit {
       const knownKeys = new Set(this.defaults.map((d) => d.key));
       const extra = Object.entries(settings)
         .filter(([key]) => !knownKeys.has(key))
-        .map<SettingRow>(([key, value]) => ({ key, label: key, value }));
+        .map<SettingRow>(([key, value]) => ({ key, label: key, value, group: 'general' }));
       this.rows.set([...known, ...extra]);
     });
+  }
+
+  getGroup(group: string): SettingRow[] {
+    return this.rows().filter((r) => r.group === group);
   }
 
   save(): void {

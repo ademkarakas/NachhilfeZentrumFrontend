@@ -106,7 +106,7 @@
           <li><app-icon name="check" [size]="18" /> Qualifizierte Fachlehrkräfte</li>
           <li><app-icon name="check" [size]="18" /> Gezielte Prüfungsvorbereitung</li>
         </ul>
-        <a routerLink="/faecher" class="svc__link">
+        <a routerLink="/nachhilfe" class="svc__link">
           Alle Fächer ansehen <app-icon name="arrow-right" [size]="18" />
         </a>
       </article>
@@ -226,7 +226,7 @@
       <div class="grid grid--3">
         @for (subject of subjects(); track subject.id) {
           <a
-            [routerLink]="['/faecher', subject.slug]"
+            [routerLink]="['/nachhilfe', subject.slug]"
             class="subject-link"
             appReveal
             [revealIndex]="$index"

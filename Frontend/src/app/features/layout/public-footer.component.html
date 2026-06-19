@@ -1,0 +1,88 @@
+<footer class="ft">
+  <div class="container ft__grid">
+    <div class="ft__brandcol">
+      <a routerLink="/" class="ft__brand">
+        <span class="ft__logo" aria-hidden="true">
+          <app-icon name="graduation-cap" [size]="20" />
+        </span>
+        Nachhilfezentrum
+      </a>
+      <p class="ft__about">
+        Individuelle Nachhilfe und professionelles Lerncoaching — für mehr Erfolg und
+        Selbstvertrauen in Schule und Ausbildung.
+      </p>
+      <div class="ft__social">
+        @if (settings.socialInstagram()) {
+          <a
+            [href]="settings.socialInstagram()"
+            target="_blank"
+            rel="noopener"
+            aria-label="Instagram"
+            class="ft__soc"
+            ><app-icon name="instagram" [size]="18"
+          /></a>
+        }
+        @if (settings.socialFacebook()) {
+          <a
+            [href]="settings.socialFacebook()"
+            target="_blank"
+            rel="noopener"
+            aria-label="Facebook"
+            class="ft__soc"
+            ><app-icon name="facebook" [size]="18"
+          /></a>
+        }
+      </div>
+    </div>
+
+    <nav aria-label="Nachhilfe">
+      <h3>Nachhilfe</h3>
+      <a routerLink="/nachhilfe">Nachhilfe</a>
+      <a routerLink="/tests">Tests &amp; Übungen</a>
+    </nav>
+
+    <nav aria-label="Coaching">
+      <h3>Coaching</h3>
+      <a routerLink="/coaching">Lerncoaching</a>
+    </nav>
+
+    <nav aria-label="Unternehmen">
+      <h3>Unternehmen</h3>
+      <a routerLink="/ueber-uns">Über uns</a>
+      <a routerLink="/team">Team</a>
+      <a routerLink="/preise">Preise</a>
+      <a routerLink="/faq">FAQ</a>
+      <a routerLink="/kontakt">Kontakt</a>
+    </nav>
+
+    <div class="ft__contact">
+      <h3>Kontakt</h3>
+      <a [href]="'tel:' + (settings.contactPhone() || '+49 (0) 000 000 000')">
+        <app-icon name="phone" [size]="16" />
+        {{ settings.contactPhone() || '+49 (0) 000 000 000' }}
+      </a>
+      <a [href]="'mailto:' + (settings.contactEmail() || 'info@nachhilfezentrum.de')">
+        <app-icon name="mail" [size]="16" />
+        {{ settings.contactEmail() || 'info@nachhilfezentrum.de' }}
+      </a>
+      <span class="ft__addr">
+        <app-icon name="map-pin" [size]="16" />
+        {{ settings.contactAddress() || 'Musterstraße 1, 00000 Stadt' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="ft__bar">
+    <div class="container ft__bar-inner">
+      <span>© {{ year }} Nachhilfezentrum. Alle Rechte vorbehalten.</span>
+      <span class="ft__legal">
+        <a routerLink="/impressum">Impressum</a>
+        <a routerLink="/datenschutz">Datenschutz</a>
+        <a routerLink="/agb">AGB</a>
+        <button class="ft__cookie-btn" (click)="openCookieSettings()">
+          Cookie-Einstellungen
+        </button>
+      </span>
+    </div>
+  </div>
+</footer>

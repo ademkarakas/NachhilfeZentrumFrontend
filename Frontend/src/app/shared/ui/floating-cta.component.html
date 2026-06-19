@@ -1,0 +1,11 @@
+@if (phone(); as number) {
+  <a
+    [href]="'tel:' + number"
+    class="fcta"
+    [class.fcta--visible]="visible()"
+    [attr.aria-label]="'Anrufen: ' + number"
+  >
+    <app-icon name="phone" [size]="18" />
+    <span class="fcta__label">Anrufen</span>
+  </a>
+}

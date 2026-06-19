@@ -1,0 +1,25 @@
+.content {
+  min-width: min(520px, 85vw);
+}
+.facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  margin: 0 0 1rem;
+}
+.facts dt {
+  font-weight: 700;
+  color: var(--color-muted);
+}
+.facts dd {
+  margin: 0;
+}
+.message {
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  white-space: pre-line;
+}
+.full {
+  width: 100%;
+}

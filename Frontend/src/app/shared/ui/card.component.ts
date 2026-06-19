@@ -6,57 +6,8 @@ export type CardTone = 'primary' | 'coaching';
 @Component({
   selector: 'app-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div
-      class="card"
-      [class.card--interactive]="interactive()"
-      [attr.data-tone]="tone()"
-    >
-      <ng-content />
-    </div>
-  `,
-  styles: [
-    `
-      .card {
-        position: relative;
-        background: var(--color-surface);
-        border: 1px solid var(--color-line);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-sm);
-        padding: var(--space-5);
-        height: 100%;
-      }
-      .card--interactive {
-        transition: box-shadow var(--dur-base) var(--ease-out),
-          transform var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
-      }
-      .card--interactive::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        box-shadow: inset 0 0 0 2px transparent;
-        transition: box-shadow var(--dur-base) var(--ease-out);
-        pointer-events: none;
-      }
-      .card--interactive:hover {
-        box-shadow: var(--shadow-lg);
-        transform: translateY(-6px);
-        border-color: transparent;
-      }
-      .card--interactive[data-tone='primary']:hover::after {
-        box-shadow: inset 0 0 0 2px var(--color-primary-100);
-      }
-      .card--interactive[data-tone='coaching']:hover::after {
-        box-shadow: inset 0 0 0 2px var(--color-coaching-100);
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .card--interactive:hover {
-          transform: none;
-        }
-      }
-    `,
-  ],
+  templateUrl: './card.component.html',
+  styleUrl: './card.component.scss',
 })
 export class CardComponent {
   readonly interactive = input(false);

@@ -1,0 +1,19 @@
+
+<section class="hero-band">
+  <div class="container narrow">
+    <h1>Datenschutzerklärung</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container narrow legal-content">
+    @if (settings.legalDatenschutz()) {
+      <div [innerHTML]="settings.legalDatenschutz()"></div>
+    } @else {
+      <p class="placeholder">
+        Datenschutzerklärung wird demnächst hier veröffentlicht. Bitte kontaktieren Sie uns bei
+        Fragen.
+      </p>
+    }
+  </div>
+</section>

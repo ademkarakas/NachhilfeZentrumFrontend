@@ -1,0 +1,47 @@
+@if (loading()) {
+  <app-spinner />
+} @else if (test(); as t) {
+  <section class="hero-band">
+    <div class="container" appReveal>
+      <a routerLink="/tests" class="back">← Alle Tests</a>
+      <h1>{{ t.title }}</h1>
+      <p class="meta">
+        <app-icon name="clock" [size]="15" />
+        {{ difficultyLabel(t) }} · {{ t.questions.length }} Fragen · ca.
+        {{ t.estimatedDurationMinutes }} Min · {{ t.totalPoints }} Punkte
+      </p>
+      @if (t.description) {
+        <div class="lead rich-content" [innerHTML]="t.description"></div>
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <form (ngSubmit)="submit(t)">
+        @for (q of t.questions; track q.id; let i = $index) {
+          <app-question-renderer
+            appReveal
+            [revealIndex]="i"
+            [question]="q"
+            [index]="i"
+            [selectedOptionIds]="selectionFor(q.id)"
+            (selectionChange)="setAnswer(q.id, $event)"
+          />
+        }
+
+        <div class="actions">
+          <p class="progress">{{ answeredCount() }} von {{ t.questions.length }} beantwortet</p>
+          <app-button type="submit" size="lg" [disabled]="submitting()">
+            {{ submitting() ? 'Wird ausgewertet…' : 'Test abgeben' }}
+          </app-button>
+        </div>
+      </form>
+    </div>
+  </section>
+} @else {
+  <div class="container section">
+    <p>Dieser Test wurde nicht gefunden.</p>
+    <a routerLink="/tests">← Zurück zum Katalog</a>
+  </div>
+}

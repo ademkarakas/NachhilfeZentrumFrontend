@@ -1,0 +1,55 @@
+
+<h2 mat-dialog-title>{{ data.tier ? 'Preispaket bearbeiten' : 'Neues Preispaket' }}</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="z. B. Einzelnachhilfe" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Untertitel</mat-label>
+      <input matInput formControlName="subtitle" placeholder="z. B. Individuell & persönlich" />
+    </mat-form-field>
+    <div class="row">
+      <mat-form-field appearance="outline" class="half">
+        <mat-label>Preis</mat-label>
+        <input matInput formControlName="price" placeholder="z. B. ab 35 €" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="half">
+        <mat-label>Einheit</mat-label>
+        <input matInput formControlName="priceUnit" placeholder="z. B. pro Stunde (60 Min.)" />
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Features (eine pro Zeile)</mat-label>
+      <textarea
+        matInput
+        formControlName="features"
+        rows="6"
+        placeholder="1-zu-1 Betreuung&#10;Individueller Lernplan&#10;Flexible Terminwahl"
+      ></textarea>
+      <mat-hint>Jede Zeile wird als Aufzählungspunkt angezeigt</mat-hint>
+    </mat-form-field>
+    <div class="row">
+      <mat-form-field appearance="outline" class="half">
+        <mat-label>CTA-Text (optional)</mat-label>
+        <input matInput formControlName="ctaText" placeholder="z. B. Gratis Probestunde" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="half">
+        <mat-label>CTA-Link (optional)</mat-label>
+        <input matInput formControlName="ctaLink" placeholder="z. B. /kontakt" />
+      </mat-form-field>
+    </div>
+    <div class="checks">
+      <mat-checkbox formControlName="isHighlighted">Hervorgehoben (Beliebt)</mat-checkbox>
+      <mat-checkbox formControlName="isCoachingVariant">Coaching-Variante</mat-checkbox>
+      <mat-checkbox formControlName="isPublished">Veröffentlicht</mat-checkbox>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="undefined">Abbrechen</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+      Speichern
+    </button>
+  </mat-dialog-actions>
+</form>

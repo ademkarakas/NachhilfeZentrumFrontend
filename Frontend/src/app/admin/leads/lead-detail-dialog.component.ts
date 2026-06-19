@@ -23,76 +23,8 @@ import { ToastService } from '../../core/services/toast.service';
     MatButtonModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <h2 mat-dialog-title>Anfrage von {{ lead.name }}</h2>
-    <mat-dialog-content class="content">
-      <dl class="facts">
-        <dt>E-Mail</dt>
-        <dd><a [href]="'mailto:' + lead.email">{{ lead.email }}</a></dd>
-        @if (lead.phone) {
-          <dt>Telefon</dt>
-          <dd>{{ lead.phone }}</dd>
-        }
-        @if (lead.subjectOfInterest) {
-          <dt>Interesse</dt>
-          <dd>{{ lead.subjectOfInterest }}</dd>
-        }
-        <dt>Eingegangen</dt>
-        <dd>{{ lead.createdAtUtc | date: 'dd.MM.yyyy HH:mm' }}</dd>
-      </dl>
-
-      <p class="message">{{ lead.message }}</p>
-
-      <mat-form-field appearance="outline" class="full">
-        <mat-label>Status</mat-label>
-        <mat-select [(ngModel)]="status">
-          @for (s of statuses; track s) {
-            <mat-option [value]="s">{{ statusLabel(s) }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full">
-        <mat-label>Interne Notizen</mat-label>
-        <textarea matInput rows="4" [(ngModel)]="notes"></textarea>
-      </mat-form-field>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button [mat-dialog-close]="false">Schließen</button>
-      <button mat-flat-button color="primary" (click)="save()" [disabled]="saving()">
-        Speichern
-      </button>
-    </mat-dialog-actions>
-  `,
-  styles: [
-    `
-      .content {
-        min-width: min(520px, 85vw);
-      }
-      .facts {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 0.25rem 1rem;
-        margin: 0 0 1rem;
-      }
-      .facts dt {
-        font-weight: 700;
-        color: var(--color-muted);
-      }
-      .facts dd {
-        margin: 0;
-      }
-      .message {
-        background: var(--color-surface-alt);
-        border-radius: var(--radius-sm);
-        padding: 0.75rem 1rem;
-        white-space: pre-line;
-      }
-      .full {
-        width: 100%;
-      }
-    `,
-  ],
+  templateUrl: './lead-detail-dialog.component.html',
+  styleUrl: './lead-detail-dialog.component.scss',
 })
 export class LeadDetailDialogComponent {
   private readonly api = inject(AdminApiService);

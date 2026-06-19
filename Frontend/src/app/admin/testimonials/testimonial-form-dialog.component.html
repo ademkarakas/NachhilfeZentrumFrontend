@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>
+  {{ data.testimonial ? 'Testimonial bearbeiten' : 'Neues Testimonial' }}
+</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="authorName" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Rolle (optional)</mat-label>
+      <input matInput formControlName="authorRole" placeholder="z. B. Mutter von Lisa" />
+    </mat-form-field>
+    <div class="rte-field">
+      <label class="rte-field__label">Zitat</label>
+      <app-rich-text-editor formControlName="quote" [maxLength]="2000" />
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Foto-URL (optional)</mat-label>
+      <input matInput formControlName="photoUrl" />
+    </mat-form-field>
+    <app-image-picker
+      [value]="form.get('photoUrl')!.value"
+      (valueChange)="form.get('photoUrl')!.setValue($event)"
+    ></app-image-picker>
+    <mat-form-field appearance="outline">
+      <mat-label>Bezug zu Fach (optional)</mat-label>
+      <mat-select formControlName="subjectId">
+        <mat-option [value]="null">— Keins —</mat-option>
+        @for (s of data.subjects; track s.id) {
+          <mat-option [value]="s.id">{{ s.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-checkbox formControlName="isPublished">Veröffentlicht</mat-checkbox>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="undefined">Abbrechen</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+      Speichern
+    </button>
+  </mat-dialog-actions>
+</form>

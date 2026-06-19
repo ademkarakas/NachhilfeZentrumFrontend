@@ -1,0 +1,144 @@
+
+<!-- ───────────────── Hero ───────────────── -->
+<section class="hero-band">
+  <div class="container">
+    <div appReveal>
+      <span class="eyebrow"><app-icon name="star" [size]="16" /> Preise</span>
+      <h1>Transparente Preise, <em>faire Konditionen</em></h1>
+      <p class="lead">
+        Keine versteckten Kosten, keine langen Verträge — investieren Sie in den Lernerfolg
+        Ihres Kindes.
+      </p>
+      <div class="hero__actions">
+        <app-button link="/kontakt" size="lg">
+          Gratis Probestunde
+          <app-icon name="arrow-right" [size]="20" />
+        </app-button>
+        <app-button link="/preise" size="lg" variant="outline" fragment="pakete">
+          Pakete vergleichen
+        </app-button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── Pricing Tiers ───────────────── -->
+<section class="section" id="pakete">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">Unsere Pakete</span>
+      <h2>Das passende Paket für jedes Lernziel</h2>
+      <p>
+        Ob Einzelnachhilfe, Gruppenunterricht oder Lerncoaching — wählen Sie das Angebot, das am
+        besten zu Ihrem Kind passt.
+      </p>
+    </div>
+    <div class="pricing-grid">
+      @for (tier of tiers(); track tier.id; let i = $index) {
+        <article
+          class="tier"
+          [class.tier--highlighted]="tier.isHighlighted"
+          [class.tier--coaching]="tier.isCoachingVariant"
+          appReveal
+          [revealIndex]="i"
+        >
+          @if (tier.isHighlighted) {
+            <span class="tier__badge">Beliebt</span>
+          }
+          <h3 class="tier__title">{{ tier.name }}</h3>
+          <p class="tier__subtitle">{{ tier.subtitle }}</p>
+          <div class="tier__price">
+            <span class="tier__amount">{{ tier.price }}</span>
+            <span class="tier__unit">{{ tier.priceUnit }}</span>
+          </div>
+          <ul class="tier__features">
+            @for (feature of getFeatures(tier); track feature) {
+              <li>
+                <app-icon name="check" [size]="16" />
+                <span>{{ feature }}</span>
+              </li>
+            }
+          </ul>
+          <app-button
+            [link]="tier.ctaLink || '/kontakt'"
+            size="md"
+            [variant]="tier.isHighlighted ? 'primary' : 'outline'"
+          >
+            {{ tier.ctaText || 'Gratis Probestunde' }}
+          </app-button>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── Inklusive / Benefits ───────────────── -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">Leistungen</span>
+      <h2>Bei uns immer inklusive</h2>
+      <p>Jedes Paket enthält diese Leistungen — ohne Aufpreis.</p>
+    </div>
+    <div class="benefits-grid">
+      @for (benefit of benefits; track benefit.title; let i = $index) {
+        <div class="benefit" appReveal [revealIndex]="i">
+          <span class="benefit__icon">
+            <app-icon [name]="benefit.icon" [size]="24" />
+          </span>
+          <h3>{{ benefit.title }}</h3>
+          <p>{{ benefit.text }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── So funktioniert's / Steps ───────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">In 4 Schritten</span>
+      <h2>So starten Sie bei uns</h2>
+      <p>Vom ersten Gespräch bis zum regelmäßigen Unterricht — einfach und transparent.</p>
+    </div>
+    <div class="steps">
+      @for (step of steps; track step.title; let i = $index) {
+        <div class="step" appReveal [revealIndex]="i">
+          <span class="step__num">{{ i + 1 }}</span>
+          <span class="step__icon"><app-icon [name]="step.icon" [size]="24" /></span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── FAQ ───────────────── -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">Häufige Fragen</span>
+      <h2>Fragen zu unseren Preisen</h2>
+    </div>
+    <div class="faq-list">
+      @for (faq of faqs; track faq.question; let i = $index) {
+        <details class="faq" appReveal [revealIndex]="i">
+          <summary class="faq__q">
+            {{ faq.question }}
+            <app-icon name="chevron-down" [size]="20" class="faq__chevron" />
+          </summary>
+          <div class="faq__a">{{ faq.answer }}</div>
+        </details>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── CTA ───────────────── -->
+<app-cta-section
+  heading="Bereit für bessere Noten?"
+  subheading="Starten Sie mit einer kostenlosen Probestunde — wir beraten Sie unverbindlich."
+  ctaText="Jetzt Probestunde sichern"
+/>

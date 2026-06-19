@@ -1,0 +1,49 @@
+<header class="page-head">
+  <h1>Anfragen</h1>
+</header>
+
+<mat-button-toggle-group
+  [value]="statusFilter()"
+  (change)="onFilter($event.value)"
+  class="filter"
+>
+  <mat-button-toggle [value]="-1">Alle</mat-button-toggle>
+  <mat-button-toggle [value]="Status.New">Neu</mat-button-toggle>
+  <mat-button-toggle [value]="Status.Contacted">Kontaktiert</mat-button-toggle>
+  <mat-button-toggle [value]="Status.Closed">Abgeschlossen</mat-button-toggle>
+</mat-button-toggle-group>
+
+@if (leads().length === 0) {
+  <p class="empty">Keine Anfragen in dieser Ansicht.</p>
+} @else {
+  <table mat-table [dataSource]="leads()" class="table">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let l">{{ l.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>E-Mail</th>
+      <td mat-cell *matCellDef="let l">{{ l.email }}</td>
+    </ng-container>
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef>Interesse</th>
+      <td mat-cell *matCellDef="let l">{{ l.subjectOfInterest || '—' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let l">{{ statusLabel(l.status) }}</td>
+    </ng-container>
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef>Datum</th>
+      <td mat-cell *matCellDef="let l">{{ l.createdAtUtc | date: 'dd.MM.yyyy' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let l" class="actions">
+        <button mat-button color="primary" (click)="open(l)">Öffnen</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+  </table>
+}

@@ -3,7 +3,7 @@ import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthTokens, LoginRequest, RegisterRequest } from '../models/api.models';
+import { AuthTokens, LoginRequest, RegisterRequest, UpdateProfileRequest } from '../models/api.models';
 
 const STORAGE_KEY = 'nhz.auth';
 
@@ -22,10 +22,19 @@ export class AuthService {
 
   readonly isAuthenticated = computed(() => this.tokens() !== null);
   readonly email = computed(() => this.tokens()?.email ?? null);
+  readonly fullName = computed(() => this.tokens()?.fullName ?? null);
   readonly roles = computed(() => this.tokens()?.roles ?? []);
   readonly isBackOffice = computed(() =>
     this.roles().some((r) => r === 'Admin' || r === 'Editor'),
   );
+  readonly initials = computed(() => {
+    const name = this.fullName();
+    if (!name) return '?';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) return (parts[0][0] + parts.at(-1)![0]).toUpperCase();
+    return parts[0].substring(0, 2).toUpperCase();
+  });
+  readonly primaryRole = computed(() => this.roles()[0] ?? null);
 
   get accessToken(): string | null {
     return this.tokens()?.accessToken ?? null;
@@ -50,6 +59,12 @@ export class AuthService {
         accessToken: current?.accessToken ?? '',
         refreshToken: current?.refreshToken ?? '',
       })
+      .pipe(tap((t) => this.persist(t)));
+  }
+
+  updateProfile(payload: UpdateProfileRequest): Observable<AuthTokens> {
+    return this.http
+      .put<AuthTokens>(`${environment.apiBaseUrl}/auth/profile`, payload)
       .pipe(tap((t) => this.persist(t)));
   }
 

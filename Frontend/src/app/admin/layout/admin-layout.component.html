@@ -1,0 +1,35 @@
+<div class="admin-shell">
+  <mat-toolbar class="bar">
+    <a routerLink="/admin" class="bar__brand">Nachhilfezentrum · Admin</a>
+    <span class="bar__spacer"></span>
+    <button class="user-badge" (click)="openProfile()" title="Profil bearbeiten">
+      <span class="user-badge__avatar">{{ auth.initials() }}</span>
+      <span class="user-badge__info">
+        <span class="user-badge__name">{{ auth.fullName() ?? auth.email() }}</span>
+        <span class="user-badge__role">{{ auth.primaryRole() }}</span>
+      </span>
+    </button>
+    <a mat-button routerLink="/">Zur Website</a>
+    <button mat-button (click)="logout()">Abmelden</button>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="body">
+    <mat-sidenav mode="side" opened class="nav">
+      <mat-nav-list>
+        @for (item of nav; track item.path) {
+          <a
+            mat-list-item
+            [routerLink]="item.path"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: item.path === '/admin' }"
+          >
+            {{ item.label }}
+          </a>
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="content">
+      <router-outlet />
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

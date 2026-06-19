@@ -98,31 +98,8 @@ const ICONS: Record<IconName, string> = {
 @Component({
   selector: 'app-icon',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      [attr.width]="size()"
-      [attr.height]="size()"
-      fill="none"
-      stroke="currentColor"
-      [attr.stroke-width]="strokeWidth()"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      [attr.role]="label() ? 'img' : null"
-      [attr.aria-label]="label() || null"
-      [attr.aria-hidden]="label() ? null : 'true'"
-      [innerHTML]="markup()"
-    ></svg>
-  `,
-  styles: [
-    `
-      :host {
-        display: inline-flex;
-        line-height: 0;
-      }
-    `,
-  ],
+  templateUrl: './icon.component.html',
+  styleUrl: './icon.component.scss',
 })
 export class IconComponent {
   private readonly sanitizer = inject(DomSanitizer);

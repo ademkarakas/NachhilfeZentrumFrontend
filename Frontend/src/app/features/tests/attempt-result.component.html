@@ -1,0 +1,37 @@
+<section class="section">
+  <div class="container narrow">
+    @if (loading()) {
+      <app-spinner label="Ergebnis wird geladen…" />
+    } @else if (result(); as r) {
+      <div class="result-card" appReveal="scale">
+        @if (r.status === AttemptStatus.PendingReview) {
+          <app-badge tone="warning">Manuelle Auswertung ausstehend</app-badge>
+          <h1>Danke — dein Test wird ausgewertet</h1>
+          <p>
+            Einige Antworten müssen von einer Lehrkraft geprüft werden. Dein vorläufiges
+            Ergebnis siehst du unten.
+          </p>
+        } @else {
+          <span class="eyebrow">Ergebnis</span>
+          <h1>Du hast {{ r.score }} von {{ r.maxScore }} Punkten erreicht</h1>
+        }
+
+        <div class="score" [class.score--good]="percent() >= 60">
+          <div class="score__ring">{{ percent() }}%</div>
+        </div>
+
+        <p class="summary">
+          {{ correctCount() }} von {{ r.answers.length }} Fragen richtig beantwortet.
+        </p>
+
+        <div class="actions">
+          <app-button link="/tests">Weitere Tests</app-button>
+          <app-button link="/kontakt" variant="outline">Nachhilfe anfragen</app-button>
+        </div>
+      </div>
+    } @else {
+      <p>Dieses Ergebnis wurde nicht gefunden.</p>
+      <a routerLink="/tests">← Zum Test-Katalog</a>
+    }
+  </div>
+</section>

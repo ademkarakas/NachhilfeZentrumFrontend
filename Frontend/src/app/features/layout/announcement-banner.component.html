@@ -1,0 +1,16 @@
+
+@if (!dismissed() && settings.announcementBanner()) {
+  <div class="banner" role="status">
+    <div class="container banner__inner">
+      <span class="banner__content" [innerHTML]="settings.announcementBanner()"></span>
+      <button
+        class="banner__close"
+        type="button"
+        aria-label="Banner schließen"
+        (click)="dismissed.set(true)"
+      >
+        <app-icon name="x" [size]="16" />
+      </button>
+    </div>
+  </div>
+}

@@ -1,0 +1,28 @@
+.page-head h1 {
+  margin-bottom: 1.5rem;
+}
+.stats {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.5rem;
+}
+.stat__value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  line-height: 1;
+}
+.stat__label {
+  color: var(--color-muted);
+  font-weight: 600;
+}
+a {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}

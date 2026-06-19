@@ -1,0 +1,66 @@
+.q {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  margin: 0 0 var(--space-5);
+}
+.q__text {
+  font-weight: 600;
+  color: var(--color-ink);
+  font-size: var(--fs-lg);
+  display: block;
+  padding: 0;
+}
+.q__num {
+  display: block;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-primary);
+  font-weight: 700;
+  margin-bottom: var(--space-1);
+}
+.q__points {
+  display: inline-block;
+  margin-left: var(--space-2);
+  font-size: var(--fs-sm);
+  color: var(--color-muted);
+  font-weight: 500;
+}
+.opts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+.opt {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 2px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    background var(--dur-base) var(--ease-out);
+}
+.opt:hover {
+  border-color: var(--color-primary-100);
+}
+.opt--checked {
+  border-color: var(--color-primary);
+  background: var(--color-primary-50);
+  color: var(--color-ink);
+}
+.opt input {
+  margin-top: 0.2rem;
+  accent-color: var(--color-primary);
+}
+.hint {
+  margin: var(--space-2) 0 0;
+  font-size: var(--fs-sm);
+  color: var(--color-muted);
+}

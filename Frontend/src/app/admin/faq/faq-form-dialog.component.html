@@ -1,0 +1,26 @@
+
+<h2 mat-dialog-title>{{ data.faqItem ? 'FAQ bearbeiten' : 'Neue FAQ' }}</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Frage</mat-label>
+      <input matInput formControlName="question" />
+      <mat-hint>{{ form.controls.question.value.length }} / 500</mat-hint>
+    </mat-form-field>
+    <div class="rte-field">
+      <label class="rte-field__label">Antwort</label>
+      <app-rich-text-editor formControlName="answer" [maxLength]="2000" />
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Kategorie (optional)</mat-label>
+      <input matInput formControlName="category" placeholder="z. B. Preise, Unterricht" />
+    </mat-form-field>
+    <mat-checkbox formControlName="isPublished">Veröffentlicht</mat-checkbox>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="undefined">Abbrechen</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+      Speichern
+    </button>
+  </mat-dialog-actions>
+</form>

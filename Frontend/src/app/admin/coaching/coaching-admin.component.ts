@@ -16,62 +16,8 @@ import {
   selector: 'app-coaching-admin',
   imports: [MatTableModule, MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <header class="page-head">
-      <h1>Coaching-Programme</h1>
-      <button mat-flat-button color="primary" (click)="create()">Neues Programm</button>
-    </header>
-
-    @if (programs().length === 0) {
-      <p class="empty">Noch keine Coaching-Programme angelegt.</p>
-    } @else {
-      <table mat-table [dataSource]="programs()" class="table">
-        <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef>Titel</th>
-          <td mat-cell *matCellDef="let p">{{ p.title }}</td>
-        </ng-container>
-        <ng-container matColumnDef="audience">
-          <th mat-header-cell *matHeaderCellDef>Zielgruppe</th>
-          <td mat-cell *matCellDef="let p">{{ p.targetAudience }}</td>
-        </ng-container>
-        <ng-container matColumnDef="active">
-          <th mat-header-cell *matHeaderCellDef>Sichtbar</th>
-          <td mat-cell *matCellDef="let p">{{ p.isActive ? 'Ja' : 'Nein' }}</td>
-        </ng-container>
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let p" class="actions">
-            <button mat-button (click)="edit(p)">Bearbeiten</button>
-            <button mat-button color="warn" (click)="remove(p)">Löschen</button>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let row; columns: columns"></tr>
-      </table>
-    }
-  `,
-  styles: [
-    `
-      .page-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1.5rem;
-      }
-      .table {
-        width: 100%;
-        background: var(--color-surface);
-        border-radius: var(--radius);
-      }
-      .actions {
-        text-align: right;
-        white-space: nowrap;
-      }
-      .empty {
-        color: var(--color-muted);
-      }
-    `,
-  ],
+  templateUrl: './coaching-admin.component.html',
+  styleUrl: './coaching-admin.component.scss',
 })
 export class CoachingAdminComponent implements OnInit {
   private readonly api = inject(AdminApiService);

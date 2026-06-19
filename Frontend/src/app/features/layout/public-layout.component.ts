@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CookieConsentBannerComponent } from '../../shared/ui/cookie-consent-banner.component';
 import { FloatingCtaComponent } from '../../shared/ui/floating-cta.component';
+import { SiteSettingsService } from '../../core/services/site-settings.service';
 import { PublicFooterComponent } from './public-footer.component';
 import { PublicHeaderComponent } from './public-header.component';
+import { AnnouncementBannerComponent } from './announcement-banner.component';
 
 /** Chrome (header + footer) shared by every public marketing/e-learning route. */
 @Component({
@@ -14,37 +16,16 @@ import { PublicHeaderComponent } from './public-header.component';
     PublicFooterComponent,
     FloatingCtaComponent,
     CookieConsentBannerComponent,
+    AnnouncementBannerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <a class="skip-link" href="#main">Zum Inhalt springen</a>
-    <app-public-header />
-    <main id="main">
-      <router-outlet />
-    </main>
-    <app-public-footer />
-    <app-floating-cta />
-    <app-cookie-consent-banner />
-  `,
-  styles: [
-    `
-      .skip-link {
-        position: absolute;
-        left: -999px;
-        top: 0;
-        background: var(--color-primary);
-        color: #fff;
-        padding: var(--space-2) var(--space-4);
-        z-index: 200;
-      }
-      .skip-link:focus {
-        left: var(--space-3);
-        top: var(--space-3);
-      }
-      main {
-        min-height: 60vh;
-      }
-    `,
-  ],
+  templateUrl: './public-layout.component.html',
+  styleUrl: './public-layout.component.scss',
 })
-export class PublicLayoutComponent {}
+export class PublicLayoutComponent implements OnInit {
+  private readonly siteSettings = inject(SiteSettingsService);
+
+  ngOnInit(): void {
+    this.siteSettings.load();
+  }
+}

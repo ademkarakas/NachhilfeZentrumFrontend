@@ -8,6 +8,8 @@ import {
   CoachingProgram,
   CoachingProgramSummary,
   CreateLeadRequest,
+  FaqItem,
+  PricingTier,
   PublicAssessment,
   SiteSettings,
   Subject,
@@ -69,6 +71,14 @@ export class PublicApiService {
 
   getSiteSettings(): Observable<SiteSettings> {
     return this.http.get<SiteSettings>(`${this.base}/site-settings`);
+  }
+
+  getFaq(): Observable<FaqItem[]> {
+    return this.http.get<FaqItem[]>(`${this.base}/faq`);
+  }
+
+  getPricing(): Observable<PricingTier[]> {
+    return this.http.get<PricingTier[]>(`${this.base}/pricing`);
   }
 
   createLead(body: CreateLeadRequest): Observable<{ id: string }> {

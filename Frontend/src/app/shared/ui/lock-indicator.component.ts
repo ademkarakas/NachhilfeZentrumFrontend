@@ -11,14 +11,7 @@ import { IconComponent } from './icon.component';
   selector: 'app-lock-indicator',
   imports: [BadgeComponent, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    @if (locked()) {
-      <app-badge tone="lock" [attr.aria-label]="'Pro-Inhalt'">
-        <app-icon name="lock" [size]="13" [strokeWidth]="2.5" />
-        Pro
-      </app-badge>
-    }
-  `,
+  templateUrl: './lock-indicator.component.html',
 })
 export class LockIndicatorComponent {
   /** Whether the underlying content is flagged as requiring membership. */

@@ -1,0 +1,56 @@
+/*
+ * Dark, theme-independent band: fixed warm near-black base + a soft brand glow.
+ * Kept dark in both light & dark mode on purpose (token colors flip, so explicit
+ * values are used here rather than --color-ink / --color-primary).
+ */
+.cta {
+  position: relative;
+  margin: 0 var(--space-5) var(--space-10);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, #14241d 0%, #0d1714 100%);
+  color: #fff;
+  padding: clamp(var(--space-6), 4vw, var(--space-8)) clamp(var(--space-6), 5vw, var(--space-10));
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.cta--coaching {
+  background: linear-gradient(135deg, #2a1c12 0%, #190f0a 100%);
+}
+
+.cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(60% 120% at 88% -15%, rgba(67, 180, 138, 0.4), transparent 60%);
+}
+
+.cta--coaching::before {
+  background: radial-gradient(60% 120% at 88% -15%, rgba(240, 162, 79, 0.42), transparent 60%);
+}
+
+.cta__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.cta__copy {
+  max-width: 44ch;
+}
+
+h2 {
+  color: #fff;
+  margin: 0;
+  font-size: var(--fs-xl);
+}
+
+p {
+  color: rgba(255, 255, 255, 0.82);
+  margin: var(--space-2) 0 0;
+  font-size: var(--fs-base);
+}

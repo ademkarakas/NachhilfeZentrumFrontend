@@ -1,0 +1,18 @@
+
+<section class="hero-band">
+  <div class="container narrow">
+    <h1>Impressum</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container narrow legal-content">
+    @if (settings.legalImpressum()) {
+      <div [innerHTML]="settings.legalImpressum()"></div>
+    } @else {
+      <p class="placeholder">
+        Impressum wird demnächst hier veröffentlicht. Bitte kontaktieren Sie uns bei Fragen.
+      </p>
+    }
+  </div>
+</section>

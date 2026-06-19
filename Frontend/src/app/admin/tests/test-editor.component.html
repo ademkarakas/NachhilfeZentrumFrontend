@@ -1,0 +1,110 @@
+<a routerLink="/admin/tests" class="back">← Alle Tests</a>
+
+@if (test(); as t) {
+  <header class="page-head">
+    <div>
+      <h1>{{ t.title }}</h1>
+      <p class="meta">
+        Status: {{ statusLabel(t.status) }} · {{ t.questions.length }} Fragen
+      </p>
+    </div>
+  </header>
+
+  <!-- Existing questions -->
+  <section class="questions">
+    @if (t.questions.length === 0) {
+      <p class="empty">Noch keine Fragen. Füge unten die erste Frage hinzu.</p>
+    }
+    @for (q of t.questions; track q.id; let i = $index) {
+      <mat-card appearance="outlined" class="q">
+        <mat-card-content>
+          <div class="q__head">
+            <strong>{{ i + 1 }}. {{ q.text | stripHtml }}</strong>
+            <span class="q__pts">{{ q.points }} P.</span>
+            <button mat-button color="warn" (click)="removeQuestion(t, q.id)">Entfernen</button>
+          </div>
+          <ul class="opts">
+            @for (o of q.options; track o.id) {
+              <li [class.correct]="o.isCorrect">
+                {{ o.isCorrect ? '✓' : '○' }} {{ o.text }}
+              </li>
+            }
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    }
+  </section>
+
+  <!-- Add question -->
+  <mat-card appearance="outlined" class="builder">
+    <mat-card-content>
+      <h2>Frage hinzufügen</h2>
+      <mat-form-field appearance="outline" class="type-select">
+        <mat-label>Fragetyp</mat-label>
+        <mat-select [value]="questionType()" (valueChange)="questionType.set($event)">
+          <mat-option [value]="QuestionType.MultipleChoice">Multiple Choice</mat-option>
+          <mat-option [value]="QuestionType.TrueFalse" disabled>Wahr/Falsch (bald)</mat-option>
+          <mat-option [value]="QuestionType.OpenEnded" disabled>Offen (bald)</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      @switch (questionType()) {
+        @case (QuestionType.MultipleChoice) {
+          <form [formGroup]="form" (ngSubmit)="addQuestion(t)">
+            <div class="rte-field">
+              <label class="rte-field__label">Fragetext</label>
+              <app-rich-text-editor formControlName="text" [maxLength]="2000" minHeight="5rem" />
+            </div>
+            <div class="row">
+              <mat-form-field appearance="outline">
+                <mat-label>Punkte</mat-label>
+                <input matInput type="number" formControlName="points" />
+              </mat-form-field>
+              <mat-checkbox formControlName="allowMultiple">Mehrfachauswahl erlauben</mat-checkbox>
+            </div>
+
+            <h3>Antwortoptionen</h3>
+            <div formArrayName="options">
+              @for (opt of options.controls; track opt; let i = $index) {
+                <div class="opt-row" [formGroupName]="i">
+                  <mat-form-field appearance="outline" class="full">
+                    <mat-label>Option {{ i + 1 }}</mat-label>
+                    <input matInput formControlName="text" />
+                  </mat-form-field>
+                  <mat-checkbox formControlName="isCorrect">Richtig</mat-checkbox>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    (click)="removeOption(i)"
+                    [disabled]="options.length <= 2"
+                    aria-label="Option entfernen"
+                  >
+                    ✕
+                  </button>
+                </div>
+              }
+            </div>
+            <button mat-button type="button" (click)="addOption()">+ Option</button>
+
+            <div class="builder__actions">
+              <button
+                mat-flat-button
+                color="primary"
+                type="submit"
+                [disabled]="form.invalid || !hasCorrect()"
+              >
+                Frage speichern
+              </button>
+              @if (!hasCorrect()) {
+                <span class="warn">Mindestens eine richtige Option markieren.</span>
+              }
+            </div>
+          </form>
+        }
+        @default {
+          <p class="empty">Dieser Fragetyp ist noch nicht verfügbar.</p>
+        }
+      }
+    </mat-card-content>
+  </mat-card>
+}

@@ -20,21 +20,8 @@ export interface ConfirmData {
   selector: 'app-confirm-dialog',
   imports: [MatDialogModule, MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <h2 mat-dialog-title>{{ data.title }}</h2>
-    <mat-dialog-content>{{ data.message }}</mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button [mat-dialog-close]="false">Abbrechen</button>
-      <button
-        mat-flat-button
-        [color]="data.danger ? 'warn' : 'primary'"
-        [mat-dialog-close]="true"
-      >
-        {{ data.confirmText ?? 'Bestätigen' }}
-      </button>
-    </mat-dialog-actions>
-  `,
-})
+  templateUrl: './confirm-dialog.component.html',
+  })
 export class ConfirmDialogComponent {
   readonly data = inject<ConfirmData>(MAT_DIALOG_DATA);
   constructor(public ref: MatDialogRef<ConfirmDialogComponent, boolean>) {}

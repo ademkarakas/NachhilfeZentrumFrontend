@@ -1,0 +1,175 @@
+@if (loading()) {
+  <div class="loading">
+    <app-spinner />
+  </div>
+} @else if (program(); as p) {
+  <!-- ───────────────── Hero ───────────────── -->
+  <section class="hero-band">
+    <div class="container">
+      <div class="hero-grid" [class.hero-grid--media]="p.imageUrl">
+        <div class="hero-copy" appReveal>
+          <a routerLink="/coaching" class="back">
+            <app-icon name="chevron-right" [size]="16" /> Alle Coaching-Programme
+          </a>
+          <span class="eyebrow eyebrow--coaching">
+            <app-icon name="compass" [size]="16" /> Coaching · {{ p.targetAudience }}
+          </span>
+          <h1>{{ p.title }}</h1>
+          <div class="lead rich-content" [innerHTML]="p.description"></div>
+          <div class="hero-highlights">
+            <span class="highlight"><app-icon name="user" [size]="16" /> Individuell</span>
+            <span class="highlight"><app-icon name="shield" [size]="16" /> Persönlich</span>
+            <span class="highlight"><app-icon name="target" [size]="16" /> Nachhaltig</span>
+          </div>
+          <div class="hero-actions">
+            <app-button [link]="p.ctaLink || '/kontakt'" variant="coaching" size="lg">
+              {{ p.ctaText || 'Erstgespräch buchen' }}
+              <app-icon name="arrow-right" [size]="20" />
+            </app-button>
+            <app-button link="/coaching" variant="outline" size="lg">
+              Alle Programme
+            </app-button>
+          </div>
+        </div>
+
+        @if (p.imageUrl) {
+          <div class="hero-media" appReveal="right">
+            <img
+              [src]="p.imageUrl"
+              [alt]="p.title"
+              class="hero-photo"
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────── Deine Ergebnisse ───────────────── -->
+  @if (p.outcomes) {
+    <section class="section section--alt">
+      <div class="container narrow">
+        <div class="section__head" appReveal>
+          <span class="eyebrow eyebrow--coaching">
+            <app-icon name="target" [size]="16" /> Deine Ergebnisse
+          </span>
+          <h2>Das nimmst du mit</h2>
+          <p>Konkrete Ergebnisse, die über einzelne Noten hinaus wirken.</p>
+        </div>
+        <div class="outcomes" appReveal>
+          <div class="outcomes__body rich-content" [innerHTML]="p.outcomes"></div>
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- ───────────────── Ablauf ───────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section__head" appReveal>
+        <span class="eyebrow eyebrow--coaching">
+          <app-icon name="compass" [size]="16" /> In 4 Schritten
+        </span>
+        <h2>So läuft dein Coaching ab</h2>
+        <p>Transparent und ohne Verpflichtung — vom ersten Gespräch bis zur Begleitung.</p>
+      </div>
+      <div class="steps">
+        @for (s of steps; track s.title) {
+          <div class="step" appReveal [revealIndex]="$index">
+            <span class="step__num">{{ $index + 1 }}</span>
+            <span class="step__icon"><app-icon [name]="s.icon" [size]="24" /></span>
+            <h3>{{ s.title }}</h3>
+            <p>{{ s.text }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────── Vorteile ───────────────── -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__head" appReveal>
+        <span class="eyebrow eyebrow--coaching">
+          <app-icon name="sparkles" [size]="16" /> Deine Vorteile
+        </span>
+        <h2>Was dieses Coaching bewirkt</h2>
+      </div>
+      <div class="grid grid--3">
+        @for (b of benefits; track b.title) {
+          <div class="benefit" appReveal [revealIndex]="$index">
+            <span class="benefit__icon"><app-icon [name]="b.icon" [size]="22" /></span>
+            <h3>{{ b.title }}</h3>
+            <p>{{ b.text }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────── Testimonial ───────────────── -->
+  <section class="section">
+    <div class="container narrow">
+      <div class="section__head" appReveal>
+        <span class="eyebrow eyebrow--coaching">
+          <app-icon name="message-square" [size]="16" /> Erfahrungsbericht
+        </span>
+        <h2>Das sagen unsere Familien</h2>
+      </div>
+      <div class="testimonial-highlight" appReveal>
+        <app-testimonial-card [testimonial]="testimonial" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────── FAQ ───────────────── -->
+  <section class="section section--alt">
+    <div class="container narrow">
+      <div class="section__head" appReveal>
+        <span class="eyebrow eyebrow--coaching">
+          <app-icon name="message-square" [size]="16" /> Häufige Fragen
+        </span>
+        <h2>Fragen zum Coaching</h2>
+      </div>
+      @for (item of faq; track item.question; let i = $index) {
+        <details class="faq" appReveal [revealIndex]="i">
+          <summary class="faq__q">
+            <span>{{ item.question }}</span>
+            <app-icon name="chevron-down" [size]="20" />
+          </summary>
+          <div class="faq__a">{{ item.answer }}</div>
+        </details>
+      }
+    </div>
+  </section>
+
+  <!-- ───────────────── CTA ───────────────── -->
+  <app-cta-section
+    heading="Passt dieses Coaching zu dir?"
+    subheading="Im kostenlosen Erstgespräch finden wir gemeinsam heraus, was du wirklich brauchst."
+    ctaText="Jetzt Erstgespräch buchen"
+    [link]="p.ctaLink || '/kontakt'"
+    [coaching]="true"
+  />
+} @else {
+  <section class="hero-band">
+    <div class="container narrow notfound">
+      <span class="eyebrow eyebrow--coaching">
+        <app-icon name="alert-circle" [size]="16" /> Nicht gefunden
+      </span>
+      <h1>Dieses Coaching-Programm gibt es nicht (mehr)</h1>
+      <p class="lead">
+        Vielleicht wurde es umbenannt oder entfernt. Sieh dir unsere aktuellen
+        Coaching-Programme an.
+      </p>
+      <div class="hero-actions">
+        <app-button link="/coaching" variant="coaching" size="lg">
+          Zu allen Programmen
+          <app-icon name="arrow-right" [size]="20" />
+        </app-button>
+      </div>
+    </div>
+  </section>
+}

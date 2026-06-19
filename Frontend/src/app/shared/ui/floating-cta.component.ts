@@ -3,80 +3,34 @@ import {
   Component,
   PLATFORM_ID,
   afterNextRender,
+  computed,
   inject,
   signal,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { SiteSettingsService } from '../../core/services/site-settings.service';
 import { IconComponent } from './icon.component';
 
 /**
- * Sticky floating CTA that appears once the user scrolls past the hero section.
- * Promotes "Gratis Probestunde" — the #1 conversion trigger for tutoring centres.
- * SSR-safe: hidden by default, only shown in-browser after scroll threshold.
+ * Sticky floating call button that appears once the user scrolls past the hero section.
+ * The navbar already carries the "Gratis Probestunde" CTA, so this button is the
+ * persistent click-to-call affordance — especially valuable on mobile, where the
+ * header phone number is hidden behind the menu.
+ *
+ * SSR-safe: hidden by default, only shown in-browser after the scroll threshold. Renders
+ * nothing when no phone number is configured in the site settings.
  */
 @Component({
   selector: 'app-floating-cta',
-  imports: [RouterLink, IconComponent],
+  imports: [IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <a
-      routerLink="/kontakt"
-      class="fcta"
-      [class.fcta--visible]="visible()"
-      aria-label="Gratis Probestunde vereinbaren"
-    >
-      <app-icon name="phone" [size]="18" />
-      <span>Gratis Probestunde</span>
-    </a>
-  `,
-  styles: [
-    `
-      .fcta {
-        position: fixed;
-        bottom: var(--space-5);
-        right: var(--space-5);
-        z-index: 90;
-        display: inline-flex;
-        align-items: center;
-        gap: var(--space-2);
-        padding: var(--space-3) var(--space-5);
-        border-radius: var(--radius-full);
-        background: var(--color-primary);
-        color: #fff;
-        font-weight: 700;
-        font-size: var(--fs-sm);
-        text-decoration: none;
-        box-shadow: var(--shadow-lg);
-        opacity: 0;
-        transform: translateY(16px);
-        pointer-events: none;
-        transition:
-          opacity var(--dur-base) var(--ease-out),
-          transform var(--dur-base) var(--ease-out),
-          background var(--dur-fast) var(--ease-out);
-      }
-      .fcta--visible {
-        opacity: 1;
-        transform: translateY(0);
-        pointer-events: auto;
-      }
-      .fcta:hover {
-        background: var(--color-primary-dark);
-        text-decoration: none;
-      }
-      @media (min-width: 921px) {
-        .fcta {
-          bottom: var(--space-6);
-          right: var(--space-6);
-          padding: var(--space-3) var(--space-6);
-          font-size: var(--fs-base);
-        }
-      }
-    `,
-  ],
+  templateUrl: './floating-cta.component.html',
+  styleUrl: './floating-cta.component.scss',
 })
 export class FloatingCtaComponent {
+  private readonly settings = inject(SiteSettingsService);
+
+  readonly phone = computed(() => this.settings.contactPhone().trim() || null);
   readonly visible = signal(false);
 
   constructor() {

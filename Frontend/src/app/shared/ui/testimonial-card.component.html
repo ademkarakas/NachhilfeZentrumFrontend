@@ -1,0 +1,24 @@
+<figure class="t">
+  <span class="t__mark" aria-hidden="true">&ldquo;</span>
+  <blockquote class="t__quote rich-content" [innerHTML]="testimonial().quote"></blockquote>
+  <figcaption class="t__author">
+    @if (testimonial().photoUrl) {
+      <img
+        class="t__photo"
+        [src]="testimonial().photoUrl"
+        [alt]="testimonial().authorName"
+        loading="lazy"
+        width="48"
+        height="48"
+      />
+    } @else {
+      <span class="t__avatar" aria-hidden="true">{{ initials() }}</span>
+    }
+    <span>
+      <strong>{{ testimonial().authorName }}</strong>
+      @if (testimonial().authorRole) {
+        <span class="t__role">{{ testimonial().authorRole }}</span>
+      }
+    </span>
+  </figcaption>
+</figure>

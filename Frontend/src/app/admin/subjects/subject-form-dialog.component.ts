@@ -28,47 +28,8 @@ export interface SubjectFormResult {
     RichTextEditorComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <h2 mat-dialog-title>{{ data ? 'Fach bearbeiten' : 'Neues Fach' }}</h2>
-    <form [formGroup]="form" (ngSubmit)="save()">
-      <mat-dialog-content class="form">
-        <mat-form-field appearance="outline">
-          <mat-label>Name</mat-label>
-          <input matInput formControlName="name" (blur)="syncSlug()" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Slug</mat-label>
-          <input matInput formControlName="slug" />
-          <mat-hint>URL-Teil, z. B. „mathematik“</mat-hint>
-        </mat-form-field>
-        <div class="rte-field">
-          <label class="rte-field__label">Beschreibung</label>
-          <app-rich-text-editor formControlName="description" [maxLength]="2000" />
-        </div>
-        <mat-form-field appearance="outline">
-          <mat-label>Icon-Schlüssel (optional)</mat-label>
-          <input matInput formControlName="iconKey" />
-        </mat-form-field>
-        <mat-checkbox formControlName="isActive">Aktiv (auf der Website sichtbar)</mat-checkbox>
-      </mat-dialog-content>
-      <mat-dialog-actions align="end">
-        <button mat-button type="button" [mat-dialog-close]="undefined">Abbrechen</button>
-        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
-          Speichern
-        </button>
-      </mat-dialog-actions>
-    </form>
-  `,
-  styles: [
-    `
-      .form {
-        display: flex;
-        flex-direction: column;
-        min-width: min(460px, 80vw);
-        padding-top: 0.5rem;
-      }
-    `,
-  ],
+  templateUrl: './subject-form-dialog.component.html',
+  styleUrl: './subject-form-dialog.component.scss',
 })
 export class SubjectFormDialogComponent {
   private readonly fb = inject(FormBuilder);

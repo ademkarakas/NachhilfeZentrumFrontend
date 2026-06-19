@@ -1,0 +1,22 @@
+<div class="rte" [class.rte--disabled]="disabled()">
+  @if (isBrowser) {
+    <quill-editor
+      [ngModel]="value()"
+      [modules]="modules"
+      [placeholder]="placeholder()"
+      [readOnly]="disabled()"
+      format="html"
+      [styles]="{ minHeight: minHeight() }"
+      (onContentChanged)="onContentChanged($event)"
+      (onBlur)="onTouched()"
+    />
+  } @else {
+    <div class="rte__ssr" [style.min-height]="minHeight()"></div>
+  }
+
+  @if (maxLength()) {
+    <div class="rte__count" [class.rte__count--over]="textLength() > maxLength()!">
+      {{ textLength() }} / {{ maxLength() }}
+    </div>
+  }
+</div>

@@ -1,0 +1,67 @@
+<section class="hero-band">
+  <div class="container narrow" appReveal>
+    <span class="eyebrow">Über uns</span>
+    <h1>Lernen, das wirkt</h1>
+    <p class="lead">
+      {{
+        settings.aboutMission() ||
+          'Das Nachhilfezentrum verbindet zwei Dinge, die selten zusammenkommen: solide fachliche Nachhilfe und echtes Lerncoaching. Wir glauben, dass gute Noten nicht nur eine Frage des Stoffs sind, sondern auch von Motivation, Selbstvertrauen und der richtigen Lernstrategie.'
+      }}
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid--3">
+      <div class="value" appReveal [revealIndex]="0">
+        <span class="value__icon"><app-icon name="target" [size]="22" /></span>
+        <h3>{{ settings.aboutValue1Title() || 'Individuell' }}</h3>
+        <p>
+          {{
+            settings.aboutValue1Desc() ||
+              'Kein Schema F: Jede Förderung beginnt mit einer ehrlichen Standortbestimmung.'
+          }}
+        </p>
+      </div>
+      <div class="value" appReveal [revealIndex]="1">
+        <span class="value__icon"><app-icon name="sparkles" [size]="22" /></span>
+        <h3>{{ settings.aboutValue2Title() || 'Zwei Angebote' }}</h3>
+        <p>
+          {{
+            settings.aboutValue2Desc() ||
+              'Fachliche Nachhilfe und Coaching stehen gleichwertig nebeneinander — je nachdem, was gebraucht wird.'
+          }}
+        </p>
+      </div>
+      <div class="value" appReveal [revealIndex]="2">
+        <span class="value__icon"><app-icon name="check" [size]="22" /></span>
+        <h3>{{ settings.aboutValue3Title() || 'Messbar' }}</h3>
+        <p>
+          {{
+            settings.aboutValue3Desc() ||
+              'Mit unseren Tests machen wir Fortschritt sichtbar — für Schüler:innen und Eltern.'
+          }}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+@if (testimonials().length) {
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__head" appReveal><h2>Stimmen aus der Praxis</h2></div>
+      <div class="grid grid--3">
+        @for (t of testimonials(); track t.id) {
+          <app-testimonial-card [testimonial]="t" appReveal [revealIndex]="$index" />
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<app-cta-section
+  heading="Lernen Sie uns persönlich kennen"
+  ctaText="Erstgespräch vereinbaren"
+/>

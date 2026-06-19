@@ -1,0 +1,76 @@
+@if (cookieService.bannerVisible()) {
+  <div class="cb" role="dialog" aria-label="Cookie-Einstellungen" aria-modal="false">
+    <div class="cb__inner">
+      @if (!showDetails()) {
+        <div class="cb__simple">
+          <p class="cb__text">
+            Wir verwenden Cookies, um Ihnen die bestmögliche Erfahrung auf unserer Website zu
+            bieten. Sie können wählen, welche Cookie-Kategorien Sie zulassen möchten.
+            <a href="/datenschutz" class="cb__link">Mehr erfahren</a>
+          </p>
+          <div class="cb__actions">
+            <button class="cb__btn cb__btn--primary" (click)="cookieService.acceptAll()">
+              Alle akzeptieren
+            </button>
+            <button
+              class="cb__btn cb__btn--secondary"
+              (click)="cookieService.acceptEssentialOnly()"
+            >
+              Nur essenzielle
+            </button>
+            <button class="cb__btn cb__btn--ghost" (click)="showDetails.set(true)">
+              Einstellungen
+            </button>
+          </div>
+        </div>
+      } @else {
+        <div class="cb__details">
+          <p class="cb__text">
+            Passen Sie Ihre Cookie-Einstellungen an. Essenzielle Cookies können nicht deaktiviert
+            werden, da sie für den Betrieb der Website notwendig sind.
+          </p>
+          <div class="cb__categories">
+            <label class="cb__cat">
+              <span class="cb__cat-info">
+                <strong>Essenzielle Cookies</strong>
+                <span>Für die Grundfunktion der Website erforderlich</span>
+              </span>
+              <input type="checkbox" checked disabled />
+            </label>
+            <label class="cb__cat">
+              <span class="cb__cat-info">
+                <strong>Statistik</strong>
+                <span>Helfen uns zu verstehen, wie Besucher die Website nutzen</span>
+              </span>
+              <input
+                type="checkbox"
+                [checked]="statisticsEnabled()"
+                (change)="statisticsEnabled.set(!statisticsEnabled())"
+              />
+            </label>
+            <label class="cb__cat">
+              <span class="cb__cat-info">
+                <strong>Marketing</strong>
+                <span>Werden verwendet, um Besuchern relevante Inhalte anzuzeigen</span>
+              </span>
+              <input
+                type="checkbox"
+                [checked]="marketingEnabled()"
+                (change)="marketingEnabled.set(!marketingEnabled())"
+              />
+            </label>
+          </div>
+          <div class="cb__actions">
+            <button class="cb__btn cb__btn--primary" (click)="savePreferences()">
+              Auswahl speichern
+            </button>
+            <button class="cb__btn cb__btn--secondary" (click)="cookieService.acceptAll()">
+              Alle akzeptieren
+            </button>
+            <button class="cb__btn cb__btn--ghost" (click)="showDetails.set(false)">Zurück</button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

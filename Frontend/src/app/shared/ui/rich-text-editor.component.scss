@@ -1,0 +1,108 @@
+:host {
+  display: block;
+}
+
+.rte__count {
+  text-align: right;
+  font-size: var(--fs-xs);
+  color: var(--color-muted);
+  margin-top: var(--space-1);
+}
+
+.rte__count--over {
+  color: var(--color-danger);
+  font-weight: 700;
+}
+
+.rte__ssr {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.rte--disabled {
+  opacity: 0.6;
+}
+
+// ── Theme the Quill "snow" chrome to the design system. ngx-quill renders its own
+//    DOM, so we reach it via ::ng-deep (scoped to :host). Dark mode falls out of the
+//    CSS custom properties automatically. ──
+:host ::ng-deep {
+  .ql-toolbar.ql-snow,
+  .ql-container.ql-snow {
+    border-color: var(--color-line);
+    font-family: var(--font-sans);
+  }
+
+  .ql-toolbar.ql-snow {
+    border-top-left-radius: var(--radius-sm);
+    border-top-right-radius: var(--radius-sm);
+    background: var(--color-surface-alt);
+  }
+
+  .ql-container.ql-snow {
+    border-bottom-left-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
+    background: var(--color-surface);
+    color: var(--color-body);
+    font-size: var(--fs-base);
+  }
+
+  .ql-editor {
+    min-height: inherit;
+  }
+
+  .ql-editor.ql-blank::before {
+    color: var(--color-muted);
+    font-style: normal;
+  }
+
+  // Toolbar icons / labels follow the text color so dark mode works.
+  .ql-snow .ql-stroke {
+    stroke: var(--color-body);
+  }
+
+  .ql-snow .ql-fill {
+    fill: var(--color-body);
+  }
+
+  .ql-snow .ql-picker {
+    color: var(--color-body);
+  }
+
+  // Active / hover states use the brand color.
+  .ql-snow .ql-toolbar button:hover .ql-stroke,
+  .ql-snow button.ql-active .ql-stroke {
+    stroke: var(--color-primary);
+  }
+
+  .ql-snow .ql-toolbar button:hover .ql-fill,
+  .ql-snow button.ql-active .ql-fill {
+    fill: var(--color-primary);
+  }
+
+  .ql-snow button.ql-active,
+  .ql-snow .ql-picker-label:hover,
+  .ql-snow button:hover {
+    color: var(--color-primary);
+  }
+
+  // Link tooltip / picker dropdowns on dark surfaces.
+  .ql-snow .ql-picker-options {
+    background: var(--color-surface);
+    border-color: var(--color-line);
+  }
+
+  .ql-snow .ql-tooltip {
+    background: var(--color-surface);
+    color: var(--color-body);
+    border-color: var(--color-line);
+    box-shadow: var(--shadow-md);
+  }
+
+  .ql-snow .ql-tooltip input[type='text'] {
+    background: var(--color-surface);
+    color: var(--color-body);
+    border-color: var(--color-line);
+  }
+}

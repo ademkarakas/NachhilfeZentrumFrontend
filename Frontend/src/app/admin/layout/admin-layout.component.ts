@@ -4,7 +4,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../core/auth/auth.service';
+import { ToastService } from '../../core/services/toast.service';
+import { EditProfileDialogComponent } from './edit-profile-dialog.component';
 
 interface NavItem {
   label: string;
@@ -27,85 +30,14 @@ interface NavItem {
     MatButtonModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div class="admin-shell">
-      <mat-toolbar class="bar">
-        <a routerLink="/admin" class="bar__brand">Nachhilfezentrum · Admin</a>
-        <span class="bar__spacer"></span>
-        <span class="bar__user">{{ auth.email() }}</span>
-        <a mat-button routerLink="/">Zur Website</a>
-        <button mat-button (click)="logout()">Abmelden</button>
-      </mat-toolbar>
-
-      <mat-sidenav-container class="body">
-        <mat-sidenav mode="side" opened class="nav">
-          <mat-nav-list>
-            @for (item of nav; track item.path) {
-              <a
-                mat-list-item
-                [routerLink]="item.path"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: item.path === '/admin' }"
-              >
-                {{ item.label }}
-              </a>
-            }
-          </mat-nav-list>
-        </mat-sidenav>
-        <mat-sidenav-content class="content">
-          <router-outlet />
-        </mat-sidenav-content>
-      </mat-sidenav-container>
-    </div>
-  `,
-  styles: [
-    `
-      .admin-shell {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-      }
-      .bar {
-        z-index: 5;
-      }
-      .bar__brand {
-        color: inherit;
-        text-decoration: none;
-        font-family: var(--font-display);
-        font-weight: 600;
-        font-size: var(--fs-lg);
-      }
-      .bar__spacer {
-        flex: 1 1 auto;
-      }
-      .bar__user {
-        font-size: 0.85rem;
-        opacity: 0.8;
-        margin-right: 0.5rem;
-      }
-      .body {
-        flex: 1;
-      }
-      .nav {
-        width: 240px;
-        border-right: 1px solid var(--color-line);
-      }
-      .active {
-        background: var(--color-primary-50);
-        color: var(--color-primary-dark);
-        font-weight: 700;
-        box-shadow: inset 3px 0 0 var(--color-primary);
-      }
-      .content {
-        padding: 1.5rem 2rem;
-        background: var(--color-bg);
-      }
-    `,
-  ],
+  templateUrl: './admin-layout.component.html',
+  styleUrl: './admin-layout.component.scss',
 })
 export class AdminLayoutComponent {
   readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly dialog = inject(MatDialog);
+  private readonly toast = inject(ToastService);
 
   readonly nav: NavItem[] = [
     { label: 'Dashboard', path: '/admin' },
@@ -115,11 +47,24 @@ export class AdminLayoutComponent {
     { label: 'Anfragen', path: '/admin/anfragen' },
     { label: 'Testimonials', path: '/admin/testimonials' },
     { label: 'Team', path: '/admin/team' },
+    { label: 'FAQ', path: '/admin/faq' },
+    { label: 'Preise', path: '/admin/preise' },
     { label: 'Einstellungen', path: '/admin/einstellungen' },
+    { label: 'Benutzer', path: '/admin/benutzer' },
   ];
 
   logout(): void {
     this.auth.logout();
     this.router.navigateByUrl('/');
+  }
+
+  openProfile(): void {
+    const ref = this.dialog.open(EditProfileDialogComponent, {
+      width: '440px',
+      data: { fullName: this.auth.fullName(), email: this.auth.email() },
+    });
+    ref.afterClosed().subscribe((result) => {
+      if (result) this.toast.success('Profil aktualisiert.');
+    });
   }
 }

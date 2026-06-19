@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>{{ data ? 'Test bearbeiten' : 'Neuer Test' }}</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-dialog-content class="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Titel</mat-label>
+      <input matInput formControlName="title" (blur)="syncSlug()" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Slug</mat-label>
+      <input matInput formControlName="slug" />
+    </mat-form-field>
+    <div class="rte-field">
+      <label class="rte-field__label">Beschreibung</label>
+      <app-rich-text-editor formControlName="description" [maxLength]="4000" minHeight="6rem" />
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Fach</mat-label>
+      <mat-select formControlName="subjectId">
+        @for (s of subjects(); track s.id) {
+          <mat-option [value]="s.id">{{ s.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <div class="grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Schwierigkeit</mat-label>
+        <mat-select formControlName="difficulty">
+          @for (d of difficulties; track d) {
+            <mat-option [value]="d">{{ difficultyLabel(d) }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Dauer (Min)</mat-label>
+        <input matInput type="number" formControlName="estimatedDurationMinutes" />
+      </mat-form-field>
+    </div>
+    <mat-checkbox formControlName="requiresMembership">
+      Pro-Inhalt (Mitgliedschaft erforderlich) — Seam, noch nicht aktiv durchgesetzt
+    </mat-checkbox>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="undefined">Abbrechen</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+      Speichern
+    </button>
+  </mat-dialog-actions>
+</form>

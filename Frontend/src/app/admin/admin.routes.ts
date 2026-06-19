@@ -49,12 +49,27 @@ export const ADMIN_ROUTES: Routes = [
       },
       {
         path: 'team',
-        loadComponent: () => import('./team/team-admin.component').then((m) => m.TeamAdminComponent),
+        loadComponent: () =>
+          import('./team/team-admin.component').then((m) => m.TeamAdminComponent),
+      },
+      {
+        path: 'faq',
+        loadComponent: () => import('./faq/faq-admin.component').then((m) => m.FaqAdminComponent),
+      },
+      {
+        path: 'preise',
+        loadComponent: () =>
+          import('./pricing/pricing-admin.component').then((m) => m.PricingAdminComponent),
       },
       {
         path: 'einstellungen',
         loadComponent: () =>
           import('./settings/settings-admin.component').then((m) => m.SettingsAdminComponent),
+      },
+      {
+        path: 'benutzer',
+        loadComponent: () =>
+          import('./users/users-admin.component').then((m) => m.UsersAdminComponent),
       },
     ],
   },

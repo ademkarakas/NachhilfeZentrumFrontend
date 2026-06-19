@@ -1,0 +1,115 @@
+
+<!-- ───────────────── Hero ───────────────── -->
+<section class="hero-band">
+  <div class="container">
+    <div appReveal>
+      <span class="eyebrow"><app-icon name="book-open" [size]="16" /> Nachhilfe</span>
+      <h1>Professionelle Nachhilfe — <em>individuell & effektiv</em></h1>
+      <p class="lead">
+        Gezielte Förderung in Mathematik, Deutsch, Englisch und weiteren Fächern — für alle
+        Klassenstufen, von der Grundschule bis zum Abitur.
+      </p>
+      <div class="hero__actions">
+        <app-button link="/kontakt" size="lg">
+          Gratis Probestunde
+          <app-icon name="arrow-right" [size]="20" />
+        </app-button>
+        <app-button link="/tests" size="lg" variant="outline">Tests ausprobieren</app-button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── Ablauf / Erfolgskonzept ───────────────── -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">In 4 Schritten</span>
+      <h2>So funktioniert unsere Nachhilfe</h2>
+      <p>Vom ersten Kontakt bis zum nachhaltigen Lernerfolg — einfach und transparent.</p>
+    </div>
+    <div class="steps">
+      @for (step of steps; track step.title) {
+        <div class="step" appReveal [revealIndex]="$index">
+          <span class="step__num">{{ $index + 1 }}</span>
+          <span class="step__icon"><app-icon [name]="step.icon" [size]="24" /></span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── Unsere Fächer ───────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section__head" appReveal>
+      <span class="eyebrow">Fächer</span>
+      <h2>Unsere Nachhilfe-Fächer</h2>
+      <p>
+        Individuelle Förderung in allen Hauptfächern — vom Aufholen von Lücken bis zur gezielten
+        Prüfungsvorbereitung.
+      </p>
+    </div>
+    @if (loading()) {
+      <app-spinner />
+    } @else if (subjects().length === 0) {
+      <p class="empty">Derzeit sind keine Fächer verfügbar.</p>
+    } @else {
+      <div class="grid grid--3">
+        @for (subject of subjects(); track subject.id) {
+          <a
+            [routerLink]="['/nachhilfe', subject.slug]"
+            class="subject-link"
+            appReveal
+            [revealIndex]="$index"
+          >
+            <app-card [interactive]="true">
+              <div class="subject">
+                <span class="subject__mono" aria-hidden="true">{{
+                  monogram(subject.name)
+                }}</span>
+                <h3>{{ subject.name }}</h3>
+                <p>{{ subject.shortDescription || subject.description | stripHtml }}</p>
+                <span class="subject__more">
+                  Mehr erfahren <app-icon name="arrow-right" [size]="16" />
+                </span>
+              </div>
+            </app-card>
+          </a>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ───────────────── FAQ ───────────────── -->
+@if (faqs().length) {
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__head" appReveal>
+        <span class="eyebrow">Häufige Fragen</span>
+        <h2>Fragen & Antworten zur Nachhilfe</h2>
+      </div>
+      <div class="faq-list">
+        @for (faq of faqs(); track faq.id) {
+          <details class="faq" appReveal [revealIndex]="$index">
+            <summary class="faq__q">
+              {{ faq.question }}
+              <app-icon name="chevron-down" [size]="20" class="faq__chevron" />
+            </summary>
+            <div class="faq__a" [innerHTML]="faq.answer"></div>
+          </details>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ───────────────── CTA ───────────────── -->
+<app-cta-section
+  heading="Welches Fach bereitet Schwierigkeiten?"
+  subheading="Erzählen Sie uns davon — wir stellen die passende Nachhilfe zusammen."
+  ctaText="Beratung anfragen"
+/>

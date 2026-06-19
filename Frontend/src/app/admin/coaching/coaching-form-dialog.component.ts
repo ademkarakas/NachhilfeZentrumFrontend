@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { CoachingProgram } from '../../core/models/api.models';
 import { RichTextEditorComponent } from '../../shared/ui/rich-text-editor.component';
+import { ImagePickerComponent } from '../../shared/ui/image-picker.component';
 import { slugify } from '../subjects/subject-form-dialog.component';
 
 export interface CoachingFormResult {
@@ -31,75 +32,11 @@ export interface CoachingFormResult {
     MatCheckboxModule,
     MatButtonModule,
     RichTextEditorComponent,
+    ImagePickerComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <h2 mat-dialog-title>{{ data ? 'Programm bearbeiten' : 'Neues Coaching-Programm' }}</h2>
-    <form [formGroup]="form" (ngSubmit)="save()">
-      <mat-dialog-content class="form">
-        <mat-form-field appearance="outline">
-          <mat-label>Titel</mat-label>
-          <input matInput formControlName="title" (blur)="syncSlug()" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Slug</mat-label>
-          <input matInput formControlName="slug" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Zielgruppe</mat-label>
-          <input matInput formControlName="targetAudience" />
-        </mat-form-field>
-        <div class="rte-field">
-          <label class="rte-field__label">Beschreibung</label>
-          <app-rich-text-editor formControlName="description" [maxLength]="4000" />
-        </div>
-        <div class="rte-field">
-          <label class="rte-field__label">Ergebnisse / Outcomes</label>
-          <app-rich-text-editor
-            formControlName="outcomes"
-            [maxLength]="2000"
-            placeholder="z. B. eine Liste der erreichbaren Ziele"
-          />
-        </div>
-        <div class="grid">
-          <mat-form-field appearance="outline">
-            <mat-label>CTA-Text (optional)</mat-label>
-            <input matInput formControlName="ctaText" />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>CTA-Link (optional)</mat-label>
-            <input matInput formControlName="ctaLink" />
-          </mat-form-field>
-        </div>
-        <mat-form-field appearance="outline">
-          <mat-label>Bild-URL (optional)</mat-label>
-          <input matInput formControlName="imageUrl" />
-        </mat-form-field>
-        <mat-checkbox formControlName="isActive">Aktiv (auf der Website sichtbar)</mat-checkbox>
-      </mat-dialog-content>
-      <mat-dialog-actions align="end">
-        <button mat-button type="button" [mat-dialog-close]="undefined">Abbrechen</button>
-        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
-          Speichern
-        </button>
-      </mat-dialog-actions>
-    </form>
-  `,
-  styles: [
-    `
-      .form {
-        display: flex;
-        flex-direction: column;
-        min-width: min(560px, 85vw);
-        padding-top: 0.5rem;
-      }
-      .grid {
-        display: grid;
-        gap: 0.5rem;
-        grid-template-columns: 1fr 1fr;
-      }
-    `,
-  ],
+  templateUrl: './coaching-form-dialog.component.html',
+  styleUrl: './coaching-form-dialog.component.scss',
 })
 export class CoachingFormDialogComponent {
   private readonly fb = inject(FormBuilder);

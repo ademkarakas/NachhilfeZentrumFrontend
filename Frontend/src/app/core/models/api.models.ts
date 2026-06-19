@@ -35,6 +35,7 @@ export interface AuthTokens {
   expiresAtUtc: string;
   userId: string;
   email: string;
+  fullName: string;
   roles: string[];
 }
 
@@ -50,12 +51,20 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface UpdateProfileRequest {
+  fullName: string;
+  email?: string | null;
+  currentPassword?: string | null;
+  newPassword?: string | null;
+}
+
 // ── Subjects ──────────────────────────────────────────────────────────────────
 export interface SubjectSummary {
   id: string;
   name: string;
   slug: string;
   description: string;
+  shortDescription?: string | null;
   iconKey?: string | null;
   displayOrder: number;
 }
@@ -70,6 +79,7 @@ export interface CreateSubjectRequest {
   name: string;
   slug: string;
   description: string;
+  shortDescription?: string | null;
   iconKey?: string | null;
   displayOrder: number;
 }
@@ -78,6 +88,7 @@ export interface UpdateSubjectRequest {
   name: string;
   slug: string;
   description: string;
+  shortDescription?: string | null;
   iconKey?: string | null;
   isActive: boolean;
 }
@@ -359,10 +370,95 @@ export interface DashboardStats {
   attemptsLast30Days: number;
 }
 
+// ── FAQ ──────────────────────────────────────────────────────────────────────
+export interface FaqItem {
+  id: string;
+  question: string;
+  answer: string;
+  category?: string | null;
+  displayOrder: number;
+  isPublished: boolean;
+}
+
+export interface CreateFaqItemRequest {
+  question: string;
+  answer: string;
+  category?: string | null;
+  displayOrder: number;
+  isPublished: boolean;
+}
+
+export interface UpdateFaqItemRequest {
+  question: string;
+  answer: string;
+  category?: string | null;
+  isPublished: boolean;
+}
+
+// ── Pricing ─────────────────────────────────────────────────────────────────────
+export interface PricingTier {
+  id: string;
+  name: string;
+  subtitle: string;
+  price: string;
+  priceUnit: string;
+  features: string;
+  isHighlighted: boolean;
+  isCoachingVariant: boolean;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  displayOrder: number;
+  isPublished: boolean;
+}
+
+export interface CreatePricingTierRequest {
+  name: string;
+  subtitle: string;
+  price: string;
+  priceUnit: string;
+  features: string;
+  isHighlighted: boolean;
+  isCoachingVariant: boolean;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  displayOrder: number;
+  isPublished: boolean;
+}
+
+export interface UpdatePricingTierRequest {
+  name: string;
+  subtitle: string;
+  price: string;
+  priceUnit: string;
+  features: string;
+  isHighlighted: boolean;
+  isCoachingVariant: boolean;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  isPublished: boolean;
+}
+
 /** RFC 7807 ProblemDetails shape returned by the API on failure. */
 export interface ProblemDetails {
   title?: string;
   detail?: string;
   status?: number;
   errors?: Record<string, string[]>;
+}
+
+// ── User Management ─────────────────────────────────────────────────────────────
+
+export interface UserDto {
+  id: string;
+  email: string;
+  fullName: string;
+  roles: string[];
+  isActive: boolean;
+}
+
+export interface CreateUserRequest {
+  email: string;
+  fullName: string;
+  password: string;
+  role: string;
 }

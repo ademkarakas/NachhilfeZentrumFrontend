@@ -1,0 +1,48 @@
+<mat-tab-group>
+  <mat-tab label="Hochladen">
+    <div class="upload-area">
+      <input
+        #fileInput
+        type="file"
+        accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml"
+        hidden
+        (change)="onFileSelected($event)"
+      />
+      @if (uploading()) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      } @else if (preview()) {
+        <div class="preview-wrap">
+          <img [src]="preview()" alt="Vorschau" class="preview-img" />
+          <button mat-icon-button color="warn" (click)="clearUpload()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      } @else {
+        <button mat-stroked-button (click)="fileInput.click()">
+          <mat-icon>upload</mat-icon>
+          Bild auswählen
+        </button>
+        <p class="hint">Max. 5 MB — JPG, PNG, GIF, WebP, SVG</p>
+      }
+      @if (uploadError()) {
+        <p class="error">{{ uploadError() }}</p>
+      }
+    </div>
+  </mat-tab>
+  <mat-tab label="URL eingeben">
+    <div class="url-area">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Bild-URL</mat-label>
+        <input
+          matInput
+          [ngModel]="urlValue()"
+          (ngModelChange)="onUrlChange($event)"
+          placeholder="https://..."
+        />
+      </mat-form-field>
+      @if (urlValue()) {
+        <img [src]="urlValue()" alt="Vorschau" class="preview-img" (error)="onImgError()" />
+      }
+    </div>
+  </mat-tab>
+</mat-tab-group>

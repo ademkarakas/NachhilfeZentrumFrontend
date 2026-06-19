@@ -21,85 +21,8 @@ import {
   selector: 'app-subjects-admin',
   imports: [MatTableModule, MatButtonModule, DragDropModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <header class="page-head">
-      <h1>Fächer</h1>
-      <button mat-flat-button color="primary" (click)="create()">Neues Fach</button>
-    </header>
-
-    @if (subjects().length === 0) {
-      <p class="empty">Noch keine Fächer angelegt.</p>
-    } @else {
-      <p class="hint">Zeilen ziehen, um die Reihenfolge auf der Website zu ändern.</p>
-      <table
-        mat-table
-        [dataSource]="subjects()"
-        cdkDropList
-        (cdkDropListDropped)="drop($event)"
-        class="table"
-      >
-        <ng-container matColumnDef="order">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let s" class="drag-handle" cdkDragHandle>⠿</td>
-        </ng-container>
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef="let s">{{ s.name }}</td>
-        </ng-container>
-        <ng-container matColumnDef="slug">
-          <th mat-header-cell *matHeaderCellDef>Slug</th>
-          <td mat-cell *matCellDef="let s">{{ s.slug }}</td>
-        </ng-container>
-        <ng-container matColumnDef="active">
-          <th mat-header-cell *matHeaderCellDef>Sichtbar</th>
-          <td mat-cell *matCellDef="let s">{{ s.isActive ? 'Ja' : 'Nein' }}</td>
-        </ng-container>
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let s" class="actions">
-            <button mat-button (click)="edit(s)">Bearbeiten</button>
-            <button mat-button color="warn" (click)="remove(s)">Löschen</button>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let row; columns: columns" cdkDrag></tr>
-      </table>
-    }
-  `,
-  styles: [
-    `
-      .page-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1.5rem;
-      }
-      .table {
-        width: 100%;
-        background: var(--color-surface);
-        border-radius: var(--radius);
-        overflow: hidden;
-      }
-      .drag-handle {
-        cursor: move;
-        color: var(--color-muted);
-        width: 32px;
-      }
-      .actions {
-        text-align: right;
-        white-space: nowrap;
-      }
-      .hint,
-      .empty {
-        color: var(--color-muted);
-      }
-      .cdk-drag-preview {
-        box-shadow: var(--shadow-lg);
-        background: var(--color-surface);
-      }
-    `,
-  ],
+  templateUrl: './subjects-admin.component.html',
+  styleUrl: './subjects-admin.component.scss',
 })
 export class SubjectsAdminComponent implements OnInit {
   private readonly api = inject(AdminApiService);

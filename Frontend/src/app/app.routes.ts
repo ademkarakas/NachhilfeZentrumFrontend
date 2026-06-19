@@ -12,16 +12,27 @@ export const routes: Routes = [
         loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
       },
       {
-        path: 'faecher',
+        path: 'nachhilfe',
         loadComponent: () =>
-          import('./features/subjects/subject-list.component').then((m) => m.SubjectListComponent),
+          import('./features/subjects/nachhilfe-landing.component').then(
+            (m) => m.NachhilfeLandingComponent,
+          ),
       },
       {
-        path: 'faecher/:slug',
+        path: 'nachhilfe/:slug',
         loadComponent: () =>
           import('./features/subjects/subject-detail.component').then(
             (m) => m.SubjectDetailComponent,
           ),
+      },
+      {
+        path: 'faecher',
+        redirectTo: 'nachhilfe',
+        pathMatch: 'full',
+      },
+      {
+        path: 'faecher/:slug',
+        redirectTo: 'nachhilfe/:slug',
       },
       {
         path: 'coaching',
