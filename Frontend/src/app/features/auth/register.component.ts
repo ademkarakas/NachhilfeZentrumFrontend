@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
     this.auth.register(this.form.getRawValue()).subscribe({
       next: () => {
         this.toast.success('Willkommen! Dein Konto wurde erstellt.');
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/mein-konto');
       },
       error: (err) => {
         this.submitting.set(false);

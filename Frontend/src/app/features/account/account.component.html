@@ -1,0 +1,115 @@
+<section class="hero-band">
+  <div class="container narrow" appReveal>
+    <span class="eyebrow">Mein Konto</span>
+    <h1>Hallo{{ auth.fullName() ? ', ' + auth.fullName() : '' }}</h1>
+    <p class="lead">
+      Hier verwaltest du dein Profil und findest die Ergebnisse aller Tests, die du angemeldet
+      absolviert hast.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container account-layout">
+    <!-- ── Profile ──────────────────────────────────────────────────────────── -->
+    <div class="account-card" appReveal>
+      <header class="account-card__head">
+        <span class="account-card__icon"><app-icon name="user" [size]="20" /></span>
+        <div>
+          <h2>Profil</h2>
+          <p>Aktualisiere deine Kontaktdaten oder ändere dein Passwort.</p>
+        </div>
+      </header>
+
+      <form [formGroup]="form" (ngSubmit)="saveProfile()" class="form-grid">
+        <div class="field">
+          <label class="field__label" for="fullName">Name</label>
+          <input id="fullName" class="field__input" type="text" formControlName="fullName" />
+          @if (form.controls.fullName.touched && form.controls.fullName.invalid) {
+            <span class="field__error">Bitte gib deinen Namen ein.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="email">E-Mail</label>
+          <input id="email" class="field__input" type="email" formControlName="email" />
+          @if (form.controls.email.touched && form.controls.email.invalid) {
+            <span class="field__error">Bitte gib eine gültige E-Mail-Adresse ein.</span>
+          }
+        </div>
+
+        <div class="form-grid form-grid--2">
+          <div class="field">
+            <label class="field__label" for="currentPassword">Aktuelles Passwort</label>
+            <input
+              id="currentPassword"
+              class="field__input"
+              type="password"
+              autocomplete="current-password"
+              formControlName="currentPassword"
+            />
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="newPassword">Neues Passwort</label>
+            <input
+              id="newPassword"
+              class="field__input"
+              type="password"
+              autocomplete="new-password"
+              formControlName="newPassword"
+            />
+          </div>
+        </div>
+        <p class="account-hint">
+          Lass die Passwortfelder leer, wenn du dein Passwort nicht ändern möchtest.
+        </p>
+
+        <div class="account-actions">
+          <app-button type="submit" [disabled]="savingProfile()">
+            {{ savingProfile() ? 'Wird gespeichert…' : 'Änderungen speichern' }}
+          </app-button>
+          <button type="button" class="account-logout" (click)="logout()">Abmelden</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ── My results ───────────────────────────────────────────────────────── -->
+    <div class="account-card" appReveal>
+      <header class="account-card__head">
+        <span class="account-card__icon"><app-icon name="badge-check" [size]="20" /></span>
+        <div>
+          <h2>Meine Ergebnisse</h2>
+          <p>Alle Tests, die du angemeldet abgeschlossen hast.</p>
+        </div>
+      </header>
+
+      @if (loadingAttempts()) {
+        <app-spinner label="Ergebnisse werden geladen…" />
+      } @else if (hasAttempts()) {
+        <ul class="attempt-list">
+          @for (a of attempts(); track a.attemptId) {
+            <li class="attempt-row">
+              <div class="attempt-row__main">
+                <span class="attempt-row__title">{{ a.assessmentTitle }}</span>
+                <app-badge [tone]="statusTone(a.status)">{{ statusLabel(a.status) }}</app-badge>
+              </div>
+              <div class="attempt-row__meta">
+                <span class="attempt-row__score">{{ a.score }} / {{ a.maxScore }} Punkte</span>
+                <span class="attempt-row__percent">{{ a.scorePercentage }}%</span>
+                <a class="attempt-row__link" [routerLink]="['/attempts', a.attemptId]">
+                  Details <app-icon name="arrow-right" [size]="15" />
+                </a>
+              </div>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="account-empty">
+          <p>Du hast noch keine Tests absolviert.</p>
+          <app-button link="/tests" variant="outline">Zum Test-Katalog</app-button>
+        </div>
+      }
+    </div>
+  </div>
+</section>

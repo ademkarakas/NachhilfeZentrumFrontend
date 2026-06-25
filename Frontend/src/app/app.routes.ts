@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { backOfficeGuard } from './core/auth/auth.guards';
+import { authGuard, backOfficeGuard } from './core/auth/auth.guards';
 
 export const routes: Routes = [
   {
@@ -95,6 +95,12 @@ export const routes: Routes = [
         path: 'registrieren',
         loadComponent: () =>
           import('./features/auth/register.component').then((m) => m.RegisterComponent),
+      },
+      {
+        path: 'mein-konto',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/account/account.component').then((m) => m.AccountComponent),
       },
       {
         path: 'impressum',

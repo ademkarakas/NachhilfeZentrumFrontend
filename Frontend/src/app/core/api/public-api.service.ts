@@ -10,6 +10,7 @@ import {
   ContentBlock,
   CreateLeadRequest,
   FaqItem,
+  MyAttemptListItem,
   PricingTier,
   PublicAssessment,
   SiteSettings,
@@ -60,6 +61,11 @@ export class PublicApiService {
 
   getAttemptResult(attemptId: string): Observable<AttemptResult> {
     return this.http.get<AttemptResult>(`${this.base}/attempts/${attemptId}`);
+  }
+
+  /** The signed-in user's own attempt history. Requires authentication (token added by interceptor). */
+  getMyAttempts(): Observable<MyAttemptListItem[]> {
+    return this.http.get<MyAttemptListItem[]>(`${this.base}/me/attempts`);
   }
 
   getTestimonials(): Observable<Testimonial[]> {

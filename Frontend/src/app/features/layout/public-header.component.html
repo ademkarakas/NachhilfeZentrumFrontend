@@ -94,6 +94,11 @@
             <app-icon name="shield" [size]="16" />
             Admin Panel
           </a>
+        } @else if (auth.isAuthenticated()) {
+          <a routerLink="/mein-konto" routerLinkActive="active" class="hdr__admin-btn">
+            <app-icon name="user" [size]="16" />
+            Mein Konto
+          </a>
         } @else {
           <a routerLink="/login" routerLinkActive="active" class="hdr__login">Anmelden</a>
         }

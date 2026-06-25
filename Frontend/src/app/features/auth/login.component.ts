@@ -42,8 +42,11 @@ export class LoginComponent implements OnInit {
     this.error.set(null);
     this.auth.login(this.form.getRawValue()).subscribe({
       next: () => {
-        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/';
-        this.router.navigateByUrl(returnUrl);
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        // No explicit target: back-office users land in the admin panel, everyone
+        // else in their personal area ("Mein Konto").
+        const fallback = this.auth.isBackOffice() ? '/admin' : '/mein-konto';
+        this.router.navigateByUrl(returnUrl ?? fallback);
       },
       error: () => {
         this.submitting.set(false);

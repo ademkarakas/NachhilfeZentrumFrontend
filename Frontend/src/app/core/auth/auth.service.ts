@@ -3,14 +3,22 @@ import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { AuthTokens, LoginRequest, RegisterRequest, UpdateProfileRequest } from '../models/api.models';
+import {
+  AuthTokens,
+  LoginRequest,
+  RegisterRequest,
+  UpdateProfileRequest,
+} from '../models/api.models';
 
 const STORAGE_KEY = 'nhz.auth';
 
 /**
- * JWT auth with refresh-token support. Tokens are persisted to localStorage in the
- * browser only (SSR-safe — server renders as anonymous). State is exposed as signals
- * so guards, the header and the interceptor read a single source of truth.
+ * JWT auth with refresh-token support. The refresh token is held by the backend in an
+ * HttpOnly cookie and is never exposed to JavaScript; only the short-lived access token
+ * plus profile claims are kept client-side. Tokens persist to localStorage in the
+ * browser only (SSR-safe — server renders as anonymous). Expired access tokens are
+ * dropped on restore. State is exposed as signals so guards, the header and the
+ * interceptor read a single source of truth.
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -24,9 +32,7 @@ export class AuthService {
   readonly email = computed(() => this.tokens()?.email ?? null);
   readonly fullName = computed(() => this.tokens()?.fullName ?? null);
   readonly roles = computed(() => this.tokens()?.roles ?? []);
-  readonly isBackOffice = computed(() =>
-    this.roles().some((r) => r === 'Admin' || r === 'Editor'),
-  );
+  readonly isBackOffice = computed(() => this.roles().some((r) => r === 'Admin' || r === 'Editor'));
   readonly initials = computed(() => {
     const name = this.fullName();
     if (!name) return '?';
@@ -42,29 +48,33 @@ export class AuthService {
 
   login(payload: LoginRequest): Observable<AuthTokens> {
     return this.http
-      .post<AuthTokens>(`${environment.apiBaseUrl}/auth/login`, payload)
+      .post<AuthTokens>(`${environment.apiBaseUrl}/auth/login`, payload, { withCredentials: true })
       .pipe(tap((t) => this.persist(t)));
   }
 
   register(payload: RegisterRequest): Observable<AuthTokens> {
     return this.http
-      .post<AuthTokens>(`${environment.apiBaseUrl}/auth/register`, payload)
+      .post<AuthTokens>(`${environment.apiBaseUrl}/auth/register`, payload, {
+        withCredentials: true,
+      })
       .pipe(tap((t) => this.persist(t)));
   }
 
   refresh(): Observable<AuthTokens> {
-    const current = this.tokens();
+    // The refresh token travels automatically in the HttpOnly cookie; only the (possibly
+    // expired) access token is sent in the body so the server can identify the user.
     return this.http
-      .post<AuthTokens>(`${environment.apiBaseUrl}/auth/refresh`, {
-        accessToken: current?.accessToken ?? '',
-        refreshToken: current?.refreshToken ?? '',
-      })
+      .post<AuthTokens>(
+        `${environment.apiBaseUrl}/auth/refresh`,
+        { accessToken: this.tokens()?.accessToken ?? '' },
+        { withCredentials: true },
+      )
       .pipe(tap((t) => this.persist(t)));
   }
 
   updateProfile(payload: UpdateProfileRequest): Observable<AuthTokens> {
     return this.http
-      .put<AuthTokens>(`${environment.apiBaseUrl}/auth/profile`, payload)
+      .put<AuthTokens>(`${environment.apiBaseUrl}/auth/profile`, payload, { withCredentials: true })
       .pipe(tap((t) => this.persist(t)));
   }
 
@@ -72,6 +82,10 @@ export class AuthService {
     this.tokens.set(null);
     if (this.isBrowser) {
       localStorage.removeItem(STORAGE_KEY);
+      // Best-effort: ask the backend to clear the HttpOnly refresh cookie.
+      this.http
+        .post(`${environment.apiBaseUrl}/auth/logout`, {}, { withCredentials: true })
+        .subscribe({ error: () => undefined });
     }
   }
 
@@ -95,10 +109,31 @@ export class AuthService {
       return null;
     }
     try {
-      return JSON.parse(raw) as AuthTokens;
+      const tokens = JSON.parse(raw) as AuthTokens;
+      // Drop a stale session if the access token has already expired. A live refresh
+      // cookie still lets the user re-authenticate transparently on the next API call.
+      if (this.isAccessTokenExpired(tokens.accessToken)) {
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+      }
+      return tokens;
     } catch {
       localStorage.removeItem(STORAGE_KEY);
       return null;
+    }
+  }
+
+  /** Decodes the JWT `exp` claim and reports whether it is in the past. */
+  private isAccessTokenExpired(accessToken: string | undefined): boolean {
+    if (!accessToken) return true;
+    const parts = accessToken.split('.');
+    if (parts.length !== 3) return true;
+    try {
+      const payload = JSON.parse(atob(parts[1].replaceAll('-', '+').replaceAll('_', '/')));
+      const exp = typeof payload?.exp === 'number' ? payload.exp : 0;
+      return exp * 1000 <= Date.now();
+    } catch {
+      return true;
     }
   }
 }

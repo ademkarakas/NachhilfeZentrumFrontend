@@ -29,9 +29,10 @@ export interface PaginationQuery {
 }
 
 // ── Auth ────────────────────────────────────────────────────────────────────
+// The refresh token is never delivered to JavaScript — it lives only in an HttpOnly
+// cookie issued by the backend. The client only ever sees the short-lived access token.
 export interface AuthTokens {
   accessToken: string;
-  refreshToken: string;
   expiresAtUtc: string;
   userId: string;
   email: string;
@@ -260,6 +261,19 @@ export interface AttemptResult {
   maxScore: number;
   scorePercentage: number;
   answers: AnswerResult[];
+}
+
+/** One row in a registered user's attempt history ("Meine Ergebnisse"). */
+export interface MyAttemptListItem {
+  attemptId: string;
+  assessmentId: string;
+  assessmentTitle: string;
+  assessmentSlug?: string | null;
+  status: AttemptStatus;
+  score: number;
+  maxScore: number;
+  scorePercentage: number;
+  startedAtUtc: string;
 }
 
 // ── Leads ─────────────────────────────────────────────────────────────────────
